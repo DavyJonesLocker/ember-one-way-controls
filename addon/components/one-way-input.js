@@ -8,7 +8,7 @@ const {
 export default Component.extend({
   tagName: 'input',
   type: 'text',
-  attributeBindings: ['type', 'value', 'placeholder', 'name'],
+  attributeBindings: ['type', 'value', 'placeholder', 'name', 'autocomplete'],
   _sanitizedValue: undefined,
 
   input() { this._handleChangeEvent(); },
