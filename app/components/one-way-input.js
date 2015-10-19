@@ -1,0 +1,1 @@
+export { default } from 'ember-one-way-input/components/one-way-input';

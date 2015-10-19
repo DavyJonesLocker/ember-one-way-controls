@@ -1,0 +1,13 @@
+<h1>Welcome!</h1>
+
+<div id="current-value">
+  {{currentValue}}
+</div>
+
+{{one-way-input
+  id="one-way-input"
+  value=currentValue
+  update=(action (mut currentValue))
+}}
+
+{{outlet}}
