@@ -12,6 +12,25 @@ This addon provides a simple one way input that sends an `update` action when it
   }}
 ```
 
+## Why?
+
+With Glimmer landing in 1.13.x, native `<input>` elements can now be used in your apps, without the two way binding semantics of the `{{input}}` helper. Shifting to one way bindings ("data down, actions up") makes your app easier to reason about and debug, and is generally the idiomatic way of building Ember apps going forward.
+
+Unfortunately, there is a small gotcha with using a native input like so:
+
+```hbs
+<input
+  value={{currentValue}}
+  oninput={{action (mut currentValue) value="target.value"}}
+>
+```
+
+In the following [demo](http://jsbin.com/juxedi/edit?output), move your cursor to a character in the middle of the value, and attempt to input new text. You will notice that your cursor immediately jumps to the end of the string, which is entirely unintuitive and annoying.
+
+![](https://i.imgur.com/D0pReSs.jpg)
+
+This addon fixes the cursor jumping issue by using [`readDOMAttr`](http://emberjs.com/api/classes/Ember._MetamorphView.html#method_readDOMAttr), which provides a way to read an element's attribute and update the last value Ember knows about at the same time. This makes setting an attribute idempotent.
+
 ## Installation
 
 * `git clone` this repository
