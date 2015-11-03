@@ -27,6 +27,7 @@ export default Component.extend({
     'multiple',
     'name',
     'pattern',
+    'placeholder',
     'size',
     'step',
     'type',
