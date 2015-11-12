@@ -1,7 +1,14 @@
 import Ember from 'ember';
 
-const { Controller } = Ember;
+const { Controller, set } = Ember;
 
 export default Controller.extend({
-  currentValue: 'foo'
+  committed: null,
+  currentValue: 'foo',
+
+  actions: {
+    commit(value) {
+      set(this, 'committed', value);
+    }
+  }
 });

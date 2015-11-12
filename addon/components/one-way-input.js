@@ -34,10 +34,23 @@ export default Component.extend({
     'value',
     'width'
   ],
+  KEY_EVENTS: {
+    '13': 'onenter',
+    '27': 'onescape'
+  },
   _sanitizedValue: undefined,
 
   input() { this._handleChangeEvent(); },
   change() { this._handleChangeEvent(); },
+  keyUp(event) { this._interpretKeyEvents(event); },
+
+  _interpretKeyEvents(event) {
+    const method = this.KEY_EVENTS[event.keyCode];
+
+    if (method) {
+      return this.attrs[method](this.sanitizeInput(this.readDOMAttr('value')));
+    }
+  },
 
   _handleChangeEvent() {
     this._processNewValue.call(this, this.readDOMAttr('value'));

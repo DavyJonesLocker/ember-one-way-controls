@@ -24,6 +24,11 @@ test('main test', function(assert) {
   andThen(() => fillIn(INPUT, 'bar'));
   andThen(() => {
     assert.equal(findWithAssert(INPUT).val(), 'bar', 'should update `input` value');
-    assert.equal(findWithAssert('#current-value').text().trim(), 'bar', 'should update `currentValue`');
+    assert.equal(findWithAssert('#current-value').text().trim(), 'bar', 'should update `currentValue` oninput or onchange');
+  });
+  andThen(() => {
+    keyEvent(INPUT, 'keyup', 13).then(() => {
+      assert.equal(findWithAssert('#committed').text().trim(), 'bar', 'should update `committed` onenter');
+    });
   });
 });
