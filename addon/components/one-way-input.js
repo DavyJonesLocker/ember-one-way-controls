@@ -45,23 +45,27 @@ export default Component.extend({
   keyUp(event) { this._interpretKeyEvents(event); },
 
   _interpretKeyEvents(event) {
-    const method = this.KEY_EVENTS[event.keyCode];
+    const methodName = this.KEY_EVENTS[event.keyCode];
 
-    if (method) {
-      return this.attrs[method](this.sanitizeInput(this.readDOMAttr('value')));
+    if (methodName) {
+      this._processNewValue.call(this, methodName, this.readDOMAttr('value'));
     }
   },
 
   _handleChangeEvent() {
-    this._processNewValue.call(this, this.readDOMAttr('value'));
+    this._processNewValue.call(this, 'update', this.readDOMAttr('value'));
   },
 
-  _processNewValue(rawValue) {
+  _processNewValue(methodName, rawValue) {
     const value = this.sanitizeInput(rawValue);
+    const action = this.attrs[methodName];
 
     if (this._sanitizedValue !== value) {
       this._sanitizedValue = value;
-      this.attrs.update(value);
+    }
+
+    if (action) {
+      action(value);
     }
   },
 
@@ -76,6 +80,6 @@ export default Component.extend({
       throw new Error(`You must provide an \`update\` action to \`{{${this.templateName}}}\`.`);
     }
 
-    this._processNewValue.call(this, get(this, 'value'));
+    this._processNewValue.call(this, 'update', get(this, 'value'));
   }
 });

@@ -30,5 +30,7 @@ test('main test', function(assert) {
     keyEvent(INPUT, 'keyup', 13).then(() => {
       assert.equal(findWithAssert('#committed').text().trim(), 'bar', 'should update `committed` onenter');
     });
+    keyEvent(INPUT, 'keyup', 27);
+    keyEvent(INPUT, 'keyup', 52);
   });
 });
