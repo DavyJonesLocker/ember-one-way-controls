@@ -4,10 +4,15 @@
   {{currentValue}}
 </div>
 
+<div id="committed">
+  {{committed}}
+</div>
+
 {{one-way-input
   id="one-way-input"
   value=currentValue
   update=(action (mut currentValue))
+  onenter=(action "commit")
 }}
 
 {{outlet}}

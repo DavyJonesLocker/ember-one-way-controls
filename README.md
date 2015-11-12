@@ -9,7 +9,18 @@ This addon provides a simple one way input that sends an `update` action when it
   {{one-way-input
       value=currentValue
       update=(action (mut currentValue))
+      onenter=(action "commit")
+      onescape=(action "escape")
   }}
+```
+
+The component's `KEY_EVENTS` attribute can be overwritten to provide custom handlers for various keycodes on the `keyUp` event.
+
+```js
+KEY_EVENTS: {
+  '13': 'onenter',
+  '27': 'onescape'
+}
 ```
 
 ## Why?
