@@ -13,6 +13,7 @@ export default Component.extend({
     'autocomplete',
     'autosave',
     'dir',
+    'disabled',
     'formaction',
     'formenctype',
     'formmethod',
