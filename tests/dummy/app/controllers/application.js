@@ -4,7 +4,7 @@ const { Controller, set } = Ember;
 
 export default Controller.extend({
   committed: null,
-  currentValue: 'foo',
+  textCurrentValue: 'foo',
 
   actions: {
     commit(value) {

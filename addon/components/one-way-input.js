@@ -12,6 +12,7 @@ export default Component.extend({
     'accept',
     'autocomplete',
     'autosave',
+    'checked',
     'dir',
     'disabled',
     'formaction',
@@ -49,12 +50,23 @@ export default Component.extend({
     const methodName = this.KEY_EVENTS[event.keyCode];
 
     if (methodName) {
-      this._processNewValue.call(this, methodName, this.readDOMAttr('value'));
+      this._processNewValue.call(this, methodName, this._readAppropriateAttr());
     }
   },
 
   _handleChangeEvent() {
-    this._processNewValue.call(this, 'update', this.readDOMAttr('value'));
+    this._processNewValue.call(this, 'update', this._readAppropriateAttr());
+  },
+
+  _readAppropriateAttr() {
+    let attr;
+    if (get(this, 'type') === 'checkbox') {
+      attr = 'checked';
+    } else {
+      attr = 'value';
+    }
+
+    return this.readDOMAttr(attr);
   },
 
   _processNewValue(methodName, rawValue) {
