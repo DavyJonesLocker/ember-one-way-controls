@@ -75,10 +75,10 @@ export default Component.extend({
 
     if (this._sanitizedValue !== value) {
       this._sanitizedValue = value;
-    }
-
-    if (action) {
-      action(value);
+      
+      if (action) {
+        action(value);
+      }
     }
   },
 
