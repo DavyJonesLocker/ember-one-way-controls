@@ -4,6 +4,7 @@ import startApp from '../../tests/helpers/start-app';
 
 const { run } = Ember;
 const TEXT = '#one-way-text';
+const TEXT_KEYEVENTS = '#one-way-text-keyevents';
 const CHECKBOX = '#one-way-checkbox';
 
 module('Acceptance | main', {
@@ -27,12 +28,22 @@ test('main test', function(assert) {
     assert.equal(findWithAssert(TEXT).val(), 'bar', 'should update `input` value');
     assert.equal(findWithAssert('#text-current-value').text().trim(), 'bar', 'should update `textCurrentValue` oninput or onchange');
   });
+});
+
+test('it responds to key events', function(assert) {
+  visit('/');
+
+  andThen(() => fillIn(TEXT_KEYEVENTS, 'hit enter'));
   andThen(() => {
-    keyEvent(TEXT, 'keyup', 13).then(() => {
-      assert.equal(findWithAssert('#committed').text().trim(), 'bar', 'should update `committed` onenter');
+    keyEvent(TEXT_KEYEVENTS, 'keyup', 13).then(() => {
+      assert.equal(findWithAssert('#committed').text().trim(), 'hit enter', 'should update `committed` onenter');
     });
-    keyEvent(TEXT, 'keyup', 27);
-    keyEvent(TEXT, 'keyup', 52);
+  });
+  andThen(() => fillIn(TEXT_KEYEVENTS, 'hit escape'));
+  andThen(() => {
+    keyEvent(TEXT_KEYEVENTS, 'keyup', 27).then(() => {
+      assert.equal(findWithAssert('#committed').text().trim(), 'hit escape', 'should update `committed` onescape');
+    });
   });
 });
 

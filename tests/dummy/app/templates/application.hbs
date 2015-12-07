@@ -4,15 +4,22 @@
   {{textCurrentValue}}
 </div>
 
+{{one-way-input
+  id="one-way-text"
+  value=textCurrentValue
+  update=(action (mut textCurrentValue))
+}}
+
 <div id="committed">
   {{committed}}
 </div>
 
 {{one-way-input
-  id="one-way-text"
+  id="one-way-text-keyevents"
   value=textCurrentValue
-  update=(action (mut textCurrentValue))
+  update=(action "noop")
   onenter=(action "commit")
+  onescape=(action "commit")
 }}
 
 <div id="checkbox-current-value">
@@ -22,7 +29,7 @@
 {{one-way-input
   id="one-way-checkbox"
   type="checkbox"
-  value=checkboxCurrentValue
+  checked=checkboxCurrentValue
   update=(action (mut checkboxCurrentValue))
 }}
 
