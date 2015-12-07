@@ -14,6 +14,16 @@ This addon provides a simple one way input that sends an `update` action when it
   }}
 ```
 
+The input can also be used as a checkbox:
+
+```hbs
+  {{one-way-input
+      type="checkbox"
+      checked=currentValue
+      update=(action (mut currentValue))
+  }}
+```
+
 The component's `KEY_EVENTS` attribute can be overwritten to provide custom handlers for various keycodes on the `keyUp` event.
 
 ```js
@@ -22,6 +32,8 @@ KEY_EVENTS: {
   '27': 'onescape'
 }
 ```
+
+This means that the `onenter` and `onescape` actions will fire if their corresponding key codes are received in the `keyUp` event.
 
 ## Why?
 
@@ -41,6 +53,10 @@ In the following [demo](http://jsbin.com/juxedi/edit?output), move your cursor t
 ![](https://i.imgur.com/D0pReSs.jpg)
 
 This addon fixes the cursor jumping issue by using [`readDOMAttr`](http://emberjs.com/api/classes/Ember._MetamorphView.html#method_readDOMAttr), which provides a way to read an element's attribute and update the last value Ember knows about at the same time. This makes setting an attribute idempotent.
+
+## Compatibility
+
+This addon will work on Ember versions `1.13.x` and up.
 
 ## Installation
 

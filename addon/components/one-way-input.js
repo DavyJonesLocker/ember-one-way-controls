@@ -47,9 +47,10 @@ export default Component.extend({
   keyUp(event) { this._interpretKeyEvents(event); },
 
   _interpretKeyEvents(event) {
-    const methodName = this.KEY_EVENTS[event.keyCode];
+    let methodName = this.KEY_EVENTS[event.keyCode];
 
     if (methodName) {
+      this._sanitizedValue = null;
       this._processNewValue.call(this, methodName, this._readAppropriateAttr());
     }
   },
@@ -70,15 +71,14 @@ export default Component.extend({
   },
 
   _processNewValue(methodName, rawValue) {
-    const value = this.sanitizeInput(rawValue);
-    const action = this.attrs[methodName];
+    let value = this.sanitizeInput(rawValue);
+    let action = this.attrs[methodName];
 
     if (this._sanitizedValue !== value) {
       this._sanitizedValue = value;
-    }
-
-    if (action) {
-      action(value);
+      if (action) {
+        action(value);
+      }
     }
   },
 
@@ -86,13 +86,13 @@ export default Component.extend({
     return input;
   },
 
+  init() {
+    this._super(...arguments);
+    this._sanitizedValue = get(this, 'value') || get(this, 'checked');
+  },
+
   didReceiveAttrs() {
     this._super(...arguments);
-
-    if (!this.attrs.update) {
-      throw new Error(`You must provide an \`update\` action to \`{{${this.templateName}}}\`.`);
-    }
-
-    this._processNewValue.call(this, 'update', get(this, 'value'));
+    this._processNewValue.call(this, 'update', get(this, 'value') || get(this, 'checked'));
   }
 });
