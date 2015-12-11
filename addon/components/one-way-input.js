@@ -25,6 +25,7 @@ export default Component.extend({
     'lang',
     'list',
     'max',
+    'maxlength',
     'min',
     'multiple',
     'name',
