@@ -26,6 +26,16 @@
   onescape=(action "commit")
 }}
 
+<div>
+<button id="show-text-autofocus" {{action 'showAutoFocusInput'}} />
+{{#if autoFocusShown}}
+  {{one-way-input
+    id="one-way-text-autofocus"
+    autofocus='autofocus'
+  }}
+{{/if}}
+</div>
+
 <div id="checkbox-current-value">
   {{checkboxCurrentValue}}
 </div>
