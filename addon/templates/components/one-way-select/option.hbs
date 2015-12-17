@@ -1,0 +1,15 @@
+{{#if optionValuePath}}
+  <option value={{get option optionValuePath}}
+          selected={{contains selected option}}>
+    {{#if optionLabelPath}}
+      {{get option optionLabelPath}}
+    {{else}}
+      {{get option optionValuePath}}
+    {{/if}}
+  </option>
+{{else}}
+  <option value={{option}}
+          selected={{contains selected option}}>
+    {{option}}
+  </option>
+{{/if}}
