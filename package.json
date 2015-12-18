@@ -1,7 +1,7 @@
 {
-  "name": "ember-one-way-input",
+  "name": "ember-one-way-controls",
   "version": "0.4.0",
-  "description": "Native one way input",
+  "description": "Native one way controls",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -11,7 +11,7 @@
     "start": "ember server",
     "test": "ember try:testall"
   },
-  "repository": "https://github.com/dockyard/ember-one-way-input",
+  "repository": "https://github.com/dockyard/ember-one-way-controls",
   "engines": {
     "node": ">= 0.10.0"
   },

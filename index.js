@@ -2,5 +2,5 @@
 'use strict';
 
 module.exports = {
-  name: 'ember-one-way-input'
+  name: 'ember-one-way-controls'
 };

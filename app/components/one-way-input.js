@@ -1,1 +1,1 @@
-export { default } from 'ember-one-way-input/components/one-way-input';
+export { default } from 'ember-one-way-controls/components/one-way-input';
