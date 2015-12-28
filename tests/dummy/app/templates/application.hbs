@@ -33,4 +33,12 @@
   update=(action (mut checkboxCurrentValue))
 }}
 
+{{one-way-input
+  id="dynamic-attributes"
+  value="hello"
+  update=(action "noop")
+  placeholder="this is a placeholder"
+  data-thing="this is an arbitrary attribute"
+}}
+
 {{outlet}}
