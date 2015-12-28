@@ -4,39 +4,16 @@ const {
   Component,
   get
 } = Ember;
+const NON_ATTRIBUTE_BOUND_PROPS = [
+  'update',
+  'sanitizeInput',
+  'keyEvents'
+];
 
 export default Component.extend({
   tagName: 'input',
   type: 'text',
-  attributeBindings: [
-    'accept',
-    'autocomplete',
-    'autosave',
-    'checked',
-    'dir',
-    'disabled',
-    'formaction',
-    'formenctype',
-    'formmethod',
-    'formnovalidate',
-    'formtarget',
-    'height',
-    'inputmode',
-    'lang',
-    'list',
-    'max',
-    'min',
-    'multiple',
-    'name',
-    'pattern',
-    'placeholder',
-    'size',
-    'step',
-    'type',
-    'value',
-    'width'
-  ],
-  KEY_EVENTS: {
+  keyEvents: {
     '13': 'onenter',
     '27': 'onescape'
   },
@@ -47,7 +24,7 @@ export default Component.extend({
   keyUp(event) { this._interpretKeyEvents(event); },
 
   _interpretKeyEvents(event) {
-    let methodName = this.KEY_EVENTS[event.keyCode];
+    let methodName = this.keyEvents[event.keyCode];
 
     if (methodName) {
       this._sanitizedValue = null;
@@ -89,6 +66,12 @@ export default Component.extend({
   init() {
     this._super(...arguments);
     this._sanitizedValue = get(this, 'value') || get(this, 'checked');
+
+    for (let key in this.attrs) {
+      if (!NON_ATTRIBUTE_BOUND_PROPS[key]) {
+        this.attributeBindings.push(key);
+      }
+    }
   },
 
   didReceiveAttrs() {

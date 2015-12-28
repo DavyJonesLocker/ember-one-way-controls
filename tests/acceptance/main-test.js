@@ -6,13 +6,14 @@ const { run } = Ember;
 const TEXT = '#one-way-text';
 const TEXT_KEYEVENTS = '#one-way-text-keyevents';
 const CHECKBOX = '#one-way-checkbox';
+const DYNAMIC_ATTRIBUTE_INPUT = '#dynamic-attributes';
 
 module('Acceptance | main', {
-  beforeEach: function() {
+  beforeEach() {
     this.application = startApp();
   },
 
-  afterEach: function() {
+  afterEach() {
     run(this.application, 'destroy');
   }
 });
@@ -57,5 +58,16 @@ test('checkbox test', function(assert) {
   andThen(() => {
     assert.equal(findWithAssert(CHECKBOX).is(':checked'), true, 'should update `input` checked');
     assert.equal(findWithAssert('#checkbox-current-value').text().trim(), 'true', 'should update `checkboxCurrentValue` onchange');
+  });
+});
+
+test('it accepts dynamic attribute bindings', function(assert) {
+  visit('/');
+
+  andThen(() => {
+    assert.equal(findWithAssert(DYNAMIC_ATTRIBUTE_INPUT).attr('placeholder'), 'this is a placeholder', 'should set placeholder');
+  });
+  andThen(() => {
+    assert.equal(findWithAssert(DYNAMIC_ATTRIBUTE_INPUT).attr('data-thing'), 'this is an arbitrary attribute', 'should set arbitrary attribute');
   });
 });
