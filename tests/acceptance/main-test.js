@@ -4,6 +4,7 @@ import moduleForAcceptance from '../../tests/helpers/module-for-acceptance';
 const TEXT = '#one-way-text';
 const TEXT_KEYEVENTS = '#one-way-text-keyevents';
 const CHECKBOX = '#one-way-checkbox';
+const NUMBER_INPUT = '#one-way-number';
 
 moduleForAcceptance('Acceptance | main');
 
@@ -47,5 +48,18 @@ test('checkbox test', function(assert) {
   andThen(() => {
     assert.equal(findWithAssert(CHECKBOX).is(':checked'), true, 'should update `input` checked');
     assert.equal(findWithAssert('#checkbox-current-value').text().trim(), 'true', 'should update `checkboxCurrentValue` onchange');
+  });
+});
+
+test('it handles decimal places', function(assert) {
+  visit('/');
+
+  andThen(() => fillIn(NUMBER_INPUT, '1.'));
+  andThen(() => {
+    assert.equal(findWithAssert('#text-number-value').text().trim(), '1.', 'it handles decimal places');
+  });
+  andThen(() => fillIn(NUMBER_INPUT, '1.1'));
+  andThen(() => {
+    assert.equal(findWithAssert('#text-number-value').text().trim(), '1.1', 'it handles decimal places');
   });
 });

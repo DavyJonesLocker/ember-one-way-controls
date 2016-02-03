@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 const {
   Component,
+  computed,
   get
 } = Ember;
 
@@ -46,28 +47,23 @@ export default Component.extend({
   change() { this._handleChangeEvent(); },
   keyUp(event) { this._interpretKeyEvents(event); },
 
+  appropriateAttr: computed('type', function() {
+    let type = get(this, 'type');
+
+    return type === 'checkbox' ? 'checked' : 'value';
+  }),
+
   _interpretKeyEvents(event) {
     let methodName = this.KEY_EVENTS[event.keyCode];
 
     if (methodName) {
       this._sanitizedValue = null;
-      this._processNewValue.call(this, methodName, this._readAppropriateAttr());
+      this._processNewValue.call(this, methodName, this.readDOMAttr(get(this, 'appropriateAttr')));
     }
   },
 
   _handleChangeEvent() {
-    this._processNewValue.call(this, 'update', this._readAppropriateAttr());
-  },
-
-  _readAppropriateAttr() {
-    let attr;
-    if (get(this, 'type') === 'checkbox') {
-      attr = 'checked';
-    } else {
-      attr = 'value';
-    }
-
-    return this.readDOMAttr(attr);
+    this._processNewValue.call(this, 'update', this.readDOMAttr(get(this, 'appropriateAttr')));
   },
 
   _processNewValue(methodName, rawValue) {
@@ -93,6 +89,6 @@ export default Component.extend({
 
   didReceiveAttrs() {
     this._super(...arguments);
-    this._processNewValue.call(this, 'update', get(this, 'value') || get(this, 'checked'));
+    this._processNewValue.call(this, 'update', get(this, get(this, 'appropriateAttr')));
   }
 });
