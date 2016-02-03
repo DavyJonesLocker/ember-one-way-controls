@@ -1,21 +1,11 @@
-import Ember from 'ember';
-import { module, test } from 'qunit';
-import startApp from '../../tests/helpers/start-app';
+import { test } from 'qunit';
+import moduleForAcceptance from '../../tests/helpers/module-for-acceptance';
 
-const { run } = Ember;
 const TEXT = '#one-way-text';
 const TEXT_KEYEVENTS = '#one-way-text-keyevents';
 const CHECKBOX = '#one-way-checkbox';
 
-module('Acceptance | main', {
-  beforeEach: function() {
-    this.application = startApp();
-  },
-
-  afterEach: function() {
-    run(this.application, 'destroy');
-  }
-});
+moduleForAcceptance('Acceptance | main');
 
 test('main test', function(assert) {
   visit('/');
