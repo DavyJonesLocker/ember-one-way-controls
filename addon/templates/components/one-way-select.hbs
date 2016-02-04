@@ -1,0 +1,24 @@
+{{#if includeBlank}}
+  <option value="">{{promptText}}</option>
+{{/if}}
+{{#if groupLabelPath}}
+  {{#each optionGroups as |optionGroup|}}
+    <optgroup label={{optionGroup.groupName}}>
+      {{#each optionGroup.options as |option|}}
+        {{one-way-select/option
+            selected=value
+            option=option
+            optionValuePath=optionValuePath
+            optionLabelPath=optionLabelPath}}
+      {{/each}}
+    </optgroup>
+  {{/each}}
+{{else}}
+  {{#each options as |option|}}
+    {{one-way-select/option
+        selected=value
+        option=option
+        optionValuePath=optionValuePath
+        optionLabelPath=optionLabelPath}}
+  {{/each}}
+{{/if}}
