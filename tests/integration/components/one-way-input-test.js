@@ -69,3 +69,13 @@ test('Works with type="number" and decimals', function(assert) {
   this.$('input').val('1.1').trigger('input');
   assert.equal(this.get('value'), '1.1', 'Value is updated to \'1.1\'');
 });
+
+test('Updating the value binding does not send an update action', function(assert) {
+  assert.expect(1);
+  let fired = false;
+  this.on('update', () => fired = true);
+  this.set('value', 'hey');
+  this.render(hbs`{{one-way-input value=value update=(action 'update')}}`);
+  this.set('value', 'ho');
+  assert.equal(fired, false, 'The update action should not have fired');
+});
