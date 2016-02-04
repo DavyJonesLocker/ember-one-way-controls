@@ -4,6 +4,10 @@
   {{textCurrentValue}}
 </div>
 
+<div id="text-number-value">
+  {{numberCurrentValue}}
+</div>
+
 {{one-way-input
   id="one-way-text"
   value=textCurrentValue
@@ -31,6 +35,13 @@
   type="checkbox"
   checked=checkboxCurrentValue
   update=(action (mut checkboxCurrentValue))
+}}
+
+{{one-way-input
+  id="one-way-number"
+  type="number"
+  value=numberCurrentValue
+  update=(action (mut numberCurrentValue))
 }}
 
 {{outlet}}
