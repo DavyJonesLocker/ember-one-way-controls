@@ -116,6 +116,32 @@ test('groupLabelPath', function(assert) {
   assert.equal(this.$('optgroup').length, 3, 'There should be three optgroups');
 });
 
+test('options is pre-grouped', function(assert) {
+  let groups = [
+    {
+      groupName: 'Trappist',
+      options: [
+        { id: 1, label: 'Dubbel', type: 'Trappist' },
+        { id: 2, label: 'Tripel', type: 'Trappist' }
+      ],
+    }, {
+      groupName: 'IPA',
+      options: [{ id: 3, label: 'IPA', type: 'IPA' }],
+    }, {
+      groupName: 'Saison',
+      options: [{ id: 4, label: 'Saison', type: 'Saison' }]
+    }
+  ];
+
+  this.set('options', groups);
+
+  this.render(hbs`{{one-way-select value=value options=options
+      optionValuePath="id" optionLabelPath="label"}}`);
+
+  assert.equal(this.$('optgroup').eq(0).attr('label'),  'Trappist', 'First optgroup label is Trappist');
+  assert.equal(this.$('optgroup').length, 3, 'There should be three optgroups');
+});
+
 test('multiple select', function(assert) {
   let [dubbel, tripel, ipa, saison] = [
     { id: 1, label: 'Dubbel', type: 'Trappist' },

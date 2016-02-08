@@ -5,7 +5,7 @@
     {{promptText}}
   </option>
 {{/if}}
-{{#if groupLabelPath}}
+{{#if hasGrouping}}
   {{#each optionGroups as |optionGroup|}}
     <optgroup label={{optionGroup.groupName}}>
       {{#each optionGroup.options as |option|}}

@@ -4,11 +4,14 @@ import layout from '../templates/components/one-way-select';
 import { invokeAction } from 'ember-invoke-action';
 
 const {
+  A: emberArray,
   Component,
   computed,
-  computed: { alias, empty, not },
+  computed: { alias, empty, not, or },
   get,
+  isArray,
   isBlank,
+  isPresent,
   set,
   String: { w }
 } = Ember;
@@ -35,24 +38,31 @@ export default Component.extend({
       options = w(options);
     }
 
+    let firstOption = get(emberArray(options), 'firstObject');
+    if (firstOption &&
+        isPresent(get(firstOption, 'groupName')) &&
+        isArray(get(firstOption, 'options'))) {
+      set(this, 'optionsArePreGrouped', true);
+    }
+
     if (isBlank(get(this, 'promptIsSelectable'))) {
       set(this, 'promptIsSelectable', false);
     }
 
-    set(this, 'options', Ember.A(options));
+    set(this, 'options', emberArray(options));
   },
 
   nothingSelected: empty('value'),
-
   promptIsDisabled: not('promptIsSelectable'),
+  hasGrouping: or('optionsArePreGrouped', 'groupLabelPath'),
 
   optionGroups: computed('options.[]', function() {
     const groupLabelPath = get(this, 'groupLabelPath');
     const options = get(this, 'options');
-    const groups = Ember.A();
+    const groups = emberArray();
 
     if (!groupLabelPath) {
-      return;
+      return options;
     }
 
     options.forEach((item) => {
@@ -64,7 +74,7 @@ export default Component.extend({
         if (group == null) {
           group = Ember.Object.create({
             groupName: label,
-            options:   Ember.A()
+            options:   emberArray()
           });
 
           groups.pushObject(group);
