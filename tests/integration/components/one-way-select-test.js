@@ -44,6 +44,7 @@ test('Can include a blank value', function(assert) {
 test('Blank value can be given a text', function(assert) {
   this.render(hbs`{{one-way-select value=value options=options includeBlank="Select one"}}`);
   assert.equal(this.$('option:eq(0)').text().trim(), 'Select one', 'The blank option has "Select one" as label');
+  assert.equal(this.$('option:eq(0):disabled').length, 1, 'The blank option is disabled by default');
 });
 
 test('Prompt is an alias for includeBlank', function(assert) {
@@ -63,6 +64,11 @@ test('With prompt selection still works properly', function(assert) {
   this.$('select').trigger('change');
   assert.equal(this.$('option:selected').val(), 'male', 'Select options is male');
   assert.equal(this.get('value'), 'male', 'Value us \'male\'');
+});
+
+test('Prompt can be selectable', function(assert) {
+  this.render(hbs`{{one-way-select value=value options=options prompt="Select one" promptIsSelectable=true}}`);
+  assert.equal(this.$('option:eq(0):disabled').length, 0, 'The blank option is enabled');
 });
 
 test('optionLabelPath', function(assert) {
