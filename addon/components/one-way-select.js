@@ -6,8 +6,9 @@ import { invokeAction } from 'ember-invoke-action';
 const {
   Component,
   computed,
-  computed: { alias },
+  computed: { alias, not },
   get,
+  isBlank,
   set,
   String: { w }
 } = Ember;
@@ -34,8 +35,14 @@ export default Component.extend({
       options = w(options);
     }
 
+    if (isBlank(get(this, 'promptIsSelectable'))) {
+      set(this, 'promptIsSelectable', false);
+    }
+
     set(this, 'options', Ember.A(options));
   },
+
+  promptIsDisabled: not('promptIsSelectable'),
 
   optionGroups: computed('options.[]', function() {
     const groupLabelPath = get(this, 'groupLabelPath');
