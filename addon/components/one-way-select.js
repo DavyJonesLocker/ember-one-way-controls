@@ -6,7 +6,7 @@ import { invokeAction } from 'ember-invoke-action';
 const {
   Component,
   computed,
-  computed: { alias, not },
+  computed: { alias, empty, not },
   get,
   isBlank,
   set,
@@ -41,6 +41,8 @@ export default Component.extend({
 
     set(this, 'options', Ember.A(options));
   },
+
+  nothingSelected: empty('value'),
 
   promptIsDisabled: not('promptIsSelectable'),
 

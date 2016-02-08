@@ -1,5 +1,9 @@
 {{#if includeBlank}}
-  <option value="" disabled={{promptIsDisabled}}>{{promptText}}</option>
+  <option value=""
+          disabled={{promptIsDisabled}}
+          selected={{if nothingSelected "selected"}}>
+    {{promptText}}
+  </option>
 {{/if}}
 {{#if groupLabelPath}}
   {{#each optionGroups as |optionGroup|}}

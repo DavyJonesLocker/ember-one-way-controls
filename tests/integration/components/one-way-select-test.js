@@ -66,6 +66,11 @@ test('With prompt selection still works properly', function(assert) {
   assert.equal(this.get('value'), 'male', 'Value us \'male\'');
 });
 
+test('Prompt is selected by default', function(assert) {
+  this.render(hbs`{{one-way-select options=options prompt="Select one"}}`);
+  assert.equal(this.$('option:eq(0)').is(':selected'), true, 'Prompt option is selected');
+});
+
 test('Prompt can be selectable', function(assert) {
   this.render(hbs`{{one-way-select value=value options=options prompt="Select one" promptIsSelectable=true}}`);
   assert.equal(this.$('option:eq(0):disabled').length, 0, 'The blank option is enabled');
