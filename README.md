@@ -60,25 +60,16 @@ This addon will work on Ember versions `1.13.x` and up.
 
 ## Installation
 
-* `git clone` this repository
-* `npm install`
-* `bower install`
+```shell
+ember install ember-one-way-controls
+```
 
-## Running
+If the app uses Ember 1.13, then you will need to install the `ember-get-helper`
+addon:
 
-* `ember server`
-* Visit your app at http://localhost:4200.
-
-## Running Tests
-
-* `ember test`
-* `ember test --server`
-
-## Building
-
-* `ember build`
-
-For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
+```shell
+ember install ember-get-helper
+```
 
 ## Legal
 
