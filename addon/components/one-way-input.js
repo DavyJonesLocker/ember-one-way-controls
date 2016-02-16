@@ -36,7 +36,8 @@ export default Component.extend({
     'step',
     'type',
     'value',
-    'width'
+    'width',
+    'indeterminate'
   ],
   KEY_EVENTS: {
     '13': 'onenter',
