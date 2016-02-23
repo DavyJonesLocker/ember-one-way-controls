@@ -126,13 +126,19 @@ export default Component.extend({
   _findOption(value) {
     let options = get(this, 'options');
     let optionValuePath = get(this, 'optionValuePath');
+    let optionSelectedPath = get(this, 'optionSelectedPath');
 
-    return options.find((item) => {
+    let selectedItem = options.find((item) => {
       if (optionValuePath) {
         return `${get(item, optionValuePath)}` === value;
       } else {
         return `${item}` === value;
       }
     });
-  },
+
+    if(optionSelectedPath && selectedItem){
+      return selectedItem[optionSelectedPath];
+    }
+    return selectedItem;
+  }
 });
