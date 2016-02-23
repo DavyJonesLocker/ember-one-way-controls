@@ -136,7 +136,7 @@ export default Component.extend({
       }
     });
 
-    if(optionSelectedPath && selectedItem){
+    if (optionSelectedPath && selectedItem) {
       return selectedItem[optionSelectedPath];
     }
     return selectedItem;
