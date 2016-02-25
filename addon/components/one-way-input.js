@@ -43,11 +43,13 @@ export default Component.extend({
     '13': 'onenter',
     '27': 'onescape'
   },
+  KEY_TAB: '9',
   _sanitizedValue: undefined,
 
   input() { this._handleChangeEvent(); },
   change() { this._handleChangeEvent(); },
   keyUp(event) { this._interpretKeyEvents(event); },
+  keyDown(event) {  this._handleTabKey(event);  },
 
   appropriateAttr: computed('type', function() {
     let type = get(this, 'type');
@@ -63,6 +65,13 @@ export default Component.extend({
       this._processNewValue.call(this, methodName, this.readDOMAttr(get(this, 'appropriateAttr')));
     }
   },
+  
+  _handleTabKey(event) {
+    if(event.keyCode === this.KEY_TAB) {
+      this._sanitizedValue = null;
+      this._processNewValue.call(this, 'ontab', this.readDOMAttr(get(this, 'appropriateAttr')));
+    }
+  }
 
   _handleChangeEvent() {
     this._processNewValue.call(this, 'update', this.readDOMAttr(get(this, 'appropriateAttr')));
