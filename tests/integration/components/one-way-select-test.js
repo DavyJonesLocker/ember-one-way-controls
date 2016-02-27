@@ -22,6 +22,11 @@ test('A value is selected', function(assert) {
   assert.equal(this.$('option:selected').val(), 'female', 'Female is selected');
 });
 
+test('Value can be the first positional param', function(assert) {
+  this.render(hbs`{{one-way-select value options=options}}`);
+  assert.equal(this.$('option:selected').val(), 'female', 'Female is selected');
+});
+
 test('Selecting a value updates the selected value', function(assert) {
   this.on('update', (value) => this.set('value', value));
   this.render(hbs`{{one-way-select value=value options=options update=(action 'update')}}`);

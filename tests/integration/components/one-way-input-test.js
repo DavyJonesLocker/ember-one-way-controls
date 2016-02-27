@@ -1,4 +1,3 @@
-import { skip } from 'qunit';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -16,7 +15,7 @@ test('It puts the value into the input', function(assert) {
   assert.equal(this.$('input').val(), 'test', 'input\'s value is \'test\'');
 });
 
-skip('Value can be the first positional param', function(assert) {
+test('Value can be the first positional param', function(assert) {
   this.render(hbs`{{one-way-input "test"}}`);
   assert.equal(this.$('input').val(), 'test', 'input\'s value is \'test\'');
 });

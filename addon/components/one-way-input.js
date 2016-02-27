@@ -3,10 +3,11 @@ import Ember from 'ember';
 const {
   Component,
   computed,
-  get
+  get,
+  set
 } = Ember;
 
-export default Component.extend({
+const OneWayInputComponent = Component.extend({
   tagName: 'input',
   type: 'text',
   attributeBindings: [
@@ -86,6 +87,10 @@ export default Component.extend({
 
   init() {
     this._super(...arguments);
+
+    let value = get(this, 'paramValue') || get(this, 'value');
+    set(this, 'value', value);
+
     this._sanitizedValue = get(this, 'value') || get(this, 'checked');
   },
 
@@ -94,3 +99,9 @@ export default Component.extend({
     this._processNewValue.call(this, 'update', get(this, get(this, 'appropriateAttr')));
   }
 });
+
+OneWayInputComponent.reopenClass({
+  positionalParams: ['paramValue']
+});
+
+export default OneWayInputComponent;
