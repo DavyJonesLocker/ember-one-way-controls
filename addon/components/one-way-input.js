@@ -92,11 +92,6 @@ const OneWayInputComponent = Component.extend({
     set(this, 'value', value);
 
     this._sanitizedValue = get(this, 'value') || get(this, 'checked');
-  },
-
-  didReceiveAttrs() {
-    this._super(...arguments);
-    this._processNewValue.call(this, 'update', get(this, get(this, 'appropriateAttr')));
   }
 });
 
