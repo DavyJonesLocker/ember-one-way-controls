@@ -1,3 +1,4 @@
+import { skip } from 'qunit';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -62,7 +63,7 @@ test('It responds to the escape keypress', function(assert) {
   this.$('input').trigger($.Event('keyup', { keyCode: 27 }));
 });
 
-test('Works with type="number" and decimals', function(assert) {
+skip('Works with type="number" and decimals', function(assert) {
   this.render(hbs`{{one-way-input type="number" update=(action (mut value))}}`);
   this.$('input').val('1.').trigger('input');
   assert.equal(this.get('value'), '1.', 'Value is updated to \'1.1\'');
