@@ -16,7 +16,7 @@ const {
   String: { w }
 } = Ember;
 
-export default Component.extend({
+const OneWaySelectComponent = Component.extend({
   layout,
   tagName: 'select',
 
@@ -32,6 +32,9 @@ export default Component.extend({
 
   didReceiveAttrs() {
     this._super(...arguments);
+
+    let value = get(this, 'paramValue') || get(this, 'value');
+    set(this, 'value', value);
 
     let options = get(this, 'options');
     if (typeof options === 'string') {
@@ -142,3 +145,9 @@ export default Component.extend({
     return selectedItem;
   }
 });
+
+OneWaySelectComponent.reopenClass({
+  positionalParams: ['paramValue']
+});
+
+export default OneWaySelectComponent;
