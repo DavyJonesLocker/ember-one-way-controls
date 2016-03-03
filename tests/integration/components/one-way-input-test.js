@@ -80,3 +80,18 @@ test('Updating the value binding does not send an update action', function(asser
   this.set('value', 'ho');
   assert.equal(fired, false, 'The update action should not have fired');
 });
+
+test('It triggers sanitizeInput on value binding change', function(assert) {
+  this.on('sanitize', (value) => value && value.toUpperCase());
+  this.set('value', 'foo');
+  this.render(hbs`{{one-way-input value=value
+    sanitizeInput=(action 'sanitize')
+    update=(action (mut value))}}`);
+
+  // initial render with an invalid value gets sanitized and calls update
+  assert.equal(this.get('value'), 'FOO');
+
+  this.set('value', 'bar');
+  // set triggered a rerender, which sanitized the input and called update
+  assert.equal(this.get('value'), 'BAR');
+});
