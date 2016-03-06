@@ -33,6 +33,7 @@ const OneWayInputComponent = Component.extend({
     'name',
     'pattern',
     'placeholder',
+    'required',
     'size',
     'step',
     'type',
