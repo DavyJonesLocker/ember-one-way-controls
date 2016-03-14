@@ -17,8 +17,7 @@ This addon provides a simple one way input that sends an `update` action when it
 The input can also be used as a checkbox:
 
 ```hbs
-  {{one-way-input
-      type="checkbox"
+  {{one-way-checkbox
       checked=currentValue
       update=(action (mut currentValue))
   }}
