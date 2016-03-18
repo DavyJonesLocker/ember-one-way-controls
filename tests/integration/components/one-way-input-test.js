@@ -95,3 +95,12 @@ test('It triggers sanitizeInput on value binding change', function(assert) {
   // set triggered a rerender, which sanitized the input and called update
   assert.equal(this.get('value'), 'BAR');
 });
+
+test('It handles the old style of actions', function(assert) {
+  assert.expect(1);
+  let fired = false;
+  this.on('update', () => fired = true);
+  this.render(hbs`{{one-way-input update='update'}}`);
+  this.$('input').val('foo').trigger('input');
+  assert.equal(fired, true, 'The update action should have fired');
+});
