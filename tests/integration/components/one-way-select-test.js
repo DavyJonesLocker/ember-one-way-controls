@@ -188,3 +188,13 @@ test('multiple select a value', function(assert) {
   assert.equal(this.$('option:selected:eq(0)').val(), 1, 'Dubbel is selected');
   assert.deepEqual(this.get('value'), [dubbel, ipa, saison], 'Dubbel, IPA and Saison are selected');
 });
+
+test('It handles the old style of actions', function(assert) {
+  assert.expect(1);
+  let fired = false;
+  this.on('update', () => fired = true);
+  this.render(hbs`{{one-way-select value=value options=options update='update'}}`);
+  this.$('select').val('male');
+  this.$('select').trigger('change');
+  assert.equal(fired, true, 'The update action should have fired');
+});
