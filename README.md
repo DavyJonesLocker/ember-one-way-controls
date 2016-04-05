@@ -57,23 +57,31 @@ This addon fixes the cursor jumping issue by using [`readDOMAttr`](http://emberj
 
 This addon will work on Ember versions `1.13.x` and up.
 
-## Installation
+## Installing the addon
+
+```
+ember install ember-one-way-controls
+```
+
+## Contributing
+
+### Installation
 
 * `git clone` this repository
 * `npm install`
 * `bower install`
 
-## Running
+### Running
 
 * `ember server`
 * Visit your app at http://localhost:4200.
 
-## Running Tests
+### Running Tests
 
 * `ember test`
 * `ember test --server`
 
-## Building
+### Building
 
 * `ember build`
 
