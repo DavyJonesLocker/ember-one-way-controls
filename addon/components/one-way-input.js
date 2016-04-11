@@ -14,6 +14,7 @@ const OneWayInputComponent = Component.extend({
   attributeBindings: [
     'accept',
     'autocomplete',
+    'autofocus',
     'autosave',
     'checked',
     'dir',
