@@ -109,3 +109,9 @@ test('I can bind the placeholder attribute', function(assert) {
   this.render(hbs`{{one-way-input placeholder="testing"}}`);
   assert.equal(this.$('input').attr('placeholder'), 'testing');
 });
+
+test('I can set keyEvent bindings', function(assert) {
+  this.on('onenter', () => assert.ok(true));
+  this.render(hbs`{{one-way-input keyEvents=(hash 13=(action "onenter"))}}`);
+  this.$('input').trigger($.Event('keyup', { keyCode: 13 }));
+});

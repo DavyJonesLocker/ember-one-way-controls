@@ -9,6 +9,7 @@ const {
 } = Ember;
 
 const NON_ATTRIBUTE_BOUND_PROPS = [
+  'keyEvents',
   'update',
   'sanitizeInput'
 ];
@@ -23,7 +24,7 @@ const OneWayInputComponent = Component.extend({
     'value'
   ],
 
-  KEY_EVENTS: {
+  keyEvents: {
     '13': 'onenter',
     '27': 'onescape'
   },
@@ -41,16 +42,16 @@ const OneWayInputComponent = Component.extend({
   }),
 
   _interpretKeyEvents(event) {
-    let methodName = this.KEY_EVENTS[event.keyCode];
+    let methodName = this.keyEvents[event.keyCode];
 
     if (methodName) {
       this._sanitizedValue = null;
-      this._processNewValue.call(this, methodName, this.readDOMAttr(get(this, 'appropriateAttr')));
+      this._processNewValue(methodName, this.readDOMAttr(get(this, 'appropriateAttr')));
     }
   },
 
   _handleChangeEvent() {
-    this._processNewValue.call(this, 'update', this.readDOMAttr(get(this, 'appropriateAttr')));
+    this._processNewValue('update', this.readDOMAttr(get(this, 'appropriateAttr')));
   },
 
   _processNewValue(methodName, rawValue) {
@@ -59,7 +60,11 @@ const OneWayInputComponent = Component.extend({
     if (this._sanitizedValue !== value) {
       this._sanitizedValue = value;
 
-      invokeAction(this, methodName, value);
+      if (typeof methodName === 'function') {
+        methodName(value);
+      } else {
+        invokeAction(this, methodName, value);
+      }
     }
   },
 

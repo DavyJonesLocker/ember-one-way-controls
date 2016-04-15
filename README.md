@@ -23,16 +23,30 @@ The input can also be used as a checkbox:
   }}
 ```
 
-The component's `KEY_EVENTS` attribute can be overwritten to provide custom handlers for various keycodes on the `keyUp` event.
+The component's `keyEvent` attribute can be overwritten to provide custom handlers for various keycodes on the `keyUp` event.
 
 ```js
-KEY_EVENTS: {
+keyEvents: {
   '13': 'onenter',
   '27': 'onescape'
 }
 ```
 
 This means that the `onenter` and `onescape` actions will fire if their corresponding key codes are received in the `keyUp` event.
+
+If you have the `hash` helper available ([polyfill for < Ember 2.3 here](https://github.com/cibernox/ember-hash-helper-polyfill)), you can specify your own key events in the template:
+
+```hbs
+{{one-way-input
+    keyEvents=(hash
+      13=(action "onenter")
+      27=(action "onescape")
+      8=(action "onbackspace")
+    )
+}}
+```
+
+If you don't have the `hash` helper available, you can simply pass in a regular POJO.
 
 ## Why?
 
