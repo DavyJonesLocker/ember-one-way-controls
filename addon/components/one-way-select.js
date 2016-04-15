@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import layout from '../templates/components/one-way-select';
+import DynamicAttributeBindings from '../-private/dynamic-attribute-bindings';
 
 import { invokeAction } from 'ember-invoke-action';
 
@@ -16,18 +17,24 @@ const {
   String: { w }
 } = Ember;
 
-const OneWaySelectComponent = Component.extend({
+const OneWaySelectComponent = Component.extend(DynamicAttributeBindings, {
   layout,
   tagName: 'select',
 
+  NON_ATTRIBUTE_BOUND_PROPS: [
+    'value',
+    'update',
+    'options',
+    'prompt',
+    'promptText',
+    'includeBlank',
+    'optionValuePath',
+    'optionLabelPath',
+    'groupLabelPath'
+  ],
+
   attributeBindings: [
-    'autofocus',
-    'disabled',
-    'form',
     'multiple',
-    'name',
-    'required',
-    'size'
   ],
 
   didReceiveAttrs() {
