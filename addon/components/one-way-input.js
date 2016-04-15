@@ -8,45 +8,26 @@ const {
   set
 } = Ember;
 
+const NON_ATTRIBUTE_BOUND_PROPS = [
+  'update',
+  'sanitizeInput'
+];
+
 const OneWayInputComponent = Component.extend({
   tagName: 'input',
   type: 'text',
+
   attributeBindings: [
-    'accept',
-    'autocomplete',
-    'autofocus',
-    'autosave',
     'checked',
-    'dir',
-    'disabled',
-    'formaction',
-    'formenctype',
-    'formmethod',
-    'formnovalidate',
-    'formtarget',
-    'height',
-    'inputmode',
-    'lang',
-    'list',
-    'max',
-    'maxlength',
-    'min',
-    'multiple',
-    'name',
-    'pattern',
-    'placeholder',
-    'required',
-    'size',
-    'step',
     'type',
-    'value',
-    'width',
-    'indeterminate'
+    'value'
   ],
+
   KEY_EVENTS: {
     '13': 'onenter',
     '27': 'onescape'
   },
+
   _sanitizedValue: undefined,
 
   input() { this._handleChangeEvent(); },
@@ -82,8 +63,24 @@ const OneWayInputComponent = Component.extend({
     }
   },
 
+  _bindDynamicAttributes() {
+    let newAttributeBindings = [];
+    for (let key in this.attrs) {
+      if (!NON_ATTRIBUTE_BOUND_PROPS[key] && this.attributeBindings.indexOf(key) === -1) {
+        newAttributeBindings.push(key);
+      }
+    }
+
+    set(this, 'attributeBindings', this.attributeBindings.concat(newAttributeBindings));
+  },
+
   sanitizeInput(input) {
     return input;
+  },
+
+  init() {
+    this._super(...arguments);
+    this._bindDynamicAttributes();
   },
 
   didReceiveAttrs() {

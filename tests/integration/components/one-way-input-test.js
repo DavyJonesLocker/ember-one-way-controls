@@ -104,3 +104,8 @@ test('It handles the old style of actions', function(assert) {
   this.$('input').val('foo').trigger('input');
   assert.equal(fired, true, 'The update action should have fired');
 });
+
+test('I can bind the placeholder attribute', function(assert) {
+  this.render(hbs`{{one-way-input placeholder="testing"}}`);
+  assert.equal(this.$('input').attr('placeholder'), 'testing');
+});
