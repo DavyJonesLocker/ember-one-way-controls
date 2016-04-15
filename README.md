@@ -15,37 +15,10 @@ The input can also be used as a checkbox:
 {{one-way-checkbox isChecked update=(action (mut isChecked))}}
 ```
 
-<<<<<<< b6b518436033498f9ab58c7adf0980cce4a84506
-The component's `keyEvent` attribute can be overwritten to provide custom handlers for various keycodes on the `keyUp` event.
-
-```js
-keyEvents: {
-  '13': 'onenter',
-  '27': 'onescape'
-}
-```
-
-This means that the `onenter` and `onescape` actions will fire if their corresponding key codes are received in the `keyUp` event.
-=======
 The controls are documented in more detail on their own readmes:
  - [`{{one-way-input}}`](https://github.com/DockYard/ember-one-way-controls/blob/master/docs/one-way-input.md)
  - [`{{one-way-checkbox}}`](https://github.com/DockYard/ember-one-way-controls/blob/master/docs/one-way-checkbox.md)
  - [`{{one-way-select}}`](https://github.com/DockYard/ember-one-way-controls/blob/master/docs/one-way-select.md)
->>>>>>> update README.md with links to specific docs
-
-If you have the `hash` helper available ([polyfill for < Ember 2.3 here](https://github.com/cibernox/ember-hash-helper-polyfill)), you can specify your own key events in the template:
-
-```hbs
-{{one-way-input
-    keyEvents=(hash
-      13=(action "onenter")
-      27=(action "onescape")
-      8=(action "onbackspace")
-    )
-}}
-```
-
-If you don't have the `hash` helper available, you can simply pass in a regular POJO.
 
 ## Why?
 
