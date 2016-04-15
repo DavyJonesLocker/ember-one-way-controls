@@ -23,6 +23,13 @@ test('Value is set to option', function(assert) {
   assert.equal(this.$('input').val(), 'yes');
 });
 
+test('Value can be a positional param', function(assert) {
+  this.set('value', 'yes');
+  this.render(hbs`{{one-way-radio value option="yes"}}`);
+
+  assert.equal(this.$('input:checked').length, 1);
+});
+
 test('Is not selected when value does not match option', function(assert) {
   this.set('value', 'no');
   this.render(hbs`{{one-way-radio value=value option="yes"}}`);
