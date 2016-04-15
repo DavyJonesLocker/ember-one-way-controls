@@ -86,13 +86,17 @@ const OneWayInputComponent = Component.extend({
     return input;
   },
 
+  _handleDataDownValueChange(paramValueProperty, valueProperty) {
+    let value = get(this, paramValueProperty) || get(this, valueProperty);
+    set(this, valueProperty, value);
+    this._sanitizedValue = get(this, get(this, 'appropriateAttr'));
+    this._processNewValue('update', get(this, get(this, 'appropriateAttr')));
+  },
+
   didReceiveAttrs() {
     this._super(...arguments);
 
-    let value = get(this, 'paramValue') || get(this, 'value');
-    set(this, 'value', value);
-    this._sanitizedValue = get(this, get(this, 'appropriateAttr'));
-    this._processNewValue('update', get(this, get(this, 'appropriateAttr')));
+    this._handleDataDownValueChange('paramValue', 'value');
   }
 });
 

@@ -39,3 +39,13 @@ test('Clicking the checkbox triggers the update action', function(assert) {
   this.$('input').trigger('click');
   assert.equal(this.get('value'), false);
 });
+
+test('It can accept an outside toggle of checked', function(assert) {
+  this.render(hbs`{{one-way-checkbox checked=checked update=(action (mut checked))}}`);
+
+  this.$('input').trigger('click');
+  this.set('checked', false);
+  this.$('input').trigger('click');
+
+  assert.strictEqual(this.get('checked'), true);
+});
