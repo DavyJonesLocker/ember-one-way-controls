@@ -7,10 +7,15 @@ export default Controller.extend({
   textCurrentValue: 'foo',
   numberCurrentValue: 0,
 
+  autoFocusShown: false,
+
   actions: {
     noop: K,
     commit(value) {
       set(this, 'committed', value);
+    },
+    showAutoFocusInput() {
+      set(this, 'autoFocusShown', true);
     }
   }
 });

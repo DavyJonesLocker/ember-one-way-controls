@@ -5,7 +5,8 @@ const {
   Component,
   computed,
   get,
-  set
+  set,
+  run
 } = Ember;
 
 const OneWayInputComponent = Component.extend({
@@ -93,6 +94,13 @@ const OneWayInputComponent = Component.extend({
     set(this, 'value', value);
     this._sanitizedValue = get(this, get(this, 'appropriateAttr'));
     this._processNewValue('update', get(this, get(this, 'appropriateAttr')));
+  },
+
+  didInsertElement() {
+    this._super(...arguments);
+    if (get(this, 'autofocus')) {
+      run.scheduleOnce('afterRender', this, () => this.$().focus());
+    }
   }
 });
 

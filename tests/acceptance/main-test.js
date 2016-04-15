@@ -2,6 +2,8 @@ import { skip, test } from 'qunit';
 import moduleForAcceptance from '../../tests/helpers/module-for-acceptance';
 
 const TEXT = '#one-way-text';
+const TEXT_AUTOFOCUS = '#one-way-text-autofocus';
+const BUTTON_AUTOFOCUS = '#show-text-autofocus';
 const TEXT_KEYEVENTS = '#one-way-text-keyevents';
 const CHECKBOX = '#one-way-checkbox';
 const NUMBER_INPUT = '#one-way-number';
@@ -35,6 +37,15 @@ test('it responds to key events', function(assert) {
     keyEvent(TEXT_KEYEVENTS, 'keyup', 27).then(() => {
       assert.equal(findWithAssert('#committed').text().trim(), 'hit escape', 'should update `committed` onescape');
     });
+  });
+});
+
+test('it handles autofocus', function (assert) {
+  visit('/');
+
+  andThen(() => click(BUTTON_AUTOFOCUS));
+  andThen(() => {
+    assert.equal(findWithAssert(TEXT_AUTOFOCUS)[0], document.activeElement, 'input should be focused');
   });
 });
 
