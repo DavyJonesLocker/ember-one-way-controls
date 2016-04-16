@@ -8,7 +8,6 @@ const {
   set
 } = Ember;
 
-
 const OneWayInputComponent = Component.extend(DynamicAttributeBindings, {
   tagName: 'input',
   type: 'text',
@@ -64,7 +63,6 @@ const OneWayInputComponent = Component.extend(DynamicAttributeBindings, {
   sanitizeInput(input) {
     return input;
   },
-
 
   didReceiveAttrs() {
     this._super(...arguments);
