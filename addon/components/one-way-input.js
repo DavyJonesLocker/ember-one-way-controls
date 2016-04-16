@@ -28,9 +28,17 @@ const OneWayInputComponent = Component.extend(DynamicAttributeBindings, {
     '27': 'onescape'
   },
 
-  input() { this._handleChangeEvent(); },
-  change() { this._handleChangeEvent(); },
-  keyUp(event) { this._interpretKeyEvents(event); },
+  input() {
+    this._handleChangeEvent();
+  },
+
+  change() {
+    this._handleChangeEvent();
+  },
+
+  keyUp(event) {
+    this._interpretKeyEvents(event);
+  },
 
   _interpretKeyEvents(event) {
     let method = get(this, `keyEvents.${event.keyCode}`);
