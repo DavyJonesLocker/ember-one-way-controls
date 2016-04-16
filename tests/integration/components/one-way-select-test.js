@@ -37,7 +37,7 @@ test('Selecting a value updates the selected value', function(assert) {
 });
 
 test('Selecting a value updates the selected value for pre-grouped options', function(assert) {
-  const groups = [
+  let groups = [
     {
       groupName: 'group1',
       options: [ 'value1' ]
@@ -151,10 +151,10 @@ test('options is pre-grouped', function(assert) {
       options: [
         { id: 1, label: 'Dubbel', type: 'Trappist' },
         { id: 2, label: 'Tripel', type: 'Trappist' }
-      ],
+      ]
     }, {
       groupName: 'IPA',
-      options: [{ id: 3, label: 'IPA', type: 'IPA' }],
+      options: [{ id: 3, label: 'IPA', type: 'IPA' }]
     }, {
       groupName: 'Saison',
       options: [{ id: 4, label: 'Saison', type: 'Saison' }]
@@ -199,7 +199,6 @@ test('multiple select a value', function(assert) {
   this.on('update', (value) => this.set('value', value));
   this.set('value', [saison, ipa]);
   this.set('options', [dubbel, tripel, ipa, saison]);
-
 
   this.render(hbs`{{one-way-select value=value options=options multiple=true
       update=(action 'update') optionValuePath="id" optionLabelPath="label"

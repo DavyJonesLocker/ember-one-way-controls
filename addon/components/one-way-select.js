@@ -34,7 +34,7 @@ const OneWaySelectComponent = Component.extend(DynamicAttributeBindings, {
   ],
 
   attributeBindings: [
-    'multiple',
+    'multiple'
   ],
 
   didReceiveAttrs() {
@@ -67,16 +67,16 @@ const OneWaySelectComponent = Component.extend(DynamicAttributeBindings, {
   hasGrouping: or('optionsArePreGrouped', 'groupLabelPath'),
 
   optionGroups: computed('options.[]', function() {
-    const groupLabelPath = get(this, 'groupLabelPath');
-    const options = get(this, 'options');
-    const groups = emberArray();
+    let groupLabelPath = get(this, 'groupLabelPath');
+    let options = get(this, 'options');
+    let groups = emberArray();
 
     if (!groupLabelPath) {
       return options;
     }
 
     options.forEach((item) => {
-      const label = get(item, groupLabelPath);
+      let label = get(item, groupLabelPath);
 
       if (label) {
         let group = groups.findBy('groupName', label);
@@ -153,7 +153,7 @@ const OneWaySelectComponent = Component.extend(DynamicAttributeBindings, {
     } else {
       return options.find(findOption);
     }
-  },
+  }
 });
 
 OneWaySelectComponent.reopenClass({
