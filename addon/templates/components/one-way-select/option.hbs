@@ -1,6 +1,6 @@
 {{#if optionValuePath}}
   <option value={{get option optionValuePath}}
-          selected={{contains selected option}}>
+          selected={{one-way-select/contains selected option optionValuePath}}>
     {{#if optionLabelPath}}
       {{get option optionLabelPath}}
     {{else}}
@@ -9,7 +9,7 @@
   </option>
 {{else}}
   <option value={{option}}
-          selected={{contains selected option}}>
+          selected={{one-way-select/contains selected option}}>
     {{option}}
   </option>
 {{/if}}

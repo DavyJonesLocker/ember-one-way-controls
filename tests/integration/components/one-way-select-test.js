@@ -22,6 +22,11 @@ test('A value is selected', function(assert) {
   assert.equal(this.$('option:selected').val(), 'female', 'Female is selected');
 });
 
+test('Value can be the first positional param', function(assert) {
+  this.render(hbs`{{one-way-select value options=options}}`);
+  assert.equal(this.$('option:selected').val(), 'female', 'Female is selected');
+});
+
 test('Selecting a value updates the selected value', function(assert) {
   this.on('update', (value) => this.set('value', value));
   this.render(hbs`{{one-way-select value=value options=options update=(action 'update')}}`);
@@ -29,6 +34,29 @@ test('Selecting a value updates the selected value', function(assert) {
   this.$('select').trigger('change');
   assert.equal(this.$('option:selected').val(), 'male', 'Male is selected');
   assert.equal(this.get('value'), 'male', 'Value is \'male\'');
+});
+
+test('Selecting a value updates the selected value for pre-grouped options', function(assert) {
+  let groups = [
+    {
+      groupName: 'group1',
+      options: [ 'value1' ]
+    }, {
+      groupName: 'group2',
+      options: [ 'value2' ]
+    }
+  ];
+
+  this.set('options', groups);
+  this.on('update', (value) => this.set('value', value));
+
+  this.render(hbs`{{one-way-select value=value options=options update=(action 'update')}}`);
+
+  this.$('select').val('value2');
+  this.$('select').trigger('change');
+
+  assert.equal(this.$('option:selected').val(), 'value2', 'value2 is selected');
+  assert.equal(this.get('value'), 'value2', 'Value is \'value2\'');
 });
 
 test('Accepts a space seperated string for options', function(assert) {
@@ -99,6 +127,15 @@ test('optionValuePath', function(assert) {
   assert.equal(this.$('option').text().replace(/\s/g, ''), 'malefemale', 'Options are label male, female');
 });
 
+test('selected based on optionValuePath', function(assert) {
+  this.set('options', [{ id: 1, value: 'male' }, { id: 2, value: 'female' }]);
+  this.set('value', { id: 2, value: 'female' });
+
+  this.render(hbs`{{one-way-select
+    value=value options=options optionValuePath="id" optionLabelPath="value"}}`);
+  assert.equal(this.$('option:selected').val(), '2', 'Female is selected');
+});
+
 test('groupLabelPath', function(assert) {
   let [dubbel, tripel, ipa, saison] = [
     { id: 1, label: 'Dubbel', type: 'Trappist' },
@@ -123,10 +160,10 @@ test('options is pre-grouped', function(assert) {
       options: [
         { id: 1, label: 'Dubbel', type: 'Trappist' },
         { id: 2, label: 'Tripel', type: 'Trappist' }
-      ],
+      ]
     }, {
       groupName: 'IPA',
-      options: [{ id: 3, label: 'IPA', type: 'IPA' }],
+      options: [{ id: 3, label: 'IPA', type: 'IPA' }]
     }, {
       groupName: 'Saison',
       options: [{ id: 4, label: 'Saison', type: 'Saison' }]
@@ -172,7 +209,6 @@ test('multiple select a value', function(assert) {
   this.set('value', [saison, ipa]);
   this.set('options', [dubbel, tripel, ipa, saison]);
 
-
   this.render(hbs`{{one-way-select value=value options=options multiple=true
       update=(action 'update') optionValuePath="id" optionLabelPath="label"
       groupLabelPath="type"}}`);
@@ -182,4 +218,14 @@ test('multiple select a value', function(assert) {
 
   assert.equal(this.$('option:selected:eq(0)').val(), 1, 'Dubbel is selected');
   assert.deepEqual(this.get('value'), [dubbel, ipa, saison], 'Dubbel, IPA and Saison are selected');
+});
+
+test('It handles the old style of actions', function(assert) {
+  assert.expect(1);
+  let fired = false;
+  this.on('update', () => fired = true);
+  this.render(hbs`{{one-way-select value=value options=options update='update'}}`);
+  this.$('select').val('male');
+  this.$('select').trigger('change');
+  assert.equal(fired, true, 'The update action should have fired');
 });

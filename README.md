@@ -6,34 +6,21 @@ Demo: http://ember-twiddle.com/2d7246875098d0dbb4a4
 This addon provides a simple one way input that sends an `update` action when it is updated, and can be used like any other input.
 
 ```hbs
-  {{one-way-input
-      value=currentValue
-      update=(action (mut currentValue))
-      onenter=(action "commit")
-      onescape=(action "escape")
-  }}
+{{one-way-input value update=(action (mut value))}}
 ```
 
 The input can also be used as a checkbox:
 
 ```hbs
-  {{one-way-input
-      type="checkbox"
-      checked=currentValue
-      update=(action (mut currentValue))
-  }}
+{{one-way-checkbox isChecked update=(action (mut isChecked))}}
 ```
 
-The component's `KEY_EVENTS` attribute can be overwritten to provide custom handlers for various keycodes on the `keyUp` event.
-
-```js
-KEY_EVENTS: {
-  '13': 'onenter',
-  '27': 'onescape'
-}
-```
-
-This means that the `onenter` and `onescape` actions will fire if their corresponding key codes are received in the `keyUp` event.
+The controls are documented in more detail on their own readmes:
+ - [`{{one-way-input}}`](https://github.com/DockYard/ember-one-way-controls/blob/master/docs/one-way-input.md)
+ - [`{{one-way-textarea}}`](https://github.com/DockYard/ember-one-way-controls/blob/master/docs/one-way-textarea.md)
+ - [`{{one-way-checkbox}}`](https://github.com/DockYard/ember-one-way-controls/blob/master/docs/one-way-checkbox.md)
+ - [`{{one-way-radio}}`](https://github.com/DockYard/ember-one-way-controls/blob/master/docs/one-way-radio.md)
+ - [`{{one-way-select}}`](https://github.com/DockYard/ember-one-way-controls/blob/master/docs/one-way-select.md)
 
 ## Why?
 
@@ -58,23 +45,31 @@ This addon fixes the cursor jumping issue by using [`readDOMAttr`](http://emberj
 
 This addon will work on Ember versions `1.13.x` and up.
 
-## Installation
+## Installing the addon
+
+```
+ember install ember-one-way-controls
+```
+
+## Contributing
+
+### Installation
 
 * `git clone` this repository
 * `npm install`
 * `bower install`
 
-## Running
+### Running
 
 * `ember server`
 * Visit your app at http://localhost:4200.
 
-## Running Tests
+### Running Tests
 
 * `ember test`
 * `ember test --server`
 
-## Building
+### Building
 
 * `ember build`
 

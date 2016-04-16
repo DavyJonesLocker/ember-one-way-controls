@@ -1,90 +1,74 @@
 import Ember from 'ember';
+import { invokeAction } from 'ember-invoke-action';
+import DynamicAttributeBindings from '../-private/dynamic-attribute-bindings';
 
 const {
   Component,
-  computed,
-  get
+  get,
+  set
 } = Ember;
 
-export default Component.extend({
+const OneWayInputComponent = Component.extend(DynamicAttributeBindings, {
   tagName: 'input',
   type: 'text',
-  attributeBindings: [
-    'accept',
-    'autocomplete',
-    'autosave',
-    'checked',
-    'dir',
-    'disabled',
-    'formaction',
-    'formenctype',
-    'formmethod',
-    'formnovalidate',
-    'formtarget',
-    'height',
-    'inputmode',
-    'lang',
-    'list',
-    'max',
-    'maxlength',
-    'min',
-    'multiple',
-    'name',
-    'pattern',
-    'placeholder',
-    'size',
-    'step',
-    'type',
-    'value',
-    'width',
-    'indeterminate'
+
+  NON_ATTRIBUTE_BOUND_PROPS: [
+    'keyEvents',
+    'update',
+    'sanitizeInput'
   ],
-  KEY_EVENTS: {
+
+  attributeBindings: [
+    'type',
+    'value'
+  ],
+
+  keyEvents: {
     '13': 'onenter',
-    '27': 'onescape'
+    '27': 'onescape',
+    '9': 'ontab'
   },
-  KEY_TAB: '9',
-  _sanitizedValue: undefined,
 
-  input() { this._handleChangeEvent(); },
-  change() { this._handleChangeEvent(); },
-  keyUp(event) { this._interpretKeyEvents(event); },
-  keyDown(event) {  this._handleTabKey(event);  },
+  input() {
+    this._handleChangeEvent();
+  },
 
-  appropriateAttr: computed('type', function() {
-    let type = get(this, 'type');
+  change() {
+    this._handleChangeEvent();
+  },
 
-    return type === 'checkbox' ? 'checked' : 'value';
-  }),
+  keyUp(event) {
+    this._interpretKeyEvents(event);
+  },
+
+  keyDown(event) {
+    this._interpretKeyEvents(event);
+  },
 
   _interpretKeyEvents(event) {
-    let methodName = this.KEY_EVENTS[event.keyCode];
+    let method = get(this, `keyEvents.${event.keyCode}`);
 
-    if (methodName) {
+    if (method) {
       this._sanitizedValue = null;
-      this._processNewValue.call(this, methodName, this.readDOMAttr(get(this, 'appropriateAttr')));
+      this._handleChangeEvent(method);
     }
   },
-  
-  _handleTabKey(event) {
-    if(event.keyCode === this.KEY_TAB) {
-      this._sanitizedValue = null;
-      this._processNewValue.call(this, 'ontab', this.readDOMAttr(get(this, 'appropriateAttr')));
-    }
-  }
 
-  _handleChangeEvent() {
-    this._processNewValue.call(this, 'update', this.readDOMAttr(get(this, 'appropriateAttr')));
+  _handleChangeEvent(method = 'update') {
+    let value = this.readDOMAttr('value');
+    this._processNewValue(method, value);
   },
 
-  _processNewValue(methodName, rawValue) {
+  _processNewValue(method, rawValue) {
     let value = this.sanitizeInput(rawValue);
-    let action = this.attrs[methodName];
 
     if (this._sanitizedValue !== value) {
       this._sanitizedValue = value;
-      if (action) {
-        action(value);
+
+      if (typeof method === 'function') {
+        method(value);
+      } else {
+        invokeAction(this, method, value);
       }
     }
   },
@@ -93,13 +77,20 @@ export default Component.extend({
     return input;
   },
 
-  init() {
-    this._super(...arguments);
-    this._sanitizedValue = get(this, 'value') || get(this, 'checked');
-  },
-
   didReceiveAttrs() {
     this._super(...arguments);
-    this._processNewValue.call(this, 'update', get(this, get(this, 'appropriateAttr')));
+
+    let value = get(this, 'paramValue') || get(this, 'value');
+
+    set(this, 'value', value);
+
+    this._sanitizedValue = value;
+    this._processNewValue('update', value);
   }
 });
+
+OneWayInputComponent.reopenClass({
+  positionalParams: ['paramValue']
+});
+
+export default OneWayInputComponent;

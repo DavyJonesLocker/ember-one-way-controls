@@ -3,7 +3,8 @@ language: node_js
 node_js:
   - "stable"
 
-sudo: false
+sudo: required
+dist: trusty
 
 addons:
   apt:
@@ -23,6 +24,8 @@ env:
   - EMBER_TRY_SCENARIO=ember-2.1
   - EMBER_TRY_SCENARIO=ember-2.2
   - EMBER_TRY_SCENARIO=ember-2.3
+  - EMBER_TRY_SCENARIO=ember-2.4
+  - EMBER_TRY_SCENARIO=ember-2.5
   - EMBER_TRY_SCENARIO=ember-release
   - EMBER_TRY_SCENARIO=ember-beta
   - EMBER_TRY_SCENARIO=ember-canary

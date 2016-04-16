@@ -1,4 +1,4 @@
-import { test } from 'qunit';
+import { skip, test } from 'qunit';
 import moduleForAcceptance from '../../tests/helpers/module-for-acceptance';
 
 const TEXT = '#one-way-text';
@@ -57,7 +57,7 @@ test('checkbox test', function(assert) {
   });
 });
 
-test('it handles decimal places', function(assert) {
+skip('it handles decimal places', function(assert) {
   visit('/');
 
   andThen(() => fillIn(NUMBER_INPUT, '1.'));

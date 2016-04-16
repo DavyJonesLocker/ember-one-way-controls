@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import layout from '../templates/components/one-way-select';
+import DynamicAttributeBindings from '../-private/dynamic-attribute-bindings';
 
 import { invokeAction } from 'ember-invoke-action';
 
@@ -16,22 +17,31 @@ const {
   String: { w }
 } = Ember;
 
-export default Component.extend({
+const OneWaySelectComponent = Component.extend(DynamicAttributeBindings, {
   layout,
   tagName: 'select',
 
+  NON_ATTRIBUTE_BOUND_PROPS: [
+    'value',
+    'update',
+    'options',
+    'prompt',
+    'promptText',
+    'includeBlank',
+    'optionValuePath',
+    'optionLabelPath',
+    'groupLabelPath'
+  ],
+
   attributeBindings: [
-    'autofocus',
-    'disabled',
-    'form',
-    'multiple',
-    'name',
-    'required',
-    'size'
+    'multiple'
   ],
 
   didReceiveAttrs() {
     this._super(...arguments);
+
+    let value = get(this, 'paramValue') || get(this, 'value');
+    set(this, 'value', value);
 
     let options = get(this, 'options');
     if (typeof options === 'string') {
@@ -57,16 +67,16 @@ export default Component.extend({
   hasGrouping: or('optionsArePreGrouped', 'groupLabelPath'),
 
   optionGroups: computed('options.[]', function() {
-    const groupLabelPath = get(this, 'groupLabelPath');
-    const options = get(this, 'options');
-    const groups = emberArray();
+    let groupLabelPath = get(this, 'groupLabelPath');
+    let options = get(this, 'options');
+    let groups = emberArray();
 
     if (!groupLabelPath) {
       return options;
     }
 
     options.forEach((item) => {
-      const label = get(item, groupLabelPath);
+      let label = get(item, groupLabelPath);
 
       if (label) {
         let group = groups.findBy('groupName', label);
@@ -126,13 +136,28 @@ export default Component.extend({
   _findOption(value) {
     let options = get(this, 'options');
     let optionValuePath = get(this, 'optionValuePath');
+    let optionsArePreGrouped = get(this, 'optionsArePreGrouped');
 
-    return options.find((item) => {
+    let findOption = (item) => {
       if (optionValuePath) {
         return `${get(item, optionValuePath)}` === value;
       } else {
         return `${item}` === value;
       }
-    });
-  },
+    };
+
+    if (optionsArePreGrouped) {
+      return options.reduce((found, group) => {
+        return found || get(group, 'options').find(findOption);
+      }, undefined);
+    } else {
+      return options.find(findOption);
+    }
+  }
 });
+
+OneWaySelectComponent.reopenClass({
+  positionalParams: ['paramValue']
+});
+
+export default OneWaySelectComponent;
