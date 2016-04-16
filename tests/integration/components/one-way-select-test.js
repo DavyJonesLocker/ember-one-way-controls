@@ -127,6 +127,15 @@ test('optionValuePath', function(assert) {
   assert.equal(this.$('option').text().replace(/\s/g, ''), 'malefemale', 'Options are label male, female');
 });
 
+test('selected based on optionValuePath', function(assert) {
+  this.set('options', [{ id: 1, value: 'male' }, { id: 2, value: 'female' }]);
+  this.set('value', { id: 2, value: 'female' });
+
+  this.render(hbs`{{one-way-select
+    value=value options=options optionValuePath="id" optionLabelPath="value"}}`);
+  assert.equal(this.$('option:selected').val(), '2', 'Female is selected');
+});
+
 test('groupLabelPath', function(assert) {
   let [dubbel, tripel, ipa, saison] = [
     { id: 1, label: 'Dubbel', type: 'Trappist' },
