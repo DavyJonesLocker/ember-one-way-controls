@@ -17,6 +17,7 @@ The input can also be used as a checkbox:
 
 The controls are documented in more detail on their own readmes:
  - [`{{one-way-input}}`](https://github.com/DockYard/ember-one-way-controls/blob/master/docs/one-way-input.md)
+ - [`{{one-way-textarea}}`](https://github.com/DockYard/ember-one-way-controls/blob/master/docs/one-way-textarea.md)
  - [`{{one-way-checkbox}}`](https://github.com/DockYard/ember-one-way-controls/blob/master/docs/one-way-checkbox.md)
  - [`{{one-way-radio}}`](https://github.com/DockYard/ember-one-way-controls/blob/master/docs/one-way-radio.md)
  - [`{{one-way-select}}`](https://github.com/DockYard/ember-one-way-controls/blob/master/docs/one-way-select.md)
