@@ -3,19 +3,21 @@
 
 Demo: http://ember-twiddle.com/2d7246875098d0dbb4a4
 
-This addon provides a simple one way input that sends an `update` action when it is updated, and can be used like any other input.
+This addon provides a simple and consistent API to add form controls to your app. Each form control will not update the passed in value(s) directly. Instead it will send the `update` action with the updated value.
 
 ```hbs
 {{one-way-input value update=(action (mut value))}}
+
+{{one-way-textarea value update=(action (mut value))}}
+
+{{one-way-checkbox checked update=(action (mut checked))}}
+
+{{one-way-radio selected option=option update=(action (mut selected))}}
+
+{{one-way-select selected options=options update=(action (mut selected))}}
 ```
 
-The input can also be used as a checkbox:
-
-```hbs
-{{one-way-checkbox isChecked update=(action (mut isChecked))}}
-```
-
-The controls are documented in more detail on their own readmes:
+Each of the controls are documented in more detail in their own readme's:
  - [`{{one-way-input}}`](https://github.com/DockYard/ember-one-way-controls/blob/master/docs/one-way-input.md)
  - [`{{one-way-textarea}}`](https://github.com/DockYard/ember-one-way-controls/blob/master/docs/one-way-textarea.md)
  - [`{{one-way-checkbox}}`](https://github.com/DockYard/ember-one-way-controls/blob/master/docs/one-way-checkbox.md)
@@ -40,6 +42,8 @@ In the following [demo](http://jsbin.com/juxedi/edit?output), move your cursor t
 ![](https://i.imgur.com/D0pReSs.jpg)
 
 This addon fixes the cursor jumping issue by using [`readDOMAttr`](http://emberjs.com/api/classes/Ember._MetamorphView.html#method_readDOMAttr), which provides a way to read an element's attribute and update the last value Ember knows about at the same time. This makes setting an attribute idempotent.
+
+__Note:__ The cursor jumping issue has been fixed in Ember since 2.3.1. 
 
 ## Compatibility
 
@@ -77,7 +81,7 @@ For more information on using ember-cli, visit [http://www.ember-cli.com/](http:
 
 ## Legal
 
-[DockYard](http://dockyard.com/ember-consulting), Inc &copy; 2015
+[DockYard](http://dockyard.com/ember-consulting), Inc &copy; 2016
 
 [@dockyard](http://twitter.com/dockyard)
 
