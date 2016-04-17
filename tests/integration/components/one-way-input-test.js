@@ -115,3 +115,15 @@ test('I can set keyEvent bindings', function(assert) {
   this.render(hbs`{{one-way-input keyEvents=(hash 13=(action "onenter"))}}`);
   this.$('input').trigger($.Event('keyup', { keyCode: 13 }));
 });
+
+test('Raises AssertionError when type is "checkbox"', function(assert) {
+  assert.throws(() => {
+    this.render(hbs`{{one-way-input type="checkbox"}}`);
+  }, 'The {{one-way-input}} component does not support type="checkbox", use {{one-way-checkbox}} instead.');
+});
+
+test('Raises AssertionError when type is "radio"', function(assert) {
+  assert.throws(() => {
+    this.render(hbs`{{one-way-input type="radio"}}`);
+  }, 'The {{one-way-input}} component does not support type="radio", use {{one-way-radio}} instead.');
+});
