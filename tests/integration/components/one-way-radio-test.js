@@ -56,3 +56,8 @@ test('Triggers update action when clicked in a radio button group', function(ass
 
   this.$('input[value="yes"]').click();
 });
+
+test('I can add a class attribute', function(assert) {
+  this.render(hbs`{{one-way-radio class="testing"}}`);
+  assert.equal(true, this.$('input').hasClass('testing'));
+});

@@ -9,3 +9,8 @@ test('It renders a textarea', function(assert) {
   this.render(hbs`{{one-way-textarea}}`);
   assert.equal(this.$('textarea').length, 1, 'a textarea was rendered');
 });
+
+test('I can add a class attribute', function(assert) {
+  this.render(hbs`{{one-way-textarea class="testing"}}`);
+  assert.equal(true, this.$('textarea').hasClass('testing'));
+});

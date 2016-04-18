@@ -127,3 +127,8 @@ test('Raises AssertionError when type is "radio"', function(assert) {
     this.render(hbs`{{one-way-input type="radio"}}`);
   }, 'The {{one-way-input}} component does not support type="radio", use {{one-way-radio}} instead.');
 });
+
+test('I can add a class attribute', function(assert) {
+  this.render(hbs`{{one-way-input class="testing"}}`);
+  assert.equal(true, this.$('input').hasClass('testing'));
+});
