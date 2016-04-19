@@ -229,3 +229,8 @@ test('It handles the old style of actions', function(assert) {
   this.$('select').trigger('change');
   assert.equal(fired, true, 'The update action should have fired');
 });
+
+test('I can add a class attribute', function(assert) {
+  this.render(hbs`{{one-way-select class="testing"}}`);
+  assert.equal(true, this.$('select').hasClass('testing'));
+});

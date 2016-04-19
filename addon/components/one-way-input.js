@@ -4,6 +4,7 @@ import DynamicAttributeBindings from '../-private/dynamic-attribute-bindings';
 
 const {
   Component,
+  assert,
   get,
   set
 } = Ember;
@@ -73,8 +74,20 @@ const OneWayInputComponent = Component.extend(DynamicAttributeBindings, {
     }
   },
 
+  _raiseTypeAssertion(type) {
+    assert(`The {{one-way-input}} component does not support type="${type}", use {{one-way-${type}}} instead.`, false);
+  },
+
   sanitizeInput(input) {
     return input;
+  },
+
+  init() {
+    this._super(...arguments);
+
+    if (this.type === 'checkbox' || this.type === 'radio') {
+      this._raiseTypeAssertion(this.type);
+    }
   },
 
   didReceiveAttrs() {

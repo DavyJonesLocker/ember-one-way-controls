@@ -49,3 +49,8 @@ test('It can accept an outside toggle of checked', function(assert) {
 
   assert.strictEqual(this.get('checked'), true);
 });
+
+test('I can add a class attribute', function(assert) {
+  this.render(hbs`{{one-way-checkbox class="testing"}}`);
+  assert.equal(true, this.$('input').hasClass('testing'));
+});
