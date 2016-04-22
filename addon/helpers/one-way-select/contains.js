@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { isArray, get } = Ember;
+const { isArray, isPresent, get } = Ember;
 
 export function contains([haystack, needle, valuePath]) {
   if (isArray(haystack)) {
@@ -12,7 +12,7 @@ export function contains([haystack, needle, valuePath]) {
       return haystack.contains(needle);
     }
   } else {
-    if (valuePath) {
+    if (valuePath && isPresent(haystack) && isPresent(needle)) {
       return get(haystack, valuePath) === get(needle, valuePath);
     } else {
       return haystack === needle;
