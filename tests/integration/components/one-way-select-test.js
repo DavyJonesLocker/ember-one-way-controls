@@ -136,6 +136,13 @@ test('selected based on optionValuePath', function(assert) {
   assert.equal(this.$('option:selected').val(), '2', 'Female is selected');
 });
 
+test('guards against undefined options using optionValuePath', function(assert) {
+  assert.expect(0);
+  this.set('options', [undefined]);
+  this.render(hbs`{{one-way-select
+    value=value options=options optionValuePath="id" optionLabelPath="value"}}`);
+});
+
 test('groupLabelPath', function(assert) {
   let [dubbel, tripel, ipa, saison] = [
     { id: 1, label: 'Dubbel', type: 'Trappist' },
