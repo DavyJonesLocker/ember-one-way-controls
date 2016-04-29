@@ -6,7 +6,8 @@ const {
   Component,
   assert,
   get,
-  set
+  set,
+  isEmpty
 } = Ember;
 
 const OneWayInputComponent = Component.extend(DynamicAttributeBindings, {
@@ -88,7 +89,10 @@ const OneWayInputComponent = Component.extend(DynamicAttributeBindings, {
   didReceiveAttrs() {
     this._super(...arguments);
 
-    let value = get(this, 'paramValue') || get(this, 'value');
+    let value = get(this, 'paramValue');
+    if (isEmpty(value)) {
+      value = get(this, 'value');
+    }
 
     set(this, 'value', value);
 
