@@ -6,7 +6,8 @@ const {
   Component,
   computed,
   get,
-  set
+  set,
+  isEmpty
 } = Ember;
 
 const OneWayRadioComponent = Component.extend(DynamicAttributeBindings, {
@@ -35,7 +36,12 @@ const OneWayRadioComponent = Component.extend(DynamicAttributeBindings, {
 
   didReceiveAttrs() {
     this._super(...arguments);
-    let value = get(this, 'paramValue') || get(this, 'value');
+
+    let value = get(this, 'paramValue');
+    if (isEmpty(value)) {
+      value = get(this, 'value');
+    }
+
     set(this, 'value', value);
   }
 });

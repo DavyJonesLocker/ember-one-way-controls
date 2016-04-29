@@ -5,7 +5,8 @@ import DynamicAttributeBindings from '../-private/dynamic-attribute-bindings';
 const {
   Component,
   get,
-  set
+  set,
+  isEmpty
 } = Ember;
 
 const OneWayCheckboxComponent = Component.extend(DynamicAttributeBindings, {
@@ -26,7 +27,12 @@ const OneWayCheckboxComponent = Component.extend(DynamicAttributeBindings, {
 
   didReceiveAttrs() {
     this._super(...arguments);
-    let value = get(this, 'paramChecked') || get(this, 'checked');
+
+    let value = get(this, 'paramChecked');
+    if (isEmpty(value)) {
+      value = get(this, 'checked');
+    }
+
     set(this, 'checked', value);
   }
 });

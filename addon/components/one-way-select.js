@@ -12,6 +12,7 @@ const {
   get,
   isArray,
   isBlank,
+  isEmpty,
   isPresent,
   set,
   String: { w }
@@ -40,7 +41,10 @@ const OneWaySelectComponent = Component.extend(DynamicAttributeBindings, {
   didReceiveAttrs() {
     this._super(...arguments);
 
-    let value = get(this, 'paramValue') || get(this, 'value');
+    let value = get(this, 'paramValue');
+    if (isEmpty(value)) {
+      value = get(this, 'value');
+    }
     set(this, 'value', value);
 
     let options = get(this, 'options');
