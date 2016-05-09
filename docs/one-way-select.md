@@ -82,7 +82,7 @@ Let's say you have an array filled with instances of the following `user` model:
 
 ```js
 Model.extend({
-  username: attr('string')
+  username: attr('string'),
   email: attr('string')
 });
 ```
@@ -98,6 +98,40 @@ the username of the user, then you can set the `optionValuePath` and the
     optionLabelPath="username"
     update=(action (mut selectedUser))
 }}
+```
+
+### Block expression
+
+Sometimes you may want to use handlebars helpers to express the label. In this case you may use `one-way-select` as a block expression. The first block parameter is an option object/value. The second parameter is option index. If option groups are used, the index will be scoped to the group and the third parameter will be the group index.
+
+```js
+const countries = ['france', 'germany', 'spain'];
+```
+
+```hbs
+{{#one-way-select selectedCountry
+    options=countries
+    update=(action (mut selectedCountry)) as |option index|}}
+  {{index}} - {{loc option}}
+{{/one-way-select}}
+```
+
+It is, of course, possible to use the block expression with objects.
+
+```js
+Model.extend({
+  username: attr('string'),
+  role: attr('string')
+});
+```
+
+```hbs
+{{#one-way-select selectedUser
+    options=users
+    optionValuePath="id"
+    update=(action (mut selectedUser)) as |user|}}
+  {{get user "username"}} ({{loc (get user "role")}})
+{{/one-way-select}}
 ```
 
 ### Multiple select

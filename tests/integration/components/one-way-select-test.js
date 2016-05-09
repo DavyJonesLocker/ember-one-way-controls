@@ -241,3 +241,27 @@ test('I can add a class attribute', function(assert) {
   this.render(hbs`{{one-way-select class="testing"}}`);
   assert.equal(true, this.$('select').hasClass('testing'));
 });
+
+test('Handles block expression', function(assert) {
+  this.render(hbs`{{#one-way-select options=options as |option index|}}{{option}}-{{index}}{{/one-way-select}}`);
+  assert.equal(this.$('option').length, 3, 'Select has three options');
+  assert.equal(this.$('option').text().replace(/\s/g, ''), 'unknown-0male-1female-2', 'Has labels with indexes');
+});
+
+test('Handles block expression (option groups)', function(assert) {
+  let groups = [
+    {
+      groupName: 'group1',
+      options: [ 'value1' ]
+    }, {
+      groupName: 'group2',
+      options: [ 'value2', 'value3' ]
+    }
+  ];
+
+  this.set('options', groups);
+
+  this.render(hbs`{{#one-way-select options=options as |option index groupIndex|}}{{option}}-{{groupIndex}}-{{index}}{{/one-way-select}}`);
+  assert.equal(this.$('option').length, 3, 'Select has three options');
+  assert.equal(this.$('option').text().replace(/\s/g, ''), 'value1-0-0value2-1-0value3-1-1', 'Has labels with indexes');
+});

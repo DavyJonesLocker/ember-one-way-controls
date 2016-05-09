@@ -6,23 +6,41 @@
   </option>
 {{/if}}
 {{#if hasGrouping}}
-  {{#each optionGroups as |optionGroup|}}
+  {{#each optionGroups as |optionGroup groupIndex|}}
     <optgroup label={{optionGroup.groupName}}>
-      {{#each optionGroup.options as |option|}}
-        {{one-way-select/option
-            selected=value
-            option=option
-            optionValuePath=optionValuePath
-            optionLabelPath=optionLabelPath}}
+      {{#each optionGroup.options as |option index|}}
+        {{#if hasBlock}}
+          {{#one-way-select/option
+              selected=value
+              option=option
+              optionValuePath=optionValuePath}}
+                {{yield option index groupIndex}}
+          {{/one-way-select/option}}
+        {{else}}
+          {{one-way-select/option
+              selected=value
+              option=option
+              optionValuePath=optionValuePath
+              optionLabelPath=optionLabelPath}}
+        {{/if}}
       {{/each}}
     </optgroup>
   {{/each}}
 {{else}}
-  {{#each options as |option|}}
-    {{one-way-select/option
-        selected=value
-        option=option
-        optionValuePath=optionValuePath
-        optionLabelPath=optionLabelPath}}
+  {{#each options as |option index|}}
+    {{#if hasBlock}}
+      {{#one-way-select/option
+          selected=value
+          option=option
+          optionValuePath=optionValuePath}}
+            {{yield option index}}
+      {{/one-way-select/option}}
+    {{else}}
+      {{one-way-select/option
+          selected=value
+          option=option
+          optionValuePath=optionValuePath
+          optionLabelPath=optionLabelPath}}
+    {{/if}}
   {{/each}}
 {{/if}}
