@@ -17,6 +17,12 @@ This addon provides a simple and consistent API to add form controls to your app
 {{one-way-select selected options=options update=(action (mut selected))}}
 ```
 
+If you do not know the type of input before hand you could do the following:
+
+```hbs
+{{component (concat "one-way-" type) value update=(action (mut value))}}
+```
+
 Each of the controls are documented in more detail in their own readme's:
  - [`{{one-way-input}}`](https://github.com/DockYard/ember-one-way-controls/blob/master/docs/one-way-input.md)
  - [`{{one-way-textarea}}`](https://github.com/DockYard/ember-one-way-controls/blob/master/docs/one-way-textarea.md)
@@ -43,7 +49,7 @@ In the following [demo](http://jsbin.com/juxedi/edit?output), move your cursor t
 
 This addon fixes the cursor jumping issue by using [`readDOMAttr`](http://emberjs.com/api/classes/Ember._MetamorphView.html#method_readDOMAttr), which provides a way to read an element's attribute and update the last value Ember knows about at the same time. This makes setting an attribute idempotent.
 
-__Note:__ The cursor jumping issue has been fixed in Ember since 2.3.1. 
+__Note:__ The cursor jumping issue has been fixed in Ember since 2.3.1.
 
 ## Compatibility
 

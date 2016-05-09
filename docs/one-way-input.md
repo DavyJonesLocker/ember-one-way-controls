@@ -28,6 +28,10 @@ one-way-input component.
 {{one-way-input user.email type="email" update=(action (mut user.email))}}
 ```
 
+The `{{one-way-input}}` has also been subclassed into a named component for each
+type of text like input. (`{{one-way-text}}`, `{{one-way-number}}`,
+`{{one-way-search}}`, etc.)
+
 ### Input element attributes
 
 The one-way-input component supports binding all attributes an `<input>` element
