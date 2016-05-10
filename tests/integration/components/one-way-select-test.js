@@ -1,5 +1,8 @@
+import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+
+const { Component } = Ember;
 
 moduleForComponent('one-way-select', 'Integration | Component | {{one-way-select}}', {
   integration: true,
@@ -262,6 +265,38 @@ test('Handles block expression (option groups)', function(assert) {
   this.set('options', groups);
 
   this.render(hbs`{{#one-way-select options=options as |option index groupIndex|}}{{option}}-{{groupIndex}}-{{index}}{{/one-way-select}}`);
+  assert.equal(this.$('option').length, 3, 'Select has three options');
+  assert.equal(this.$('option').text().replace(/\s/g, ''), 'value1-0-0value2-1-0value3-1-1', 'Has labels with indexes');
+});
+
+test('I can pass a component that is rendered as option', function(assert) {
+  this.register('component:option-component', Component.extend({
+    layout: hbs`{{option}}-{{index}}`
+  }));
+
+  this.render(hbs`{{one-way-select options=options optionComponent="option-component"}}`);
+  assert.equal(this.$('option').length, 3, 'Select has three options');
+  assert.equal(this.$('option').text().replace(/\s/g, ''), 'unknown-0male-1female-2', 'Has labels with indexes');
+});
+
+test('I can pass a component that is rendered as option (option groups)', function(assert) {
+  this.register('component:option-component', Component.extend({
+    layout: hbs`{{option}}-{{groupIndex}}-{{index}}`
+  }));
+
+  let groups = [
+    {
+      groupName: 'group1',
+      options: [ 'value1' ]
+    }, {
+      groupName: 'group2',
+      options: [ 'value2', 'value3' ]
+    }
+  ];
+
+  this.set('options', groups);
+
+  this.render(hbs`{{one-way-select options=options optionComponent="option-component"}}`);
   assert.equal(this.$('option').length, 3, 'Select has three options');
   assert.equal(this.$('option').text().replace(/\s/g, ''), 'value1-0-0value2-1-0value3-1-1', 'Has labels with indexes');
 });
