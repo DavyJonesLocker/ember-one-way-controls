@@ -1,7 +1,9 @@
 {{#if optionValuePath}}
   <option value={{get option optionValuePath}}
           selected={{one-way-select/contains selected option optionValuePath}}>
-    {{#if optionLabelPath}}
+    {{#if hasBlock}}
+      {{yield}}
+    {{else if optionLabelPath}}
       {{get option optionLabelPath}}
     {{else}}
       {{get option optionValuePath}}
@@ -10,6 +12,10 @@
 {{else}}
   <option value={{option}}
           selected={{one-way-select/contains selected option}}>
-    {{option}}
+    {{#if hasBlock}}
+      {{yield}}
+    {{else}}
+      {{option}}
+    {{/if}}
   </option>
 {{/if}}
