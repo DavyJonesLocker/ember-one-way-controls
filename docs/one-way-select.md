@@ -100,9 +100,13 @@ the username of the user, then you can set the `optionValuePath` and the
 }}
 ```
 
-### Block expression
+### Block expression / optionComponent
 
-Sometimes you may want to use handlebars helpers to express the label. In this case you may use `one-way-select` as a block expression. The first block parameter is an option object/value. The second parameter is option index. If option groups are used, the index will be scoped to the group and the third parameter will be the group index.
+Sometimes you may want to use handlebars helpers to express the label. In this
+case you may use `one-way-select` as a block expression. The first block
+parameter is an option object/value. The second parameter is option index. If
+option groups are used, the index will be scoped to the group and the third
+parameter will be the group index.
 
 ```js
 const countries = ['france', 'germany', 'spain'];
@@ -132,6 +136,26 @@ Model.extend({
     update=(action (mut selectedUser)) as |user|}}
   {{get user "username"}} ({{loc (get user "role")}})
 {{/one-way-select}}
+```
+
+In even more extreme cases, where you feel you need to reuse the contents of the
+block expression, you can pass a component to `optionComponent` instead. The
+component is rendered for each option and it will pass the same parameters as
+are yielded to the block (`option`, `index`, `groupIndex`) to the component.
+
+```hbs
+{{one-way-select selectedCountry
+    options=countries
+    optionComponent="country-option"}}
+```
+
+From Ember.js 2.3 and up you can also pass a component using the `component`
+helper:
+
+```hbs
+{{one-way-select selectedCountry
+    options=countries
+    optionComponent=(component "country-option")}}
 ```
 
 ### Multiple select
