@@ -1,0 +1,130 @@
+<h3>one-way-input</h3>
+
+<p>
+  The basic invocation of the <code>\{{one-way-input}}</code> component looks
+  like:
+</p>
+
+<code>
+  <pre>
+    \{{one-way-input value update=(action (mut value))}}
+  </pre>
+</code>
+
+<p>
+  This will render an input whose value is the value of <code>value</code> and
+  whenever a user changes the value of the input, the action supplied to the
+  <code>update</code> parameter will be called.
+</p>
+
+<p>
+  The examples here pass the <code>value</code> parameter as a positional
+  parameter, but you can also pass <code>value</code> as an ordinary parameter:
+</p>
+
+<code>
+  <pre>
+    \{{one-way-input value=value update=(action (mut value))}}
+  </pre>
+</code>
+
+
+<h4>HTML5 input types</h4>
+
+<p>
+  You can set the <code>type</code> parameter on the component to change the type
+  of the one-way-input component.
+</p>
+
+<code>
+  <pre>
+    \{{one-way-input user.email type="email" update=(action (mut user.email))}}
+  </pre>
+</code>
+
+<p>
+  The one-way-input has also been subclassed into a named component for each
+  type of text like input:
+</p>
+
+<ul>
+  <li>one-way-color</li>
+  <li>one-way-date</li>
+  <li>one-way-datetime-local</li>
+  <li>one-way-email</li>
+  <li>one-way-file</li>
+  <li>one-way-hidden</li>
+  <li>one-way-month</li>
+  <li>one-way-number</li>
+  <li>one-way-password</li>
+  <li>one-way-range</li>
+  <li>one-way-search</li>
+  <li>one-way-tel</li>
+  <li>one-way-text</li>
+  <li>one-way-time</li>
+  <li>one-way-url</li>
+  <li>one-way-week</li>
+</ul>
+
+
+<h4>Listening for keyboard events</h4>
+
+<p>
+  The <code>keyEvents</code> parameter accepts a hash of which the keys resemble
+  <a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/keyCode">
+  <code>keyCode</code></a> from <code>KeyboardEvent</code>. The values of that
+  hash should be actions that handle that specific event.
+</p>
+
+<p>
+  For example, if you would want to handle when the user presses enter or escape:
+</p>
+
+<code>
+  <pre>
+    \{{one-way-input value
+        update=(action (mut value))
+        keyEvents=(hash
+          13=(action "onEnter")
+          27=(action "onEscape")
+        )
+    }}
+  </pre>
+</code>
+
+<p>
+  If you are working on an app that is before Ember version 2.3, then you can
+  install the <a href="https://github.com/cibernox/ember-hash-helper-polyfill">
+  ember-hash-helper-polyfill</a>.
+</p>
+
+<h4>Sanitizing the input</h4>
+
+<p>
+  If you want to sanitize the input of a certain input, then you have the option
+  to pass an action to the <code>sanitizeInput</code> parameter.
+</p>
+
+<p>
+  You can for example filter out anything other then numbers for a credit card
+  input:
+</p>
+
+<code>
+  <pre>
+    actions: {
+      sanitizeCreditCardNumber(ccNumber) {
+        return ccNumer.replace(/[^\d]/g, '');
+      }
+    }
+  </pre>
+</code>
+
+<code>
+  <pre>
+    \{{one-way-input creditCard.number
+        update=(action (mut creditCard.number))
+        sanitizeInput=(action "sanitizeCreditCardNumber")
+    }}
+  </pre>
+</code>

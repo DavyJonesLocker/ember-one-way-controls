@@ -1,0 +1,71 @@
+<h3>Quickstart</h3>
+
+<p>
+  All the one way controls adhere to the same basic API. All controls accept
+  the current value as the first positional parameter and require the
+  <code>update</code> action to communicate that the control's value has
+  changed.
+</p>
+
+<p>
+  Here's a simple example how to invoke the <code>\{{one-way-input}}</code>:
+</p>
+
+<code>
+  <pre>
+    \{{one-way-input value update=(action (mut value))}}
+  </pre>
+</code>
+
+<p>
+  This will render an input whose value is the value of <code>value</code> and
+  whenever a user changes the value of the input, the action supplied to the
+  <code>update</code> parameter will be called.
+</p>
+
+<p>
+  All the other controls are just as simple to invoke:
+</p>
+
+<code>
+  <pre>
+    \{{one-way-textarea value update=(action (mut value))}}
+    \{{one-way-checkbox checked update=(action (mut checked))}}
+    \{{one-way-radio selected option=option update=(action (mut selected))}}
+    \{{one-way-select selected options=options update=(action (mut selected))}}
+  </pre>
+</code>
+
+<p>
+  You can find more in-depth reference for each control on it's own
+  documentation page.
+</p>
+
+<h4>HTML attributes</h4>
+
+<p>
+  All controls support every imaginable HTML attribute that you might want to
+  add to the control. Just pass an parameter to the control that matches the
+  exact name of the HTML attribute.
+</p>
+
+<p>
+  For example:
+</p>
+
+<code>
+  <pre>
+    \{{one-way-input questionaire.question10
+        update=(action (mut questionaire.question10))
+        placeholder="Enter your answer here"
+        name="questionaire[question-10]"
+        required=true
+        spellcheck=true
+        data-validate=true
+    }}
+  </pre>
+</code>
+
+<p>
+  {{link-to "Next up: one-way-input" "documentation.one-way-input"}}
+</p>

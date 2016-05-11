@@ -1,0 +1,34 @@
+<h3>one-way-checkbox</h3>
+
+<p>
+  The basic invocation of the <code>\{{one-way-checkbox}}</code> component looks
+  like:
+</p>
+
+<code>
+  <pre>
+    \{{one-way-checkbox checked update=(action (mut checked))}}
+  </pre>
+</code>
+
+<p>
+  This will render an input of type checkbox which will be checked when the
+  passed in <code>checked</code> parameter equals to <code>true</code>.
+  Whenever a user changes the checked state of the checkbox, the action supplied
+  to the <code>update</code> parameter will be called.
+</p>
+
+<p>
+  The examples here pass the <code>checked</code> parameter as a positional
+  parameter, but you can also pass <code>checked</code> as an ordinary parameter:
+</p>
+
+<code>
+  <pre>
+    \{{one-way-checkbox checked=checked update=(action (mut checked))}}
+  </pre>
+</code>
+
+<p>
+  {{link-to "Next up: one-way-radio" "documentation.one-way-radio"}}
+</p>
