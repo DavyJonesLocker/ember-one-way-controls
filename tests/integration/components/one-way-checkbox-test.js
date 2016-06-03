@@ -64,3 +64,17 @@ test('I can add a class attribute', function(assert) {
   this.render(hbs`{{one-way-checkbox class="testing"}}`);
   assert.equal(true, this.$('input').hasClass('testing'));
 });
+
+test('Outside value of null', function(assert) {
+  this.set('checked', true);
+  this.render(hbs`{{one-way-checkbox checked}}`);
+  this.set('checked', null);
+  assert.equal(this.$('input:checked').length, 0, 'Checkbox is not checked');
+});
+
+test('Outside value of undefined', function(assert) {
+  this.set('checked', true);
+  this.render(hbs`{{one-way-checkbox checked}}`);
+  this.set('checked', undefined);
+  assert.equal(this.$('input:checked').length, 0, 'Checkbox is not checked');
+});

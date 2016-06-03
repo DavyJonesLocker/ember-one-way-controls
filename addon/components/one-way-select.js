@@ -12,7 +12,6 @@ const {
   get,
   isArray,
   isBlank,
-  isEmpty,
   isPresent,
   set,
   String: { w }
@@ -42,10 +41,11 @@ const OneWaySelectComponent = Component.extend(DynamicAttributeBindings, {
     this._super(...arguments);
 
     let value = get(this, 'paramValue');
-    if (isEmpty(value)) {
+    if (value === undefined) {
       value = get(this, 'value');
     }
-    set(this, 'value', value);
+
+    set(this, 'selectedValue', value);
 
     let options = get(this, 'options');
     if (typeof options === 'string') {
@@ -66,7 +66,7 @@ const OneWaySelectComponent = Component.extend(DynamicAttributeBindings, {
     set(this, 'options', emberArray(options));
   },
 
-  nothingSelected: empty('value'),
+  nothingSelected: empty('selectedValue'),
   promptIsDisabled: not('promptIsSelectable'),
   hasGrouping: or('optionsArePreGrouped', 'groupLabelPath'),
 

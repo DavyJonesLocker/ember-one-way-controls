@@ -6,8 +6,7 @@ const {
   Component,
   assert,
   get,
-  set,
-  isEmpty
+  set
 } = Ember;
 
 const OneWayInputComponent = Component.extend(DynamicAttributeBindings, {
@@ -22,7 +21,7 @@ const OneWayInputComponent = Component.extend(DynamicAttributeBindings, {
 
   attributeBindings: [
     'type',
-    'value'
+    '_value:value'
   ],
 
   keyEvents: {
@@ -90,11 +89,11 @@ const OneWayInputComponent = Component.extend(DynamicAttributeBindings, {
     this._super(...arguments);
 
     let value = get(this, 'paramValue');
-    if (isEmpty(value)) {
+    if (value === undefined) {
       value = get(this, 'value');
     }
 
-    set(this, 'value', value);
+    set(this, '_value', value);
 
     this._sanitizedValue = value;
     this._processNewValue('update', value);

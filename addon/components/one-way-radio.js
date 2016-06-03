@@ -6,8 +6,7 @@ const {
   Component,
   computed,
   get,
-  set,
-  isEmpty
+  set
 } = Ember;
 
 const OneWayRadioComponent = Component.extend(DynamicAttributeBindings, {
@@ -26,8 +25,8 @@ const OneWayRadioComponent = Component.extend(DynamicAttributeBindings, {
     'type'
   ],
 
-  checked: computed('value', 'option', function() {
-    return get(this, 'value') === get(this, 'option');
+  checked: computed('_value', 'option', function() {
+    return get(this, '_value') === get(this, 'option');
   }),
 
   click() {
@@ -38,11 +37,11 @@ const OneWayRadioComponent = Component.extend(DynamicAttributeBindings, {
     this._super(...arguments);
 
     let value = get(this, 'paramValue');
-    if (isEmpty(value)) {
+    if (value === undefined) {
       value = get(this, 'value');
     }
 
-    set(this, 'value', value);
+    set(this, '_value', value);
   }
 });
 
