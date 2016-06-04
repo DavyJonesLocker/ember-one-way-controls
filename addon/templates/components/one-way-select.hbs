@@ -11,14 +11,14 @@
       {{#each optionGroup.options as |option index|}}
         {{#if hasBlock}}
           {{#one-way-select/option
-              selected=value
+              selected=selectedValue
               option=option
               optionValuePath=optionValuePath}}
                 {{yield option index groupIndex}}
           {{/one-way-select/option}}
         {{else}}
           {{one-way-select/option
-              selected=value
+              selected=selectedValue
               option=option
               index=index
               groupIndex=groupIndex
@@ -33,14 +33,14 @@
   {{#each options as |option index|}}
     {{#if hasBlock}}
       {{#one-way-select/option
-          selected=value
+          selected=selectedValue
           option=option
           optionValuePath=optionValuePath}}
             {{yield option index}}
       {{/one-way-select/option}}
     {{else}}
       {{one-way-select/option
-          selected=value
+          selected=selectedValue
           option=option
           index=index
           optionComponent=optionComponent

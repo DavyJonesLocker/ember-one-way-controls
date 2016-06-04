@@ -132,3 +132,17 @@ test('I can add a class attribute', function(assert) {
   this.render(hbs`{{one-way-input class="testing"}}`);
   assert.equal(true, this.$('input').hasClass('testing'));
 });
+
+test('Outside value of null', function(assert) {
+  this.set('value', 'hello world');
+  this.render(hbs`{{one-way-input value}}`);
+  this.set('value', null);
+  assert.equal(this.$('input').val(), '');
+});
+
+test('Outside value of undefined', function(assert) {
+  this.set('value', 'hello world');
+  this.render(hbs`{{one-way-input value}}`);
+  this.set('value', undefined);
+  assert.equal(this.$('input').val(), '');
+});

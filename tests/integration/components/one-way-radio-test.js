@@ -61,3 +61,17 @@ test('I can add a class attribute', function(assert) {
   this.render(hbs`{{one-way-radio class="testing"}}`);
   assert.equal(true, this.$('input').hasClass('testing'));
 });
+
+test('Outside value of null', function(assert) {
+  this.set('value', 'yes');
+  this.render(hbs`{{one-way-radio value option="yes"}}`);
+  this.set('value', null);
+  assert.equal(this.$('input:checked').length, 0, 'Radio is not checked');
+});
+
+test('Outside value of undefined', function(assert) {
+  this.set('value', 'yes');
+  this.render(hbs`{{one-way-radio value option="yes"}}`);
+  this.set('value', undefined);
+  assert.equal(this.$('input:checked').length, 0, 'Radio is not checked');
+});

@@ -300,3 +300,9 @@ test('I can pass a component that is rendered as option (option groups)', functi
   assert.equal(this.$('option').length, 3, 'Select has three options');
   assert.equal(this.$('option').text().replace(/\s/g, ''), 'value1-0-0value2-1-0value3-1-1', 'Has labels with indexes');
 });
+
+test('Setting the selection to null/undefined from outside', function(assert) {
+  this.render(hbs` {{one-way-select value options=options}} `);
+  this.set('value', undefined);
+  assert.equal(this.$('option:selected').val(), 'unknown', 'The first value is selected');
+});
