@@ -16,7 +16,8 @@ const OneWayInputComponent = Component.extend(DynamicAttributeBindings, {
   NON_ATTRIBUTE_BOUND_PROPS: [
     'keyEvents',
     'update',
-    'sanitizeInput'
+    'sanitizeInput',
+    'paramValue'
   ],
 
   attributeBindings: [
