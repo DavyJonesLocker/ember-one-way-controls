@@ -306,3 +306,8 @@ test('Setting the selection to null/undefined from outside', function(assert) {
   this.set('value', undefined);
   assert.equal(this.$('option:selected').val(), 'unknown', 'The first value is selected');
 });
+
+test('classNames is not passed as an html attribute', function(assert) {
+  this.render(hbs`{{one-way-select classNames="testing"}}`);
+  assert.equal(this.$('select').attr('classnames'), undefined);
+});

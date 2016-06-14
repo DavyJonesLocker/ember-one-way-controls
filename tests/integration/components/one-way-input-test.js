@@ -133,6 +133,16 @@ test('I can add a class attribute', function(assert) {
   assert.equal(true, this.$('input').hasClass('testing'));
 });
 
+test('ParamValue is not passed as an html attribute', function(assert) {
+  this.render(hbs`{{one-way-input "testing"}}`);
+  assert.equal(this.$('input').attr('paramvalue'), undefined);
+});
+
+test('classNames is not passed as an html attribute', function(assert) {
+  this.render(hbs`{{one-way-input classNames="testing"}}`);
+  assert.equal(this.$('input').attr('classnames'), undefined);
+});
+
 test('Outside value of null', function(assert) {
   this.set('value', 'hello world');
   this.render(hbs`{{one-way-input value}}`);

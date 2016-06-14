@@ -75,3 +75,8 @@ test('Outside value of undefined', function(assert) {
   this.set('value', undefined);
   assert.equal(this.$('input:checked').length, 0, 'Radio is not checked');
 });
+
+test('classNames is not passed as an html attribute', function(assert) {
+  this.render(hbs`{{one-way-radio classNames="testing"}}`);
+  assert.equal(this.$('input').attr('classnames'), undefined);
+});

@@ -3,7 +3,7 @@ import Ember from 'ember';
 const { Mixin, set } = Ember;
 
 export default Mixin.create({
-  NON_ATTRIBUTE_BOUND_PROPS: ['class'],
+  NON_ATTRIBUTE_BOUND_PROPS: ['class', 'classNames'],
   concatenatedProperties: ['NON_ATTRIBUTE_BOUND_PROPS'],
   init() {
     this._super(...arguments);
