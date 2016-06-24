@@ -230,6 +230,30 @@ test('multiple select a value', function(assert) {
   assert.deepEqual(this.get('value'), [dubbel, ipa, saison], 'Dubbel, IPA and Saison are selected');
 });
 
+test('de-select all options in multiple select', function(assert) {
+  let [dubbel, tripel, ipa, saison] = [
+    { id: 1, label: 'dubbel', type: 'trappist' },
+    { id: 2, label: 'tripel', type: 'trappist' },
+    { id: 3, label: 'ipa', type: 'ipa' },
+    { id: 4, label: 'saison', type: 'saison' }
+  ];
+
+  this.on('update', (value) => this.set('value', value));
+  this.set('value', [saison, ipa]);
+  this.set('options', [dubbel, tripel, ipa, saison]);
+
+  this.render(hbs`{{one-way-select value=value options=options multiple=true
+      update=(action 'update') optionValuePath="id" optionLabelPath="label"
+      groupLabelPath="type"}}`);
+
+  this.$('select').val(['1', '3', '4']);
+  this.$('select').trigger('change');
+  this.$('select').val('');
+  this.$('select').trigger('change');
+
+  assert.ok(this.get('value'), 'selects an empty array');
+});
+
 test('It handles the old style of actions', function(assert) {
   assert.expect(1);
   let fired = false;
