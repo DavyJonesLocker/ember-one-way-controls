@@ -125,7 +125,7 @@ const OneWaySelectComponent = Component.extend(DynamicAttributeBindings, {
   }),
 
   _selectedMultiple() {
-    let selectedValues = this.$().val();
+    let selectedValues = this.$().val() || [];
 
     return selectedValues.map((selectedValue) => {
       return this._findOption(selectedValue);
