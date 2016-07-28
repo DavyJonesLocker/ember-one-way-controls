@@ -1,13 +1,19 @@
 import Ember from 'ember';
 
-const { isArray, isPresent, get } = Ember;
+const {
+  A: emberArray,
+  Helper,
+  isArray,
+  isPresent,
+  get
+} = Ember;
 
 export function contains([haystack, needle, valuePath]) {
   if (isArray(haystack)) {
-    haystack = Ember.A(haystack);
+    haystack = emberArray(haystack);
 
     if (valuePath) {
-      return Ember.A(haystack.mapBy(valuePath)).contains(get(needle, valuePath));
+      return emberArray(haystack.mapBy(valuePath)).contains(get(needle, valuePath));
     } else {
       return haystack.contains(needle);
     }
@@ -20,4 +26,4 @@ export function contains([haystack, needle, valuePath]) {
   }
 }
 
-export default Ember.Helper.helper(contains);
+export default Helper.helper(contains);

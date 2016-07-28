@@ -9,6 +9,7 @@ const {
   Component,
   computed,
   computed: { alias, empty, not, or },
+  Object: EmberObject,
   get,
   isArray,
   isBlank,
@@ -86,7 +87,7 @@ const OneWaySelectComponent = Component.extend(DynamicAttributeBindings, {
         let group = groups.findBy('groupName', label);
 
         if (group == null) {
-          group = Ember.Object.create({
+          group = EmberObject.create({
             groupName: label,
             options:   emberArray()
           });
