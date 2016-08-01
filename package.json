@@ -1,6 +1,6 @@
 {
   "name": "ember-one-way-controls",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "Native one way controls",
   "directories": {
     "doc": "doc",
@@ -55,7 +55,7 @@
     "configPath": "tests/dummy/config",
     "demoURL": "http://ember-twiddle.com/2d7246875098d0dbb4a4",
     "versionCompatibility": {
-       "ember": ">=1.13.0 <=3.0.0"
+      "ember": ">=1.13.0 <=3.0.0"
     }
   }
 }
