@@ -1,46 +1,13 @@
-<h1>Welcome!</h1>
+<h1>Ember One Way Controls</h1>
 
-<div id="text-current-value">
-  {{textCurrentValue}}
-</div>
-
-<div id="text-number-value">
-  {{numberCurrentValue}}
-</div>
-
-{{one-way-input
-  id="one-way-text"
-  value=textCurrentValue
-  update=(action (mut textCurrentValue))
-}}
-
-<div id="committed">
-  {{committed}}
-</div>
-
-{{one-way-input
-  id="one-way-text-keyevents"
-  value=textCurrentValue
-  update=(action "noop")
-  onenter=(action "commit")
-  onescape=(action "commit")
-}}
-
-<div id="checkbox-current-value">
-  {{checkboxCurrentValue}}
-</div>
-
-{{one-way-checkbox
-  id="one-way-checkbox"
-  checked=checkboxCurrentValue
-  update=(action (mut checkboxCurrentValue))
-}}
-
-{{one-way-input
-  id="one-way-number"
-  type="number"
-  value=numberCurrentValue
-  update=(action (mut numberCurrentValue))
-}}
+<nav>
+  <ul>
+    <li>{{link-to "Documentation" "documentation"}}</li>
+    <li>{{link-to "About" "index"}}</li>
+    <li>
+      <a href="https://github.com/DockYard/ember-one-way-controls">GitHub</a>
+    </li>
+  </ul>
+</nav>
 
 {{outlet}}

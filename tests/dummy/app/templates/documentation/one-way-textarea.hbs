@@ -1,0 +1,41 @@
+<h3>one-way-textarea</h3>
+
+<p>
+  The basic invocation of the <code>\{{one-way-textarea}}</code> component looks
+  like:
+</p>
+
+<code>
+  <pre>
+    \{{one-way-textarea value update=(action (mut value))}}
+  </pre>
+</code>
+
+<p>
+  This will render an textarea whose contents is the value of <code>value</code>
+  and whenever a user changes the contents of the textarea, the action supplied
+  to the <code>update</code> parameter will be called.
+</p>
+
+<p>
+  The examples here pass the <code>value</code> parameter as a positional
+  parameter, but you can also pass <code>value</code> as an ordinary parameter:
+</p>
+
+<code>
+  <pre>
+    \{{one-way-textarea value=value update=(action (mut value))}}
+  </pre>
+</code>
+
+<h4>Additional options</h4>
+
+<p>
+  The one-way-textarea extends from the one-way-input component, please refer to
+  the {{link-to "one-way-input documentation" "documentation.one-way-input"}}
+  for additional options.
+</p>
+
+<p>
+  {{link-to "Next up: one-way-textarea" "documentation.one-way-checkbox"}}
+</p>
