@@ -36,6 +36,12 @@ test('it responds to key events', function(assert) {
       assert.equal(findWithAssert('#committed').text().trim(), 'hit escape', 'should update `committed` onescape');
     });
   });
+  andThen(() => fillIn(TEXT_KEYEVENTS, 'hit tab'));
+  andThen(() => {
+    keyEvent(TEXT_KEYEVENTS, 'keyup', 9).then(() => {
+      assert.equal(findWithAssert('#committed').text().trim(), 'hit tab', 'should update `committed` ontab');
+    });
+  });
 });
 
 test('checkbox test', function(assert) {

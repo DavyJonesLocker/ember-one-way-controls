@@ -28,7 +28,8 @@ const OneWayInputComponent = Component.extend(DynamicAttributeBindings, {
 
   keyEvents: {
     '13': 'onenter',
-    '27': 'onescape'
+    '27': 'onescape',
+    '9': 'ontab'
   },
 
   input() {
@@ -40,6 +41,10 @@ const OneWayInputComponent = Component.extend(DynamicAttributeBindings, {
   },
 
   keyUp(event) {
+    this._interpretKeyEvents(event);
+  },
+
+  keyDown(event) {
     this._interpretKeyEvents(event);
   },
 
