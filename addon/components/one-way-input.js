@@ -6,7 +6,8 @@ const {
   Component,
   assert,
   get,
-  set
+  set,
+  run
 } = Ember;
 
 const OneWayInputComponent = Component.extend(DynamicAttributeBindings, {
@@ -62,11 +63,17 @@ const OneWayInputComponent = Component.extend(DynamicAttributeBindings, {
     if (this._sanitizedValue !== value) {
       this._sanitizedValue = value;
 
-      if (typeof method === 'function') {
-        method(value);
-      } else {
-        invokeAction(this, method, value);
-      }
+      run.schedule('afterRender', () => {
+        if (this.isDestroyed) {
+          return;
+        }
+
+        if (typeof method === 'function') {
+          method(value);
+        } else {
+          invokeAction(this, method, value);
+        }
+      });
     }
   },
 
