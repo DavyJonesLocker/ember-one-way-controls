@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { K, Controller, set } = Ember;
+const { Controller, set } = Ember;
 
 export default Controller.extend({
   committed: null,
@@ -8,7 +8,6 @@ export default Controller.extend({
   numberCurrentValue: 0,
 
   actions: {
-    noop: K,
     commit(value) {
       set(this, 'committed', value);
     }

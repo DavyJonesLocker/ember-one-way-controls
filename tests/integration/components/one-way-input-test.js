@@ -1,6 +1,9 @@
+import Ember from 'ember';
 import { skip } from 'qunit';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+
+const { run } = Ember;
 
 moduleForComponent('one-way-input', 'Integration | Component | {{one-way-input}}', {
   integration: true
@@ -155,4 +158,15 @@ test('Outside value of undefined', function(assert) {
   this.render(hbs`{{one-way-input value}}`);
   this.set('value', undefined);
   assert.equal(this.$('input').val(), '');
+});
+
+test('Handles input masking', function(assert) {
+  this.on('update', () => this.set('value', 'foo'));
+  this.set('value', 'foo');
+
+  this.render(hbs`{{one-way-input value update=(action "update")}}`);
+
+  run(() => this.$('input').val('foo bar').trigger('change'));
+
+  assert.equal(this.$('input').val(), 'foo', 'Value is still foo');
 });

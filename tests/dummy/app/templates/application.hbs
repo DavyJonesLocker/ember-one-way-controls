@@ -21,7 +21,7 @@
 {{one-way-input
   id="one-way-text-keyevents"
   value=textCurrentValue
-  update=(action "noop")
+  update=(action (mut textCurrentValue))
   onenter=(action "commit")
   onescape=(action "commit")
 }}
