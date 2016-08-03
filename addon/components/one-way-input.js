@@ -7,7 +7,7 @@ const {
   assert,
   get,
   set,
-  run
+  run: { schedule }
 } = Ember;
 
 const OneWayInputComponent = Component.extend(DynamicAttributeBindings, {
@@ -43,6 +43,11 @@ const OneWayInputComponent = Component.extend(DynamicAttributeBindings, {
     this._interpretKeyEvents(event);
   },
 
+  didRender() {
+    this._super(...arguments);
+    this._syncValue();
+  },
+
   _interpretKeyEvents(event) {
     let method = get(this, `keyEvents.${event.keyCode}`);
 
@@ -57,13 +62,22 @@ const OneWayInputComponent = Component.extend(DynamicAttributeBindings, {
     this._processNewValue(method, value);
   },
 
+  _syncValue() {
+    let actualValue = get(this, '_value');
+    let renderedValue = this.$().val();
+
+    if (actualValue !== renderedValue) {
+      this.$().val(actualValue);
+    }
+  },
+
   _processNewValue(method, rawValue) {
     let value = this.sanitizeInput(rawValue);
 
     if (this._sanitizedValue !== value) {
       this._sanitizedValue = value;
 
-      run.schedule('afterRender', () => {
+      schedule('afterRender', () => {
         if (this.isDestroyed) {
           return;
         }
@@ -73,6 +87,8 @@ const OneWayInputComponent = Component.extend(DynamicAttributeBindings, {
         } else {
           invokeAction(this, method, value);
         }
+
+        this._syncValue();
       });
     }
   },
