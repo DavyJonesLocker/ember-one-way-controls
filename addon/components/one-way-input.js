@@ -6,6 +6,7 @@ const {
   Component,
   assert,
   get,
+  isPresent,
   set,
   run: { schedule }
 } = Ember;
@@ -64,10 +65,17 @@ const OneWayInputComponent = Component.extend(DynamicAttributeBindings, {
 
   _syncValue() {
     let actualValue = get(this, '_value');
-    let renderedValue = this.$().val();
+    let renderedValue = this.readDOMAttr('value');
 
-    if (actualValue !== renderedValue) {
+    if (isPresent(actualValue) && isPresent(renderedValue) && actualValue.toString() !== renderedValue.toString()) {
+      let elem = this.$().get(0);
+
+      let start = elem.selectionStart;
+      let end = elem.selectionEnd;
+
       this.$().val(actualValue);
+
+      elem.setSelectionRange(start, end);
     }
   },
 
