@@ -166,7 +166,13 @@ test('Handles input masking', function(assert) {
 
   this.render(hbs`{{one-way-input value update=(action "update")}}`);
 
-  run(() => this.$('input').val('foo bar').trigger('change'));
+  run(() => {
+    let input = this.$('input');
+    input.val('foo bar');
+    input.get(0).setSelectionRange(2, 2);
+    input.trigger('input');
+  });
 
   assert.equal(this.$('input').val(), 'foo', 'Value is still foo');
+  assert.equal(this.$('input').get(0).selectionStart, 2, 'Cursor is still at right position');
 });
