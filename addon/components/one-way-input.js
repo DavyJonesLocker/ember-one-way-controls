@@ -70,12 +70,24 @@ const OneWayInputComponent = Component.extend(DynamicAttributeBindings, {
     if (isPresent(actualValue) && isPresent(renderedValue) && actualValue.toString() !== renderedValue.toString()) {
       let elem = this.$().get(0);
 
-      let start = elem.selectionStart;
-      let end = elem.selectionEnd;
+      let start;
+      let end;
+
+      // gaurds because only text, search, url, tel and password support this
+      try {
+        start = elem.selectionStart;
+        end = elem.selectionEnd;
+      } catch(e) {
+        // no-op
+      }
 
       this.$().val(actualValue);
 
-      elem.setSelectionRange(start, end);
+      try {
+        elem.setSelectionRange(start, end);
+      } catch(e) {
+        // no-op
+      }
     }
   },
 
