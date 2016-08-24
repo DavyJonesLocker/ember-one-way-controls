@@ -5,26 +5,27 @@ import DynamicAttributeBindings from '../-private/dynamic-attribute-bindings';
 const {
   Component,
   assert,
+  computed,
   get,
-  isPresent,
-  set,
+  isNone,
   run: { schedule }
 } = Ember;
 
+const FORBIDDEN_TYPES = ['checkbox', 'radio'];
+
 const OneWayInputComponent = Component.extend(DynamicAttributeBindings, {
   tagName: 'input',
-  type: 'text',
-
-  NON_ATTRIBUTE_BOUND_PROPS: [
-    'keyEvents',
-    'update',
-    'sanitizeInput',
-    'paramValue'
-  ],
 
   attributeBindings: [
     'type',
     '_value:value'
+  ],
+
+  NON_ATTRIBUTE_BOUND_PROPS: [
+    'keyEvents',
+    'classNames',
+    'positionalParamValue',
+    'update'
   ],
 
   keyEvents: {
@@ -32,42 +33,37 @@ const OneWayInputComponent = Component.extend(DynamicAttributeBindings, {
     '27': 'onescape'
   },
 
-  input() {
-    this._handleChangeEvent();
+  change(event) {
+    this._processNewValue(event.target.value);
   },
 
-  change() {
-    this._handleChangeEvent();
+  input(event) {
+    this._processNewValue(event.target.value);
   },
 
-  keyUp(event) {
-    this._interpretKeyEvents(event);
+  sanitizeInput(input) {
+    return input;
   },
 
-  didRender() {
-    this._super(...arguments);
-    this._syncValue();
-  },
+  _processNewValue(rawValue) {
+    let value = invokeAction(this, 'sanitizeInput', rawValue);
 
-  _interpretKeyEvents(event) {
-    let method = get(this, `keyEvents.${event.keyCode}`);
-
-    if (method) {
-      this._sanitizedValue = null;
-      this._handleChangeEvent(method);
+    if (get(this, '_value') !== value) {
+      invokeAction(this, 'update', value);
     }
-  },
 
-  _handleChangeEvent(method = 'update') {
-    let value = this.readDOMAttr('value');
-    this._processNewValue(method, value);
+    schedule('afterRender', this, '_syncValue');
   },
 
   _syncValue() {
+    if (this.isDestroyed) {
+      return;
+    }
+
     let actualValue = get(this, '_value');
     let renderedValue = this.readDOMAttr('value');
 
-    if (isPresent(actualValue) && isPresent(renderedValue) && actualValue.toString() !== renderedValue.toString()) {
+    if (!isNone(actualValue) && !isNone(renderedValue) && actualValue.toString() !== renderedValue.toString()) {
       let elem = this.$().get(0);
 
       let start;
@@ -91,61 +87,43 @@ const OneWayInputComponent = Component.extend(DynamicAttributeBindings, {
     }
   },
 
-  _processNewValue(method, rawValue) {
-    let value = this.sanitizeInput(rawValue);
-
-    if (this._sanitizedValue !== value) {
-      this._sanitizedValue = value;
-
-      schedule('afterRender', () => {
-        if (this.isDestroyed) {
-          return;
-        }
-
-        if (typeof method === 'function') {
-          method(value);
-        } else {
-          invokeAction(this, method, value);
-        }
-
-        this._syncValue();
-      });
+  keyUp(event) {
+    let method = get(this, `keyEvents.${event.keyCode}`);
+    if (method) {
+      invokeAction(this, method, event.target.value);
     }
   },
 
-  _raiseTypeAssertion(type) {
-    assert(`The {{one-way-input}} component does not support type="${type}", use {{one-way-${type}}} instead.`, false);
-  },
+  type: computed({
+    get() {
+      return 'text';
+    },
 
-  sanitizeInput(input) {
-    return input;
-  },
-
-  init() {
-    this._super(...arguments);
-
-    if (this.type === 'checkbox' || this.type === 'radio') {
-      this._raiseTypeAssertion(this.type);
+    set(key, type) {
+      assert(`The {{one-way-input}} component does not support type="${type}", use {{one-way-${type}}} instead.`, FORBIDDEN_TYPES.indexOf(type) === -1);
+      return type;
     }
-  },
+  }),
+
+  _value: computed('positionalParamValue', 'value', {
+    get() {
+      let value = get(this, 'positionalParamValue');
+      if (value === undefined) {
+        value = get(this, 'value');
+      }
+
+      return value;
+    }
+  }),
 
   didReceiveAttrs() {
     this._super(...arguments);
-
-    let value = get(this, 'paramValue');
-    if (value === undefined) {
-      value = get(this, 'value');
-    }
-
-    set(this, '_value', value);
-
-    this._sanitizedValue = value;
-    this._processNewValue('update', value);
+    this._processNewValue(get(this, '_value'));
   }
 });
 
 OneWayInputComponent.reopenClass({
-  positionalParams: ['paramValue']
+  positionalParams: ['positionalParamValue']
 });
 
 export default OneWayInputComponent;
