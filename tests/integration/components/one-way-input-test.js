@@ -176,3 +176,12 @@ test('Handles input masking', function(assert) {
   assert.equal(this.$('input').val(), 'foo', 'Value is still foo');
   assert.equal(this.$('input').get(0).selectionStart, 2, 'Cursor is still at right position');
 });
+
+test('Does not throw an error updating an number input', function(assert) {
+  assert.expect(0);
+  this.set('value', 1);
+
+  this.render(hbs`{{one-way-number value update=(action (mut value))}}`);
+
+  run(() => this.$('input').val('12').trigger('input'));
+});
