@@ -100,6 +100,35 @@ the username of the user, then you can set the `optionValuePath` and the
 }}
 ```
 
+When an option is selected then update will receive the full object as
+parameter, not just the value specified by `optionValuePath`.
+
+If you do want to use a specific attribute of the object, then there is
+`optionTargetPath`, this behaves similarly to `optionValuePath` except that the
+selected value is equals to one of values of the property behind
+`optionTargetPath`.
+
+```js
+data = [
+  { id: 'EN', label: 'English' },
+  { id: 'ES', label: 'Spanish' },
+  { id: 'DE', label: 'German' }
+];
+```
+
+```hbs
+{{one-way-select selectedLanguage
+    options=users
+    optionTargetPath="id"
+    optionLabelPath="label"
+    update=(action (mut selectedLanguage))
+}}
+```
+
+In this case, when a user selects a different language, the value of
+`selectedLanguage` gets updated to the `id` of the object (e.g. `EN`).
+
+
 ### Block expression / optionComponent
 
 Sometimes you may want to use handlebars helpers to express the label. In this
