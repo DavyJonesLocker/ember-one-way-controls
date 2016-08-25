@@ -53,9 +53,6 @@
   },
   "ember-addon": {
     "configPath": "tests/dummy/config",
-    "demoURL": "http://ember-twiddle.com/2d7246875098d0dbb4a4",
-    "versionCompatibility": {
-      "ember": ">=1.13.0 <=3.0.0"
-    }
+    "demoURL": "http://ember-twiddle.com/2d7246875098d0dbb4a4"
   }
 }
