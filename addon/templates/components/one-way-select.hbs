@@ -13,7 +13,8 @@
           {{#one-way-select/option
               selected=selectedValue
               option=option
-              optionValuePath=optionValuePath}}
+              optionValuePath=computedOptionValuePath
+              optionTargetPath=optionTargetPath}}
                 {{yield option index groupIndex}}
           {{/one-way-select/option}}
         {{else}}
@@ -23,7 +24,8 @@
               index=index
               groupIndex=groupIndex
               optionComponent=optionComponent
-              optionValuePath=optionValuePath
+              optionValuePath=computedOptionValuePath
+              optionTargetPath=optionTargetPath
               optionLabelPath=optionLabelPath}}
         {{/if}}
       {{/each}}
@@ -35,7 +37,8 @@
       {{#one-way-select/option
           selected=selectedValue
           option=option
-          optionValuePath=optionValuePath}}
+          optionValuePath=computedOptionValuePath
+          optionTargetPath=optionTargetPath}}
             {{yield option index}}
       {{/one-way-select/option}}
     {{else}}
@@ -44,7 +47,8 @@
           option=option
           index=index
           optionComponent=optionComponent
-          optionValuePath=optionValuePath
+          optionValuePath=computedOptionValuePath
+          optionTargetPath=optionTargetPath
           optionLabelPath=optionLabelPath}}
     {{/if}}
   {{/each}}

@@ -8,18 +8,20 @@ const {
   get
 } = Ember;
 
-export function contains([haystack, needle, valuePath]) {
+export function contains([haystack, needle, valuePath, targetPath]) {
   if (isArray(haystack)) {
     haystack = emberArray(haystack);
 
     if (valuePath) {
-      return emberArray(haystack.mapBy(valuePath)).contains(get(needle, valuePath));
+      haystack = targetPath ? haystack : haystack.mapBy(valuePath);
+      return emberArray(haystack).contains(get(needle, valuePath));
     } else {
       return haystack.contains(needle);
     }
   } else {
     if (valuePath && isPresent(haystack) && isPresent(needle)) {
-      return get(haystack, valuePath) === get(needle, valuePath);
+      haystack = targetPath ? haystack : get(haystack, valuePath);
+      return haystack === get(needle, valuePath);
     } else {
       return haystack === needle;
     }

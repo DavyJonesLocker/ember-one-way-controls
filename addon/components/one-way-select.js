@@ -73,6 +73,7 @@ const OneWaySelectComponent = Component.extend(DynamicAttributeBindings, {
   nothingSelected: empty('selectedValue'),
   promptIsDisabled: not('promptIsSelectable'),
   hasGrouping: or('optionsArePreGrouped', 'groupLabelPath'),
+  computedOptionValuePath: or('optionValuePath', 'optionTargetPath'),
 
   optionGroups: computed('options.[]', function() {
     let groupLabelPath = get(this, 'groupLabelPath');
@@ -143,7 +144,8 @@ const OneWaySelectComponent = Component.extend(DynamicAttributeBindings, {
 
   _findOption(value) {
     let options = get(this, 'options');
-    let optionValuePath = get(this, 'optionValuePath');
+    let optionValuePath = get(this, 'computedOptionValuePath');
+    let optionTargetPath = get(this, 'optionTargetPath');
     let optionsArePreGrouped = get(this, 'optionsArePreGrouped');
 
     let findOption = (item) => {
@@ -154,12 +156,19 @@ const OneWaySelectComponent = Component.extend(DynamicAttributeBindings, {
       }
     };
 
+    let foundOption;
     if (optionsArePreGrouped) {
-      return options.reduce((found, group) => {
+      foundOption = options.reduce((found, group) => {
         return found || get(group, 'options').find(findOption);
       }, undefined);
     } else {
-      return options.find(findOption);
+      foundOption = options.find(findOption);
+    }
+
+    if (optionTargetPath) {
+      return get(foundOption, optionTargetPath);
+    } else {
+      return foundOption;
     }
   }
 });
