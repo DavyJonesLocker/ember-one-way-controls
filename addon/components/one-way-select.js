@@ -26,11 +26,14 @@ const OneWaySelectComponent = Component.extend(DynamicAttributeBindings, {
     'value',
     'update',
     'options',
+    'paramValue',
     'prompt',
+    'promptIsSelectable',
     'promptText',
     'includeBlank',
     'optionValuePath',
     'optionLabelPath',
+    'optionComponent',
     'groupLabelPath'
   ],
 
