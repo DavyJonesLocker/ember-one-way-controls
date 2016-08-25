@@ -2,7 +2,7 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-const { Component } = Ember;
+const { Component, A, Object: EmberObject } = Ember;
 
 moduleForComponent('one-way-select', 'Integration | Component | {{one-way-select}}', {
   integration: true,
@@ -334,4 +334,15 @@ test('Setting the selection to null/undefined from outside', function(assert) {
 test('classNames is not passed as an html attribute', function(assert) {
   this.render(hbs`{{one-way-select classNames="testing"}}`);
   assert.equal(this.$('select').attr('classnames'), undefined);
+});
+
+test('options can be an array of objects', function(assert) {
+  let alex = EmberObject.create({ id: '1', name: 'Alex' });
+  let ben = EmberObject.create({ id: '2', name: 'Ben' });
+  let options = A([alex, ben]);
+
+  this.set('options', options);
+  this.set('value', options.get('lastObject.id'));
+  this.render(hbs` {{one-way-select value=value options=options optionValuePath="id" optionLabelPath="name"}} `);
+  assert.equal(this.$('option:selected').val(), '2', 'The second option is selected');
 });
