@@ -1,5 +1,5 @@
 <option value={{if optionValuePath (get option optionValuePath) option}}
-        selected={{one-way-select/contains selected option optionValuePath}}>
+        selected={{one-way-select/contains selected option optionValuePath optionTargetPath}}>
   {{#if hasBlock}}
     {{yield}}
   {{else if optionComponent}}
@@ -11,6 +11,8 @@
     {{get option optionLabelPath}}
   {{else if optionValuePath}}
     {{get option optionValuePath}}
+  {{else if optionTargetPath}}
+    {{get option optionTargetPath}}
   {{else}}
     {{option}}
   {{/if}}

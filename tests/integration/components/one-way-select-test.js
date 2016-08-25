@@ -2,7 +2,7 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-const { Component } = Ember;
+const { Component, run } = Ember;
 
 moduleForComponent('one-way-select', 'Integration | Component | {{one-way-select}}', {
   integration: true,
@@ -107,7 +107,7 @@ test('Prompt can be selectable', function(assert) {
   assert.equal(this.$('option:eq(0):disabled').length, 0, 'The blank option is enabled');
 });
 
-test('optionLabelPath', function(assert) {
+test('optionValuePath', function(assert) {
   let [male, female] = [{ id: 1, value: 'male' }, { id: 2, value: 'female' }];
   this.set('value', female);
   this.set('options', [male, female]);
@@ -119,7 +119,7 @@ test('optionLabelPath', function(assert) {
   assert.equal(this.$('option:selected').val(), 2, 'Selected option is 2');
 });
 
-test('optionValuePath', function(assert) {
+test('optionLabelPath', function(assert) {
   let [male, female] = [{ id: 1, value: 'male' }, { id: 2, value: 'female' }];
   this.set('value', female);
   this.set('options', [male, female]);
@@ -137,6 +137,36 @@ test('selected based on optionValuePath', function(assert) {
   this.render(hbs`{{one-way-select
     value=value options=options optionValuePath="id" optionLabelPath="value"}}`);
   assert.equal(this.$('option:selected').val(), '2', 'Female is selected');
+});
+
+test('selecting with optionValuePath', function(assert) {
+  let [male, female] = [{ id: 1, value: 'male' }, { id: 2, value: 'female' }];
+  this.set('value', female);
+  this.set('options', [male, female]);
+
+  this.render(hbs`{{one-way-select
+    value=value options=options optionValuePath="id" update=(action (mut value))}}`);
+
+  run(() => this.$('select').val('1').trigger('change'));
+
+  assert.equal(this.get('value'), male);
+});
+
+test('optionTargetPath', function(assert) {
+  let [male, female] = [{ id: 1, value: 'male' }, { id: 2, value: 'female' }];
+  this.set('value', female.id);
+  this.set('options', [male, female]);
+
+  this.render(hbs`{{one-way-select
+    value=value options=options optionTargetPath="id" update=(action (mut value))}}`);
+
+  assert.equal(this.$('option').text().replace(/\s/g, ''), '12', 'Options are labeled 1, 2');
+  assert.equal(this.$('option:selected').val(), 2, 'Selected option is 2');
+
+  run(() => this.$('select').val('1').trigger('change'));
+
+  assert.equal(this.$('option:selected').val(), 1, 'Selected option is 1');
+  assert.equal(this.get('value'), male.id);
 });
 
 test('guards against undefined options using optionValuePath', function(assert) {
