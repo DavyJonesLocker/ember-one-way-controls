@@ -365,3 +365,26 @@ test('classNames is not passed as an html attribute', function(assert) {
   this.render(hbs`{{one-way-select classNames="testing"}}`);
   assert.equal(this.$('select').attr('classnames'), undefined);
 });
+
+test('allows to select blank without throwing', function(assert) {
+  let updates = [];
+
+  this.on('update', (newValue) => updates.push(newValue));
+  this.set('value', undefined);
+  this.set('options', [
+    { value: 'one', text: 'One' }
+  ]);
+
+  this.render(hbs`{{one-way-select 
+    prompt='myDefaultPrompt' value=value promptIsSelectable=true options=options optionTargetPath='value' optionValuePath='value' optionLabelPath='text'
+    update=(action 'update')}}`);
+
+  this.$('select').val('one');
+  this.$('select').trigger('change');
+
+  this.$('select').val('');
+  this.$('select').trigger('change');
+
+  assert.equal(this.$('option:selected').text().trim(), 'myDefaultPrompt');
+  assert.deepEqual(updates, ['one', undefined]);
+});

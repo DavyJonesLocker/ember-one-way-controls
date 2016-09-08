@@ -13,6 +13,7 @@ const {
   get,
   isArray,
   isBlank,
+  isNone,
   isPresent,
   set,
   String: { w }
@@ -165,7 +166,7 @@ const OneWaySelectComponent = Component.extend(DynamicAttributeBindings, {
       foundOption = options.find(findOption);
     }
 
-    if (optionTargetPath) {
+    if (optionTargetPath && !isNone(foundOption)) {
       return get(foundOption, optionTargetPath);
     } else {
       return foundOption;
