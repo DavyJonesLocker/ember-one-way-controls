@@ -17,7 +17,8 @@ const OneWayCheckboxComponent = Component.extend(DynamicAttributeBindings, {
   attributeBindings: [
     'isChecked:checked',
     'type',
-    'value'
+    'value',
+    'describedBy:aria-describedby'
   ],
 
   click() {

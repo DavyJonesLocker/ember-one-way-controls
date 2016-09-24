@@ -18,7 +18,8 @@ const OneWayInputComponent = Component.extend(DynamicAttributeBindings, {
 
   attributeBindings: [
     'type',
-    '_value:value'
+    '_value:value',
+    'describedBy:aria-describedby'
   ],
 
   NON_ATTRIBUTE_BOUND_PROPS: [
