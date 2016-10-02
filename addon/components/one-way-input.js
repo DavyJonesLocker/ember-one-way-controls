@@ -45,11 +45,15 @@ const OneWayInputComponent = Component.extend(DynamicAttributeBindings, {
     return input;
   },
 
+  _updateNewValue(value) {
+    invokeAction(this, 'update', value);
+  },
+
   _processNewValue(rawValue) {
     let value = invokeAction(this, 'sanitizeInput', rawValue);
 
     if (get(this, '_value') !== value) {
-      invokeAction(this, 'update', value);
+      this._updateNewValue(value);
     }
 
     schedule('afterRender', this, '_syncValue');
