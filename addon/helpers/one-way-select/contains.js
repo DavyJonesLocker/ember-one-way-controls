@@ -14,9 +14,9 @@ export function contains([haystack, needle, valuePath, targetPath]) {
 
     if (valuePath) {
       haystack = targetPath ? haystack : haystack.mapBy(valuePath);
-      return emberArray(haystack).contains(get(needle, valuePath));
+      return emberArray(haystack).includes(get(needle, valuePath));
     } else {
-      return haystack.contains(needle);
+      return haystack.includes(needle);
     }
   } else {
     if (valuePath && isPresent(haystack) && isPresent(needle)) {
