@@ -1,5 +1,8 @@
+import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+
+const { set } = Ember;
 
 moduleForComponent('one-way-checkbox', 'Integration | Component | {{one-way-checkbox}}', {
   integration: true
@@ -80,6 +83,31 @@ test('Outside value of undefined', function(assert) {
 });
 
 test('classNames is not passed as an html attribute', function(assert) {
-  this.render(hbs`{{one-way-radio classNames="testing"}}`);
+  this.render(hbs`{{one-way-checkbox classNames="testing"}}`);
   assert.equal(this.$('input').attr('classnames'), undefined);
 });
+
+test('the click event can be intercepted in the action', function(assert) {
+  assert.expect(1);
+
+  this.on('divClick', function() {
+    assert.ok(false);
+  });
+
+  this.on('checkboxClick', function(value, event) {
+    event.stopPropagation();
+
+    set(this, 'checked', value);
+  });
+
+  this.render(hbs`
+    <div {{action 'divClick'}}>
+      {{one-way-checkbox checked update=(action 'checkboxClick')}}
+    </div>
+  `);
+
+  this.$('input').trigger('click');
+
+  assert.equal(this.get('checked'), true);
+});
+
