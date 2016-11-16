@@ -30,7 +30,6 @@ const OneWaySelectComponent = Component.extend(DynamicAttributeBindings, {
     'paramValue',
     'prompt',
     'promptIsSelectable',
-    'promptText',
     'includeBlank',
     'optionValuePath',
     'optionLabelPath',
@@ -122,13 +121,6 @@ const OneWaySelectComponent = Component.extend(DynamicAttributeBindings, {
   },
 
   prompt: alias('includeBlank'),
-
-  promptText: computed('prompt', function() {
-    let prompt = get(this, 'prompt');
-    if (typeof prompt === 'string') {
-      return prompt;
-    }
-  }),
 
   _selectedMultiple() {
     let selectedValues = this.$().val() || [];
