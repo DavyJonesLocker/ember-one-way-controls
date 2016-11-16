@@ -2,7 +2,7 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-const { Component, run } = Ember;
+const { Component, run, String: { htmlSafe } } = Ember;
 
 moduleForComponent('one-way-select', 'Integration | Component | {{one-way-select}}', {
   integration: true,
@@ -80,6 +80,12 @@ test('Blank value can be given a text', function(assert) {
 
 test('Prompt is an alias for includeBlank', function(assert) {
   this.render(hbs`{{one-way-select value=value options=options prompt="Select one"}}`);
+  assert.equal(this.$('option:eq(0)').text().trim(), 'Select one', 'The blank option has "Select one" as label');
+});
+
+test('Prompt can be given as SafeString', function(assert) {
+  this.set('promptSafeString', htmlSafe('Select one'));
+  this.render(hbs`{{one-way-select value=value options=options prompt=promptSafeString}}`);
   assert.equal(this.$('option:eq(0)').text().trim(), 'Select one', 'The blank option has "Select one" as label');
 });
 
