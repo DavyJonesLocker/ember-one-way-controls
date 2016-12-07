@@ -56,7 +56,7 @@ const OneWayInputComponent = Component.extend(DynamicAttributeBindings, {
   },
 
   _syncValue() {
-    if (this.isDestroying) {
+    if (this.isDestroying || this.isDestroyed) {
       return;
     }
 
