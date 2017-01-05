@@ -83,7 +83,7 @@ input:
 ```js
 actions: {
   sanitizeCreditCardNumber(ccNumber) {
-    set(this, 'creditCard.number',, ccNumber.replace(/[^\d]/g, ''));
+    set(this, 'creditCard.number', ccNumber.replace(/[^\d]/g, ''));
   }
 }
 ```
