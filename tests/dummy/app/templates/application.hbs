@@ -43,4 +43,15 @@
   update=(action (mut numberCurrentValue))
 }}
 
+
+<div id="masked">
+  {{masked}}
+</div>
+
+{{one-way-input
+  id="one-way-masked-input"
+  value=masked
+  update=(action "maskedUpdate")
+}}
+
 {{outlet}}
