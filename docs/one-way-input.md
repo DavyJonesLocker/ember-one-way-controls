@@ -74,8 +74,8 @@ install the ([ember-hash-helper-polyfill](https://github.com/cibernox/ember-hash
 
 ### Sanitizing the input
 
-If you want to sanitize the input of a certain input, then you have the option
-to pass an action to the `sanitizeInput` property.
+If you want to sanitize the input of a certain input, you can do that with the
+update action.
 
 You can for example filter out anything other then numbers for a credit card
 input:
@@ -83,14 +83,7 @@ input:
 ```js
 actions: {
   sanitizeCreditCardNumber(ccNumber) {
-    return ccNumer.replace(/[^\d]/g, '');
+    set(this, 'creditCard.number',, ccNumber.replace(/[^\d]/g, ''));
   }
 }
-```
-
-```hbs
-{{one-way-input creditCard.number
-    update=(action (mut creditCard.number))
-    sanitizeInput=(action "sanitizeCreditCardNumber")
-}}
 ```
