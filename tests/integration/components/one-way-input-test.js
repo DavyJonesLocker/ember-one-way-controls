@@ -228,6 +228,16 @@ test('Handles input masking', function(assert) {
   assert.equal(this.$('input').get(0).selectionStart, 2, 'Cursor is still at right position');
 });
 
+test('Does not update value when it is destroyed', function(assert) {
+  this.set('value', 'foo');
+  this.render(hbs`{{one-way-input value update=(action (mut value))}}`);
+  run(() => {
+    this.clearRender();
+    this.$('input').val('foo bar').trigger('input');
+  });
+  assert.equal(this.get('value'), 'foo', 'Value is still foo');
+});
+
 skip('Works with type="number" and decimals', function(assert) {
   this.render(hbs`{{one-way-input type="number" update=(action (mut value))}}`);
   this.$('input').val('1.').trigger('input');
