@@ -1,5 +1,10 @@
+import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+
+const {
+  run
+} = Ember;
 
 moduleForComponent('one-way-radio', 'Integration | Component | one way radio', {
   integration: true
@@ -79,4 +84,15 @@ test('Outside value of undefined', function(assert) {
 test('classNames is not passed as an html attribute', function(assert) {
   this.render(hbs`{{one-way-radio classNames="testing"}}`);
   assert.equal(this.$('input').attr('classnames'), undefined);
+});
+
+test('Does not check the radio when value is not updated', function(assert) {
+  this.set('value', 'no');
+  this.render(hbs`{{one-way-radio value option="yes" update=(action (mut otherValue))}}`);
+
+  assert.equal(this.$('input:checked').length, 0, 'initially not checked');
+  run(()=> {
+    this.$('input[type=radio]').click();
+  });
+  assert.equal(this.$('input:checked').length, 0, 'still not checked because value does not match');
 });

@@ -6,7 +6,7 @@ const {
   Component,
   computed,
   get,
-  set
+  run: { next }
 } = Ember;
 
 const OneWayRadioComponent = Component.extend(DynamicAttributeBindings, {
@@ -25,28 +25,35 @@ const OneWayRadioComponent = Component.extend(DynamicAttributeBindings, {
     'type'
   ],
 
-  checked: computed('_value', 'option', function() {
-    return get(this, '_value') === get(this, 'option');
+  checked: computed('value', 'option', function() {
+    return get(this, 'value') === this.get('option');
   }),
 
-  click() {
+  click(e) {
+    if (!get(this, 'checked')) {
+      this._triggerChange();
+    }
+    return e.preventDefault();
+  },
+
+  _triggerChange() {
     invokeAction(this, 'update', get(this, 'option'));
   },
 
-  didReceiveAttrs() {
-    this._super(...arguments);
-
-    let value = get(this, 'paramValue');
-    if (value === undefined) {
-      value = get(this, 'value');
+  didUpdateAttrs() {
+    let value = get(this, 'value');
+    let option = get(this, 'option');
+    let checked = get(this, 'checked');
+    if (value || option || checked) {
+      next(()=> {
+        this.$().prop('checked', get(this, 'checked'));
+      });
     }
-
-    set(this, '_value', value);
   }
 });
 
 OneWayRadioComponent.reopenClass({
-  positionalParams: ['paramValue']
+  positionalParams: ['value']
 });
 
 export default OneWayRadioComponent;
