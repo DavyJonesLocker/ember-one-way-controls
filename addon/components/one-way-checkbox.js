@@ -20,8 +20,8 @@ const OneWayCheckboxComponent = Component.extend(DynamicAttributeBindings, {
     'value'
   ],
 
-  click() {
-    invokeAction(this, 'update', this.readDOMAttr('checked'));
+  click(event) {
+    invokeAction(this, 'update', this.readDOMAttr('checked'), event);
   },
 
   didReceiveAttrs() {

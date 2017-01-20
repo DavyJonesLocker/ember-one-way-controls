@@ -10,6 +10,10 @@ export default Controller.extend({
   actions: {
     commit(value) {
       set(this, 'committed', value);
+    },
+
+    maskedUpdate(value) {
+      set(this, 'masked', value.replace(/[a-zA-Z]/g, ''));
     }
   }
 });

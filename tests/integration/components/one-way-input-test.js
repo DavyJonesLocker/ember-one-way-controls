@@ -164,53 +164,6 @@ test('I can set keyEvent bindings', function(assert) {
   this.$('input').trigger($.Event('keyup', { keyCode: 13 }));
 });
 
-test('It is possible to specify a sanitizeInput function', function(assert) {
-  this.on('sanitize', (value) => value && value.toUpperCase());
-  this.render(hbs`{{one-way-input
-    sanitizeInput=(action 'sanitize') update=(action (mut value))}}`);
-  this.$('input').val('foo').trigger('change');
-  assert.equal(this.get('value'), 'FOO', 'Value was transformed to uppercase');
-});
-
-test('It triggers sanitizeInput on value binding change', function(assert) {
-  this.on('sanitize', (value) => value && value.toUpperCase());
-  this.set('value', 'foo');
-  this.render(hbs`{{one-way-input value=value
-    sanitizeInput=(action 'sanitize')
-    update=(action (mut value))}}`);
-
-  // initial render with an invalid value gets sanitized and calls update
-  assert.equal(this.get('value'), 'FOO');
-
-  this.set('value', 'bar');
-  // set triggered a rerender, which sanitized the input and called update
-  assert.equal(this.get('value'), 'BAR');
-});
-
-test('Update is not triggered when sanitized value is the same as the previous value', function(assert) {
-  assert.expect(0);
-  this.on('sanitize', () => 'foo');
-  this.on('update', () => assert.ok(false));
-  this.set('value', 'foo');
-  this.render(hbs`{{one-way-input value=value
-    sanitizeInput=(action 'sanitize')
-    update=(action 'update')}}`);
-
-  this.$('input').val('foo bar').trigger('change');
-});
-
-test('The cursor does not jump when typing in the input - with sanitize input', function(assert) {
-  this.on('sanitize', (value) => value && value.replace(/[^0-9]+/g, ''));
-  this.render(hbs`{{one-way-input value update=(action (mut value)) sanitizeInput=(action 'sanitize')}}`);
-
-  run(() => this.$('input').val('1').trigger('input'));
-  assert.equal(this.$('input').get(0).selectionStart, 1, 'Cursor is still at right position');
-
-  run(() => this.$('input').val('1A').trigger('input'));
-  assert.equal(this.$('input').get(0).selectionStart, 1, 'Cursor is still at right position');
-  assert.equal(this.$('input').val(), '1');
-});
-
 test('Handles input masking', function(assert) {
   this.on('update', () => this.set('value', 'foo'));
   this.set('value', 'foo');
@@ -226,6 +179,16 @@ test('Handles input masking', function(assert) {
 
   assert.equal(this.$('input').val(), 'foo', 'Value is still foo');
   assert.equal(this.$('input').get(0).selectionStart, 2, 'Cursor is still at right position');
+});
+
+test('Does not update value when it is destroyed', function(assert) {
+  this.set('value', 'foo');
+  this.render(hbs`{{one-way-input value update=(action (mut value))}}`);
+  run(() => {
+    this.clearRender();
+    this.$('input').val('foo bar').trigger('input');
+  });
+  assert.equal(this.get('value'), 'foo', 'Value is still foo');
 });
 
 skip('Works with type="number" and decimals', function(assert) {

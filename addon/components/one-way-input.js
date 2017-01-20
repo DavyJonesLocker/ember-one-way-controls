@@ -41,17 +41,11 @@ const OneWayInputComponent = Component.extend(DynamicAttributeBindings, {
     this._processNewValue(event.target.value);
   },
 
-  sanitizeInput(input) {
-    return input;
-  },
-
   _updateNewValue(value) {
     invokeAction(this, 'update', value);
   },
 
-  _processNewValue(rawValue) {
-    let value = invokeAction(this, 'sanitizeInput', rawValue);
-
+  _processNewValue(value) {
     if (get(this, '_value') !== value) {
       this._updateNewValue(value);
     }
@@ -60,7 +54,7 @@ const OneWayInputComponent = Component.extend(DynamicAttributeBindings, {
   },
 
   _syncValue() {
-    if (this.isDestroyed) {
+    if (this.isDestroyed || this.isDestroying) {
       return;
     }
 
@@ -68,23 +62,24 @@ const OneWayInputComponent = Component.extend(DynamicAttributeBindings, {
     let renderedValue = this.readDOMAttr('value');
 
     if (!isNone(actualValue) && !isNone(renderedValue) && actualValue.toString() !== renderedValue.toString()) {
-      let elem = this.$().get(0);
+      let element = this.$();
+      let rawElement = element.get(0);
 
       let start;
       let end;
 
       // gaurds because only text, search, url, tel and password support this
       try {
-        start = elem.selectionStart;
-        end = elem.selectionEnd;
+        start = rawElement.selectionStart;
+        end = rawElement.selectionEnd;
       } catch(e) {
         // no-op
       }
 
-      this.$().val(actualValue);
+      element.val(actualValue);
 
       try {
-        elem.setSelectionRange(start, end);
+        rawElement.setSelectionRange(start, end);
       } catch(e) {
         // no-op
       }
@@ -118,12 +113,7 @@ const OneWayInputComponent = Component.extend(DynamicAttributeBindings, {
 
       return value;
     }
-  }),
-
-  didReceiveAttrs() {
-    this._super(...arguments);
-    this._processNewValue(get(this, '_value'));
-  }
+  })
 });
 
 OneWayInputComponent.reopenClass({
