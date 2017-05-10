@@ -5,6 +5,7 @@ import DynamicAttributeBindings from '../-private/dynamic-attribute-bindings';
 import { invokeAction } from 'ember-invoke-action';
 
 const {
+  run: { next },
   A: emberArray,
   Component,
   computed,
@@ -44,30 +45,36 @@ const OneWaySelectComponent = Component.extend(DynamicAttributeBindings, {
   didReceiveAttrs() {
     this._super(...arguments);
 
-    let value = get(this, 'paramValue');
-    if (value === undefined) {
-      value = get(this, 'value');
-    }
+    next(this, () => {
+      if (this.isDestroyed || this.isDestroying) {
+        return;
+      }
+      
+      let value = get(this, 'paramValue');
+      if (value === undefined) {
+        value = get(this, 'value');
+      }
 
-    set(this, 'selectedValue', value);
+      set(this, 'selectedValue', value);
 
-    let options = get(this, 'options');
-    if (typeof options === 'string') {
-      options = w(options);
-    }
+      let options = get(this, 'options');
+      if (typeof options === 'string') {
+        options = w(options);
+      }
 
-    let firstOption = get(emberArray(options), 'firstObject');
-    if (firstOption &&
-        isPresent(get(firstOption, 'groupName')) &&
-        isArray(get(firstOption, 'options'))) {
-      set(this, 'optionsArePreGrouped', true);
-    }
+      let firstOption = get(emberArray(options), 'firstObject');
+      if (firstOption &&
+          isPresent(get(firstOption, 'groupName')) &&
+          isArray(get(firstOption, 'options'))) {
+        set(this, 'optionsArePreGrouped', true);
+      }
 
-    if (isBlank(get(this, 'promptIsSelectable'))) {
-      set(this, 'promptIsSelectable', false);
-    }
+      if (isBlank(get(this, 'promptIsSelectable'))) {
+        set(this, 'promptIsSelectable', false);
+      }
 
-    set(this, 'options', emberArray(options));
+      set(this, 'options', emberArray(options));
+    });
   },
 
   nothingSelected: empty('selectedValue'),
