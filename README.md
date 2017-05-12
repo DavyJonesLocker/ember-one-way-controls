@@ -61,6 +61,12 @@ This addon will work on Ember versions `1.13.x` and up.
 ember install ember-one-way-controls
 ```
 
+On Ember 1.x you'll also need the `{{get}}` helper polyfill:
+
+```
+ember install ember-get-helper
+```
+
 ## Contributing
 
 ### Installation
