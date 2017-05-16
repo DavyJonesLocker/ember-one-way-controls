@@ -128,6 +128,11 @@ test('I can bind the placeholder attribute', function(assert) {
   assert.equal(this.$('input').attr('placeholder'), 'testing');
 });
 
+test('I can bind the aria-describedby attribute', function(assert) {
+  this.render(hbs`{{one-way-input describedBy="testing"}}`);
+  assert.equal(this.$('input').attr('aria-describedby'), 'testing', 'The aria-describedby attribute was added');
+});
+
 test('positionalParamValue is not passed as an html attribute', function(assert) {
   this.render(hbs`{{one-way-input "testing"}}`);
   assert.equal(this.$('input').attr('positionalparamvalue'), undefined);

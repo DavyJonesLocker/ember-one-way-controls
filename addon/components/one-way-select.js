@@ -38,7 +38,8 @@ const OneWaySelectComponent = Component.extend(DynamicAttributeBindings, {
   ],
 
   attributeBindings: [
-    'multiple'
+    'multiple',
+    'describedBy:aria-describedby'
   ],
 
   didReceiveAttrs() {

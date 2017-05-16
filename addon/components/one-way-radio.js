@@ -22,7 +22,8 @@ const OneWayRadioComponent = Component.extend(DynamicAttributeBindings, {
   attributeBindings: [
     'checked',
     'option:value',
-    'type'
+    'type',
+    'describedBy:aria-describedby'
   ],
 
   checked: computed('_value', 'option', function() {

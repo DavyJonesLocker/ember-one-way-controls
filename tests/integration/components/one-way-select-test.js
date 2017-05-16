@@ -305,6 +305,11 @@ test('I can add a class attribute', function(assert) {
   assert.equal(true, this.$('select').hasClass('testing'));
 });
 
+test('I can bind the aria-describedby attribute', function(assert) {
+  this.render(hbs`{{one-way-select describedBy="testing"}}`);
+  assert.equal(this.$('select').attr('aria-describedby'), 'testing', 'The aria-describedby attribute was added');
+});
+
 test('Handles block expression', function(assert) {
   this.render(hbs`{{#one-way-select options=options as |option index|}}{{option}}-{{index}}{{/one-way-select}}`);
   assert.equal(this.$('option').length, 3, 'Select has three options');
