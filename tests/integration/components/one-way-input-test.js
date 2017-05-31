@@ -2,6 +2,7 @@ import Ember from 'ember';
 import { skip } from 'qunit';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import $ from 'jquery';
 
 const { run } = Ember;
 
