@@ -10,7 +10,8 @@ module.exports = {
       },
       npm: {
         devDependencies: {
-          'ember-source': null
+          'ember-source': null,
+          'ember-qunit-assert-helpers': null
         }
       }
     },

@@ -26,15 +26,27 @@ test('The type param changes the type of the input', function(assert) {
 });
 
 test('Raises AssertionError when type is "checkbox"', function(assert) {
-  assert.expectAssertion(() => {
-    this.render(hbs`{{one-way-input type="checkbox"}}`);
-  }, 'The {{one-way-input}} component does not support type="checkbox", use {{one-way-checkbox}} instead.');
+  if (Ember.VERSION.slice(0, 4) === '1.13') {
+    assert.throws(() => {
+      this.render(hbs`{{one-way-input type="checkbox"}}`);
+    }, 'The {{one-way-input}} component does not support type="checkbox", use {{one-way-checkbox}} instead.');
+  } else {
+    assert.expectAssertion(() => {
+      this.render(hbs`{{one-way-input type="checkbox"}}`);
+    }, 'The {{one-way-input}} component does not support type="checkbox", use {{one-way-checkbox}} instead.');
+  }
 });
 
 test('Raises AssertionError when type is "radio"', function(assert) {
-  assert.expectAssertion(() => {
-    this.render(hbs`{{one-way-input type="radio"}}`);
-  }, 'The {{one-way-input}} component does not support type="radio", use {{one-way-radio}} instead.');
+  if (Ember.VERSION.slice(0, 4) === '1.13') {
+    assert.throws(() => {
+      this.render(hbs`{{one-way-input type="radio"}}`);
+    }, 'The {{one-way-input}} component does not support type="radio", use {{one-way-radio}} instead.');
+  } else {
+    assert.expectAssertion(() => {
+      this.render(hbs`{{one-way-input type="radio"}}`);
+    }, 'The {{one-way-input}} component does not support type="radio", use {{one-way-radio}} instead.');
+  }
 });
 
 test('It puts the value into the input', function(assert) {
