@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { findAll, find, blur, fillIn } from 'ember-native-dom-helpers';
+import { findAll, find, fillIn, triggerEvent } from 'ember-native-dom-helpers';
 
 const { Component, String: { htmlSafe } } = Ember;
 
@@ -35,7 +35,7 @@ test('Selecting a value updates the selected value', async function(assert) {
   this.on('update', (value) => this.set('value', value));
   this.render(hbs`{{one-way-select value=value options=options update=(action 'update')}}`);
   find('select').value = 'male';
-  await blur('select');
+  await triggerEvent('select', 'change');
   assert.equal([...findAll('option')].find((o) => o.selected).value, 'male', 'Male is selected');
   assert.equal(this.get('value'), 'male', 'Value is \'male\'');
 });
@@ -57,7 +57,7 @@ test('Selecting a value updates the selected value for pre-grouped options', asy
   this.render(hbs`{{one-way-select value=value options=options update=(action 'update')}}`);
 
   await fillIn('select', 'value2');
-  await blur('select');
+  await triggerEvent('select', 'change');
 
   assert.equal([...findAll('option')].find((o) => o.selected).value, 'value2', 'value2 is selected');
   assert.equal(this.get('value'), 'value2', 'Value is \'value2\'');
@@ -99,7 +99,7 @@ test('With prompt selection still works properly', async function(assert) {
     update=(action 'update')
   }}`);
   find('select').value = 'male';
-  await blur('select');
+  await triggerEvent('select', 'change');
   assert.equal([...findAll('option')].find((o) => o.selected).value, 'male', 'Select options is male');
   assert.equal(this.get('value'), 'male', 'Value us \'male\'');
 });
@@ -122,7 +122,7 @@ test('optionValuePath', function(assert) {
   this.render(hbs`{{one-way-select
     value=value options=options optionValuePath="id"}}`);
 
-  assert.equal([...find('option')].map((o) => o.textContent).join().replace(/\s/g, ''), '12', 'Options are labeled 1, 2');
+  assert.equal([...findAll('option')].map((o) => o.textContent).join('').replace(/\s/g, ''), '12', 'Options are labeled 1, 2');
   assert.equal([...findAll('option')].find((o) => o.selected).value, 2, 'Selected option is 2');
 });
 
@@ -134,7 +134,7 @@ test('optionLabelPath', function(assert) {
   this.render(hbs`{{one-way-select
     value=value options=options optionValuePath="id" optionLabelPath="value"}}`);
 
-  assert.equal([...find('option')].map((o) => o.textContent).join().replace(/\s/g, ''), 'malefemale', 'Options are label male, female');
+  assert.equal([...findAll('option')].map((o) => o.textContent).join('').replace(/\s/g, ''), 'malefemale', 'Options are label male, female');
 });
 
 test('selected based on optionValuePath', function(assert) {
@@ -155,7 +155,7 @@ test('selecting with optionValuePath', async function(assert) {
     value=value options=options optionValuePath="id" update=(action (mut value))}}`);
 
   await fillIn('select', '1');
-  await blur('select');
+  await triggerEvent('select', 'change');
 
   assert.equal(this.get('value'), male);
 });
@@ -168,11 +168,11 @@ test('optionTargetPath', async function(assert) {
   this.render(hbs`{{one-way-select
     value=value options=options optionTargetPath="id" update=(action (mut value))}}`);
 
-  assert.equal([...find('option')].map((o) => o.textContent).join().replace(/\s/g, ''), '12', 'Options are labeled 1, 2');
+  assert.equal([...findAll('option')].map((o) => o.textContent).join('').replace(/\s/g, ''), '12', 'Options are labeled 1, 2');
   assert.equal([...findAll('option')].find((o) => o.selected).value, 2, 'Selected option is 2');
 
   await fillIn('select', '1');
-  await blur('select');
+  await triggerEvent('select', 'change');
 
   assert.equal([...findAll('option')].find((o) => o.selected).value, 1, 'Selected option is 1');
   assert.equal(this.get('value'), male.id);
@@ -198,7 +198,7 @@ test('groupLabelPath', function(assert) {
   this.render(hbs`{{one-way-select value=value options=options
       optionValuePath="id" optionLabelPath="label" groupLabelPath="type"}}`);
 
-  assert.equal(findAll('optgroup')[0].attr('label'),  'Trappist', 'First optgroup label is Trappist');
+  assert.equal(findAll('optgroup')[0].getAttribute('label'),  'Trappist', 'First optgroup label is Trappist');
   assert.equal(findAll('optgroup').length, 3, 'There should be three optgroups');
 });
 
@@ -224,7 +224,7 @@ test('options is pre-grouped', function(assert) {
   this.render(hbs`{{one-way-select value=value options=options
       optionValuePath="id" optionLabelPath="label"}}`);
 
-  assert.equal(findAll('optgroup')[0].attr('label'),  'Trappist', 'First optgroup label is Trappist');
+  assert.equal(findAll('optgroup')[0].getAttribute('label'),  'Trappist', 'First optgroup label is Trappist');
   assert.equal(findAll('optgroup').length, 3, 'There should be three optgroups');
 });
 
@@ -262,10 +262,12 @@ test('multiple select a value', async function(assert) {
       update=(action 'update') optionValuePath="id" optionLabelPath="label"
       groupLabelPath="type"}}`);
 
-  find('select').val(['1', '3', '4']);
-  await blur('select');
+  findAll('option')[0].selected = true;
+  findAll('option')[2].selected = true;
+  findAll('option')[3].selected = true;
+  await triggerEvent('select', 'change');
 
-  assert.equal(this.$('option:selected:eq(0)').val(), 1, 'Dubbel is selected');
+  assert.equal([...findAll('option')].filter((o) => o.selected)[0].value, 1, 'Dubbel is selected');
   assert.deepEqual(this.get('value'), [dubbel, ipa, saison], 'Dubbel, IPA and Saison are selected');
 });
 
@@ -285,12 +287,16 @@ test('de-select all options in multiple select', async function(assert) {
       update=(action 'update') optionValuePath="id" optionLabelPath="label"
       groupLabelPath="type"}}`);
 
-  find('select').val(['1', '3', '4']);
-  await blur('select');
-  find('select').val('');
-  await blur('select');
+  findAll('option')[0].selected = true;
+  findAll('option')[2].selected = true;
+  findAll('option')[3].selected = true;
+  await triggerEvent('select', 'change');
+  findAll('option')[0].selected = false;
+  findAll('option')[2].selected = false;
+  findAll('option')[3].selected = false;
+  await triggerEvent('select', 'change');
 
-  assert.ok(this.get('value'), 'selects an empty array');
+  assert.equal(this.get('value').length, 0, 'selects an empty array');
 });
 
 test('It handles the old style of actions', async function(assert) {
@@ -299,19 +305,19 @@ test('It handles the old style of actions', async function(assert) {
   this.on('update', () => fired = true);
   this.render(hbs`{{one-way-select value=value options=options update='update'}}`);
   find('select').value = 'male';
-  await blur('select');
+  await triggerEvent('select', 'change');
   assert.equal(fired, true, 'The update action should have fired');
 });
 
 test('I can add a class attribute', function(assert) {
   this.render(hbs`{{one-way-select class="testing"}}`);
-  assert.equal(true, find('select').hasClass('testing'));
+  assert.equal(true, find('select').classList.contains('testing'));
 });
 
 test('Handles block expression', function(assert) {
   this.render(hbs`{{#one-way-select options=options as |option index|}}{{option}}-{{index}}{{/one-way-select}}`);
   assert.equal(findAll('option').length, 3, 'Select has three options');
-  assert.equal([...find('option')].map((o) => o.textContent).join().replace(/\s/g, ''), 'unknown-0male-1female-2', 'Has labels with indexes');
+  assert.equal([...findAll('option')].map((o) => o.textContent).join('').replace(/\s/g, ''), 'unknown-0male-1female-2', 'Has labels with indexes');
 });
 
 test('Handles block expression (option groups)', function(assert) {
@@ -329,7 +335,7 @@ test('Handles block expression (option groups)', function(assert) {
 
   this.render(hbs`{{#one-way-select options=options as |option index groupIndex|}}{{option}}-{{groupIndex}}-{{index}}{{/one-way-select}}`);
   assert.equal(findAll('option').length, 3, 'Select has three options');
-  assert.equal([...find('option')].map((o) => o.textContent).join().replace(/\s/g, ''), 'value1-0-0value2-1-0value3-1-1', 'Has labels with indexes');
+  assert.equal([...findAll('option')].map((o) => o.textContent).join('').replace(/\s/g, ''), 'value1-0-0value2-1-0value3-1-1', 'Has labels with indexes');
 });
 
 test('I can pass a component that is rendered as option', function(assert) {
@@ -339,7 +345,7 @@ test('I can pass a component that is rendered as option', function(assert) {
 
   this.render(hbs`{{one-way-select options=options optionComponent="option-component"}}`);
   assert.equal(findAll('option').length, 3, 'Select has three options');
-  assert.equal([...find('option')].map((o) => o.textContent).join().replace(/\s/g, ''), 'unknown-0male-1female-2', 'Has labels with indexes');
+  assert.equal([...findAll('option')].map((o) => o.textContent).join('').replace(/\s/g, ''), 'unknown-0male-1female-2', 'Has labels with indexes');
 });
 
 test('I can pass a component that is rendered as option (option groups)', function(assert) {
@@ -361,7 +367,7 @@ test('I can pass a component that is rendered as option (option groups)', functi
 
   this.render(hbs`{{one-way-select options=options optionComponent="option-component"}}`);
   assert.equal(findAll('option').length, 3, 'Select has three options');
-  assert.equal([...find('option')].map((o) => o.textContent).join().replace(/\s/g, ''), 'value1-0-0value2-1-0value3-1-1', 'Has labels with indexes');
+  assert.equal([...findAll('option')].map((o) => o.textContent).join('').replace(/\s/g, ''), 'value1-0-0value2-1-0value3-1-1', 'Has labels with indexes');
 });
 
 test('Setting the selection to null/undefined from outside', function(assert) {
@@ -372,7 +378,7 @@ test('Setting the selection to null/undefined from outside', function(assert) {
 
 test('classNames is not passed as an html attribute', function(assert) {
   this.render(hbs`{{one-way-select classNames="testing"}}`);
-  assert.equal(find('select').attr('classnames'), undefined);
+  assert.equal(find('select').getAttribute('classnames'), undefined);
 });
 
 test('allows to select blank without throwing', async function(assert) {
@@ -389,10 +395,10 @@ test('allows to select blank without throwing', async function(assert) {
     update=(action 'update')}}`);
 
   find('select').value = 'one';
-  await blur('select');
+  await triggerEvent('select', 'change');
 
-  find('select').val('');
-  await blur('select');
+  find('select').value = '';
+  await triggerEvent('select', 'change');
 
   assert.equal([...findAll('option')].find((o) => o.selected).textContent.trim(), 'myDefaultPrompt');
   assert.deepEqual(updates, ['one', undefined]);
