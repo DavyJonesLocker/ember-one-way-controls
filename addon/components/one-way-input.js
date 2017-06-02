@@ -58,8 +58,7 @@ const OneWayInputComponent = Component.extend(DynamicAttributeBindings, {
     let renderedValue = this.readDOMAttr('value');
 
     if (!isNone(actualValue) && !isNone(renderedValue) && actualValue.toString() !== renderedValue.toString()) {
-      let element = this.$();
-      let rawElement = element.get(0);
+      let rawElement = this.element;
 
       let start;
       let end;
@@ -72,7 +71,7 @@ const OneWayInputComponent = Component.extend(DynamicAttributeBindings, {
         // no-op
       }
 
-      element.val(actualValue);
+      rawElement.value = actualValue;
 
       try {
         rawElement.setSelectionRange(start, end);
