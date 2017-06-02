@@ -1,3 +1,4 @@
+import { find, click } from 'ember-native-dom-helpers';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -7,45 +8,45 @@ moduleForComponent('one-way-radio', 'Integration | Component | one way radio', {
 
 test('It renders', function(assert) {
   this.render(hbs`{{one-way-radio}}`);
-  assert.equal(this.$('input[type="radio"]').length, 1);
+  assert.ok(find('input[type="radio"]'));
 });
 
 test('Is selected when value matches option', function(assert) {
   this.set('value', 'yes');
   this.render(hbs`{{one-way-radio value=value option="yes"}}`);
 
-  assert.equal(this.$('input:checked').length, 1);
+  assert.ok(find('input').checked);
 });
 
 test('Value is set to option', function(assert) {
   this.render(hbs`{{one-way-radio value=value option="yes"}}`);
 
-  assert.equal(this.$('input').val(), 'yes');
+  assert.equal(find('input').value, 'yes');
 });
 
 test('Value can be a positional param', function(assert) {
   this.set('value', 'yes');
   this.render(hbs`{{one-way-radio value option="yes"}}`);
 
-  assert.equal(this.$('input:checked').length, 1);
+  assert.ok(find('input').checked);
 });
 
 test('Is not selected when value does not match option', function(assert) {
   this.set('value', 'no');
   this.render(hbs`{{one-way-radio value=value option="yes"}}`);
 
-  assert.equal(this.$('input:checked').length, 0);
+  assert.notOk(find('input').checked);
 });
 
-test('Triggers update action when clicked', function(assert) {
+test('Triggers update action when clicked', async function(assert) {
   assert.expect(1);
   this.on('update', (value) => assert.equal(value, 'no'));
   this.render(hbs`{{one-way-radio value=value option="no" update=(action 'update')}}`);
 
-  this.$('input').click();
+  await click('input');
 });
 
-test('Triggers update action when clicked in a radio button group', function(assert) {
+test('Triggers update action when clicked in a radio button group', async function(assert) {
   assert.expect(1);
   this.on('update', (value) => assert.equal(value, 'yes'));
   this.set('value', 'no');
@@ -54,29 +55,29 @@ test('Triggers update action when clicked in a radio button group', function(ass
     {{one-way-radio value=value option="no"  update=(action 'update') name="x"}}
   `);
 
-  this.$('input[value="yes"]').click();
+  await click('input[value="yes"]');
 });
 
 test('I can add a class attribute', function(assert) {
   this.render(hbs`{{one-way-radio class="testing"}}`);
-  assert.equal(true, this.$('input').hasClass('testing'));
+  assert.equal(true, find('input').classList.contains('testing'));
 });
 
 test('Outside value of null', function(assert) {
   this.set('value', 'yes');
   this.render(hbs`{{one-way-radio value option="yes"}}`);
   this.set('value', null);
-  assert.equal(this.$('input:checked').length, 0, 'Radio is not checked');
+  assert.notOk(find('input').checked, 'Radio is not checked');
 });
 
 test('Outside value of undefined', function(assert) {
   this.set('value', 'yes');
   this.render(hbs`{{one-way-radio value option="yes"}}`);
   this.set('value', undefined);
-  assert.equal(this.$('input:checked').length, 0, 'Radio is not checked');
+  assert.notOk(find('input').checked, 'Radio is not checked');
 });
 
 test('classNames is not passed as an html attribute', function(assert) {
   this.render(hbs`{{one-way-radio classNames="testing"}}`);
-  assert.equal(this.$('input').attr('classnames'), undefined);
+  assert.equal(find('input').getAttribute('classnames'), undefined);
 });
