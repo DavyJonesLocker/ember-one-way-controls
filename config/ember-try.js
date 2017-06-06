@@ -11,7 +11,8 @@ module.exports = {
       npm: {
         devDependencies: {
           'ember-source': null,
-          'ember-qunit-assert-helpers': null
+          'ember-qunit-assert-helpers': null,
+          'ember-native-dom-event-dispatcher': null
         }
       }
     },
@@ -24,7 +25,8 @@ module.exports = {
       },
       npm: {
         devDependencies: {
-          'ember-source': null
+          'ember-source': null,
+          'ember-native-dom-event-dispatcher': null
         }
       }
     },
@@ -40,7 +42,8 @@ module.exports = {
       },
       npm: {
         devDependencies: {
-          'ember-source': null
+          'ember-source': null,
+          'ember-native-dom-event-dispatcher': null
         }
       }
     },
@@ -48,7 +51,7 @@ module.exports = {
       name: 'ember-lts-2.8',
       bower: {
         dependencies: {
-          'ember': 'components/ember#lts-2-8'
+          'ember': 'components/ember#lts-2-8',
         },
         resolutions: {
           'ember': 'lts-2-8'
@@ -56,7 +59,8 @@ module.exports = {
       },
       npm: {
         devDependencies: {
-          'ember-source': null
+          'ember-source': null,
+          'ember-native-dom-event-dispatcher': null
         }
       }
     },
