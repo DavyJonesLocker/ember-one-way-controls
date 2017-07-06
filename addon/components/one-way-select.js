@@ -8,7 +8,7 @@ const {
   A: emberArray,
   Component,
   computed,
-  computed: { alias, empty, not, or },
+  computed: { alias, not, or },
   Object: EmberObject,
   get,
   isArray,
@@ -70,7 +70,9 @@ const OneWaySelectComponent = Component.extend(DynamicAttributeBindings, {
     set(this, 'options', emberArray(options));
   },
 
-  nothingSelected: empty('selectedValue'),
+  nothingSelected: Ember.computed('selectedValue', function() {
+    return !this._findOption(this.get('selectedValue'));
+  }),
   promptIsDisabled: not('promptIsSelectable'),
   hasGrouping: or('optionsArePreGrouped', 'groupLabelPath'),
   computedOptionValuePath: or('optionValuePath', 'optionTargetPath'),
