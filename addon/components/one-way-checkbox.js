@@ -20,8 +20,9 @@ const OneWayCheckboxComponent = Component.extend(DynamicAttributeBindings, {
     'value'
   ],
 
-  click(event) {
-    invokeAction(this, 'update', this.readDOMAttr('checked'), event);
+  didInsertElement() {
+    this._super(...arguments);
+    this.element.addEventListener('click', (e) => this._click(e));
   },
 
   didReceiveAttrs() {
@@ -33,7 +34,11 @@ const OneWayCheckboxComponent = Component.extend(DynamicAttributeBindings, {
     }
 
     set(this, 'isChecked', value);
-  }
+  },
+
+  _click(event) {
+    invokeAction(this, 'update', this.readDOMAttr('checked'), event);
+  },
 });
 
 OneWayCheckboxComponent.reopenClass({

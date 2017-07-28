@@ -130,15 +130,20 @@ const OneWaySelectComponent = Component.extend(DynamicAttributeBindings, {
   prompt: alias('includeBlank'),
 
   _selectedMultiple() {
-    let selectedValues = this.$().val() || [];
-
+    let options = this.element.options;
+    let selectedValues = [];
+    for (let i = 0; i < options.length; i++) {
+      if (options[i].selected) {
+        selectedValues.push(options[i].value);
+      }
+    }
     return selectedValues.map((selectedValue) => {
       return this._findOption(selectedValue);
     });
   },
 
   _selectedSingle() {
-    let selectedValue = this.$().val();
+    let selectedValue = this.element.value;
     return this._findOption(selectedValue);
   },
 
