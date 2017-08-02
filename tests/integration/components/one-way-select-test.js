@@ -114,6 +114,11 @@ test('Prompt can be selectable', function(assert) {
   assert.notOk(findAll('option')[0].disabled, 'The blank option is enabled');
 });
 
+test('Prompt can be hidden', function(assert) {
+  this.render(hbs`{{one-way-select value=value options=options prompt="Select one"}}`);
+  assert.ok(findAll('option')[0].hidden, 'The blank option is hidden');
+});
+
 test('optionValuePath', function(assert) {
   let [male, female] = [{ id: 1, value: 'male' }, { id: 2, value: 'female' }];
   this.set('value', female);

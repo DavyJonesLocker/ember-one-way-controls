@@ -1,6 +1,7 @@
 {{#if includeBlank}}
   <option value=""
           disabled={{promptIsDisabled}}
+          hidden={{if promptIsHidden "hidden"}}
           selected={{if nothingSelected "selected"}}>
     {{prompt}}
   </option>
