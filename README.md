@@ -56,7 +56,7 @@ __Note:__ The cursor jumping issue has been fixed in Ember since 2.3.1.
 
 ## Compatibility
 
-This addon will work on Ember versions `1.13.x` and up.
+This addon will work on Ember versions `2.x` and up.
 
 ## Installing the addon
 
