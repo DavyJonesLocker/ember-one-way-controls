@@ -1,6 +1,6 @@
 {
   "name": "ember-one-way-controls",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Native one way controls",
   "keywords": [
     "ember-addon"
@@ -33,6 +33,7 @@
     "ember-cli-htmlbars-inline-precompile": "^0.4.3",
     "ember-cli-inject-live-reload": "^1.4.1",
     "ember-cli-qunit": "^4.0.1",
+    "ember-cli-release": "^1.0.0-beta.2",
     "ember-cli-shims": "^1.1.0",
     "ember-disable-prototype-extensions": "^1.1.0",
     "ember-export-application-global": "^2.0.0",
