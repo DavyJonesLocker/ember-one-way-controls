@@ -12,7 +12,6 @@ const {
   Object: EmberObject,
   get,
   isArray,
-  isBlank,
   isNone,
   isPresent,
   set,
@@ -63,11 +62,7 @@ const OneWaySelectComponent = Component.extend(DynamicAttributeBindings, {
       set(this, 'optionsArePreGrouped', true);
     }
 
-    if (isBlank(get(this, 'promptIsSelectable'))) {
-      set(this, 'promptIsSelectable', false);
-    }
-
-    set(this, 'options', emberArray(options));
+    set(this, '_options', emberArray(options));
   },
 
   nothingSelected: empty('selectedValue'),
@@ -75,9 +70,9 @@ const OneWaySelectComponent = Component.extend(DynamicAttributeBindings, {
   hasGrouping: or('optionsArePreGrouped', 'groupLabelPath'),
   computedOptionValuePath: or('optionValuePath', 'optionTargetPath'),
 
-  optionGroups: computed('options.[]', function() {
+  optionGroups: computed('_options.[]', function() {
     let groupLabelPath = get(this, 'groupLabelPath');
-    let options = get(this, 'options');
+    let options = get(this, '_options');
     let groups = emberArray();
 
     if (!groupLabelPath) {
@@ -141,7 +136,7 @@ const OneWaySelectComponent = Component.extend(DynamicAttributeBindings, {
   },
 
   _findOption(value) {
-    let options = get(this, 'options');
+    let options = get(this, '_options');
     let optionValuePath = get(this, 'computedOptionValuePath');
     let optionTargetPath = get(this, 'optionTargetPath');
     let optionsArePreGrouped = get(this, 'optionsArePreGrouped');
