@@ -6,6 +6,7 @@ const {
   Component,
   computed,
   get,
+  run,
 } = Ember;
 
 const OneWayCheckboxComponent = Component.extend(DynamicAttributeBindings, {
@@ -46,7 +47,9 @@ const OneWayCheckboxComponent = Component.extend(DynamicAttributeBindings, {
 
   _click(event) {
     let checkedProp = this.element.checked;
-    invokeAction(this, 'update', checkedProp, event);
+    run(() => {
+      invokeAction(this, 'update', checkedProp, event);
+    });
 
     let checkedValue = get(this, 'checkedValue');
     this.element.checked = checkedValue;
