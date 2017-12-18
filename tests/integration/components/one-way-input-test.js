@@ -137,6 +137,15 @@ test('I can add a class attribute', function(assert) {
   assert.ok(find('input').classList.contains('testing'), 'The testing class was added');
 });
 
+test('I can bind the ID', function(assert) {
+  this.set("id", "test-id");
+  this.render(hbs`{{one-way-input id=id}}`);
+  assert.ok(find('input#test-id'), 'Input has ID "test-id"');
+
+  this.set("id", "test-id-updated");
+  assert.ok(find('input#test-id-updated'), 'Input has ID "test-id-updated"');
+});
+
 test('I can bind the placeholder attribute', function(assert) {
   this.render(hbs`{{one-way-input placeholder="testing"}}`);
   assert.equal(find('input').getAttribute('placeholder'), 'testing');
