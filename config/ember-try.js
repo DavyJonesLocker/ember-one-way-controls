@@ -2,16 +2,16 @@
 module.exports = {
   scenarios: [
     {
-      name: 'ember-1.13',
+      name: 'ember-2.0',
       bower: {
         dependencies: {
-          'ember': '~1.13.0'
+          'ember': '~2.0.0'
         }
       },
       npm: {
         devDependencies: {
-          'ember-source': null,
           'ember-qunit-assert-helpers': null,
+          'ember-source': null,
           'ember-native-dom-event-dispatcher': null
         }
       }

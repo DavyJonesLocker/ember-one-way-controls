@@ -26,7 +26,7 @@ test('The type param changes the type of the input', function(assert) {
 });
 
 test('Raises AssertionError when type is "checkbox"', function(assert) {
-  if (Ember.VERSION.slice(0, 4) === '1.13') {
+  if (Ember.VERSION.slice(0, 3) === '2.0') {
     assert.throws(() => {
       this.render(hbs`{{one-way-input type="checkbox"}}`);
     }, 'The {{one-way-input}} component does not support type="checkbox", use {{one-way-checkbox}} instead.');
@@ -38,7 +38,7 @@ test('Raises AssertionError when type is "checkbox"', function(assert) {
 });
 
 test('Raises AssertionError when type is "radio"', function(assert) {
-  if (Ember.VERSION.slice(0, 4) === '1.13') {
+  if (Ember.VERSION.slice(0, 3) === '2.0') {
     assert.throws(() => {
       this.render(hbs`{{one-way-input type="radio"}}`);
     }, 'The {{one-way-input}} component does not support type="radio", use {{one-way-radio}} instead.');

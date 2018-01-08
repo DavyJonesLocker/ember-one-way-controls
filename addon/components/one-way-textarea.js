@@ -8,6 +8,6 @@ export default OneWayInputComponent.extend({
 
     // We need to unset type, otherwise it will try to set it
     // on the element, which results in an error on textarea.
-    this.type = undefined;
+    this.set('type', undefined);
   }
 });
