@@ -1,1 +1,1 @@
-export { default } from 'ember-one-way-controls/components/one-way-select/option';
+export { default } from 'ember-one-way-select/components/one-way-select/option';
