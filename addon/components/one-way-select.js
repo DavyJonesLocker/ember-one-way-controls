@@ -1,28 +1,20 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { A as emberArray, isArray } from '@ember/array';
+import EmberObject, { computed, get, set } from '@ember/object';
+import { alias, empty, not, or } from '@ember/object/computed'
+import { isBlank, isNone, isPresent } from '@ember/utils';
+import { w } from '@ember/string';
+
 import layout from '../templates/components/one-way-select';
 import DynamicAttributeBindings from '../-private/dynamic-attribute-bindings';
 
 import { invokeAction } from 'ember-invoke-action';
 
-const {
-  A: emberArray,
-  Component,
-  computed,
-  computed: { alias, empty, not, or },
-  Object: EmberObject,
-  get,
-  isArray,
-  isBlank,
-  isNone,
-  isPresent,
-  set,
-  String: { w }
-} = Ember;
-
 const OneWaySelectComponent = Component.extend(DynamicAttributeBindings, {
   layout,
   tagName: 'select',
 
+  // eslint-disable-next-line ember/avoid-leaking-state-in-ember-objects
   NON_ATTRIBUTE_BOUND_PROPS: [
     'value',
     'update',

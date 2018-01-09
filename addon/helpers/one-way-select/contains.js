@@ -1,12 +1,7 @@
-import Ember from 'ember';
-
-const {
-  A: emberArray,
-  Helper,
-  isArray,
-  isPresent,
-  get
-} = Ember;
+import Helper from '@ember/component/helper';
+import { A as emberArray, isArray } from '@ember/array';
+import { isPresent } from '@ember/utils';
+import { get } from '@ember/object';
 
 export function contains([haystack, needle, valuePath, targetPath]) {
   if (isArray(haystack)) {
