@@ -1,9 +1,8 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { htmlSafe } from '@ember/string';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { findAll, find, fillIn, triggerEvent } from 'ember-native-dom-helpers';
-
-const { Component, String: { htmlSafe } } = Ember;
 
 moduleForComponent('one-way-select', 'Integration | Component | {{one-way-select}}', {
   integration: true,
