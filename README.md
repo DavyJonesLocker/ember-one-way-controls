@@ -45,7 +45,7 @@ You can find the README of the old version [here](https://github.com/DockYard/em
 
 ```hbs
 {{! old }}
-{{one-way-radio myValue option={{myOption}} update=(action (mut myValue))}}
+{{one-way-radio myValue option=myOption update=(action (mut myValue))}}
 
 {{! new }}
 <input type="radio" checked={{eq myValue myOption}} onclick={{action (mut myValue) myOption}}>
