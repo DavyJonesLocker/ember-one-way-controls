@@ -1,6 +1,6 @@
 {
   "name": "ember-one-way-select",
-  "version": "3.0.1",
+  "version": "4.0.0",
   "description": "An easy to use native select component",
   "keywords": [
     "ember-addon"
