@@ -4,8 +4,9 @@ import DynamicAttributeBindings from '../-private/dynamic-attribute-bindings';
 
 const {
   Component,
+  computed,
   get,
-  set
+  run,
 } = Ember;
 
 const OneWayCheckboxComponent = Component.extend(DynamicAttributeBindings, {
@@ -15,29 +16,43 @@ const OneWayCheckboxComponent = Component.extend(DynamicAttributeBindings, {
   NON_ATTRIBUTE_BOUND_PROPS: ['update'],
 
   attributeBindings: [
-    'isChecked:checked',
     'type',
     'value'
   ],
 
+  checkedValue: computed('paramChecked', 'checked', function() {
+    let checkedValue = get(this, 'paramChecked');
+
+    if (checkedValue === undefined) {
+      return checkedValue = get(this, 'checked');
+    }
+
+    return checkedValue;
+  }),
+
   didInsertElement() {
     this._super(...arguments);
     this.element.addEventListener('click', (e) => this._click(e));
+
+    const checkedValue = get(this, 'checkedValue');
+    if (checkedValue) {
+      this.element.setAttribute('checked', 'checked');
+    }
   },
 
-  didReceiveAttrs() {
-    this._super(...arguments);
-
-    let value = get(this, 'paramChecked');
-    if (value === undefined) {
-      value = get(this, 'checked');
-    }
-
-    set(this, 'isChecked', value);
+  didUpdateAttrs() {
+    let checkedValue = get(this, 'checkedValue');
+    this.element.checked = checkedValue;
   },
 
   _click(event) {
-    invokeAction(this, 'update', this.readDOMAttr('checked'), event);
+    let checkedProp = this.element.checked;
+    run(() => {
+      invokeAction(this, 'update', checkedProp, event);
+    });
+
+    let checkedValue = get(this, 'checkedValue');
+    this.element.checked = checkedValue;
   },
 });
 

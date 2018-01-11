@@ -1,4 +1,4 @@
-import { find, click } from 'ember-native-dom-helpers';
+import { find } from 'ember-native-dom-helpers';
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
@@ -27,7 +27,7 @@ test('It sets the checked value', function(assert) {
 
 test('The first positional param is checked', function(assert) {
   this.render(hbs`{{one-way-checkbox true}}`);
-  assert.ok(find('input:checked'), 'Checkbox is checked');
+  assert.ok(find('input').checked, 'Checkbox is checked');
 });
 
 test('Setting the value property', function(assert) {
@@ -36,32 +36,44 @@ test('Setting the value property', function(assert) {
 });
 
 test('Clicking the checkbox triggers the update action', async function(assert) {
-  this.render(hbs`{{one-way-checkbox update=(action (mut value))}}`);
-  await click('input');
-  assert.equal(this.get('value'), true);
+  this.render(hbs`{{one-way-checkbox value update=(action (mut value))}}`);
 
-  await click('input');
+  find('input').click();
+  assert.equal(this.get('value'), true);
+  
+  find('input').click();
   assert.equal(this.get('value'), false);
 });
 
 test('It can accept an outside toggle of checked', async function(assert) {
-  this.render(hbs`{{one-way-checkbox checked=checked update=(action (mut checked))}}`);
+  this.render(hbs`{{one-way-checkbox checked=checked}}`);
 
-  await click('input');
-  this.set('checked', false);
-  await click('input');
+  this.set('checked', true);
 
+  assert.strictEqual(find('input').checked, true);
   assert.strictEqual(this.get('checked'), true);
 });
 
 test('It can accept an outside toggle of checked - using positional param', async function(assert) {
   this.render(hbs`{{one-way-checkbox checked update=(action (mut checked))}}`);
 
-  await click('input');
-  this.set('checked', false);
-  await click('input');
+  this.set('checked', true);
 
   assert.strictEqual(this.get('checked'), true);
+  assert.strictEqual(find('input').checked, true);
+});
+
+test('Does not toggle state when update action does not modify the value', async function(assert) {
+  this.set('checked', false);
+  this.render(hbs`{{one-way-checkbox checked update=(action (mut checked) false)}}`);
+
+  let inputElement = find('input');
+  
+  assert.strictEqual(inputElement.checked, false, "Checkbox should be unchecked");
+  assert.strictEqual(this.get('false'), undefined, "value should be false");
+  inputElement.click();
+  assert.strictEqual(inputElement.checked, false, "Checkbox should still be unchecked as it is being overriden with update");
+  assert.strictEqual(this.get('checked'), false, "value should be false as it has been set specifically");
 });
 
 test('I can add a class attribute', function(assert) {
@@ -107,8 +119,7 @@ test('the click event can be intercepted in the action', async function(assert) 
     </div>
   `);
 
-  await click('input');
+  find('input').click();
 
   assert.equal(this.get('checked'), true);
 });
-
