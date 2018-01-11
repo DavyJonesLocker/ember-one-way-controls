@@ -39,6 +39,7 @@ You can find the README of the old version [here](https://github.com/DockYard/em
 
 {{! new }}
 <textarea value={{myValue}} oninput={{action (mut myValue) value="target.value"}}></textarea>
+```
 
 ### one-way-checkbox
 
