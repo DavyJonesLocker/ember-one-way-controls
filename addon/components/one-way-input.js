@@ -41,9 +41,13 @@ const OneWayInputComponent = Component.extend(DynamicAttributeBindings, {
     this._processNewValue(event.target.value);
   },
 
+  _updateNewValue(value) {
+    invokeAction(this, 'update', value);
+  },
+
   _processNewValue(value) {
     if (get(this, '_value') !== value) {
-      invokeAction(this, 'update', value);
+      this._updateNewValue(value);
     }
 
     schedule('afterRender', this, '_syncValue');
