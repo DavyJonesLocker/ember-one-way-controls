@@ -403,3 +403,9 @@ test('allows to select blank without throwing', async function(assert) {
   assert.equal([...findAll('option')].find((o) => o.selected).textContent.trim(), 'myDefaultPrompt');
   assert.deepEqual(updates, ['one', undefined]);
 });
+
+test('Prompt is selected if value is not an option', function(assert) {
+  this.set('value', 'doesntexist');
+  this.render(hbs`{{one-way-select value=value options=options prompt="Select one"}}`);
+  assert.equal([...findAll('option')].find((o) => o.selected).textContent.trim(), 'Select one', 'Prompt is selected');
+});
