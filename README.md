@@ -1,93 +1,65 @@
-# ember-one-way-controls ![Download count all time](https://img.shields.io/npm/dt/ember-one-way-controls.svg) [![CircleCI](https://circleci.com/gh/DockYard/ember-one-way-controls.svg?style=shield)](https://circleci.com/gh/DockYard/ember-one-way-controls) [![npm version](https://badge.fury.io/js/ember-one-way-controls.svg)](https://badge.fury.io/js/ember-one-way-controls) [![Ember Observer Score](http://emberobserver.com/badges/ember-one-way-controls.svg)](http://emberobserver.com/addons/ember-one-way-controls)
+# DEPRECATED: ember-one-way-controls
 
-**[ember-one-way-controls is built and maintained by DockYard, contact us for expert Ember.js consulting](https://dockyard.com/ember-consulting)**.
+**[ember-one-way-controls was built by DockYard, contact us for expert Ember.js consulting](https://dockyard.com/ember-consulting)**.
 
-*Credit: @rwjblue's [twiddle](https://gist.github.com/rwjblue/2d7246875098d0dbb4a4)*
+This project has been deprecated. When Ember 1.13 came out it became possible to
+use the native `<input>` element with one-way bindings. Unfortunately, that
+version contained a bug that made the cursor jump to the end of the text in the
+input. This addon was built to correct that bug.
 
-Demo: http://ember-twiddle.com/2d7246875098d0dbb4a4
+That bug has since been fixed in Ember 2.3.1. In the meantime, we had added
+some other form components to the addon, like a radio component, a textarea
+component and a select component. This kept the addon useful to us for a while.
 
-This addon provides a simple and consistent API to add form controls to your app. Each form control will not update the passed in value(s) directly. Instead it will send the `update` action with the updated value.
+Recently we started noticing that we only really needed the select component
+from this addon. This made us decide to extract this component to its own
+addon and deprecate this addon.
 
-```hbs
-{{one-way-input value update=(action (mut value))}}
+The new addon is called [ember-one-way-select](https://github.com/DockYard/ember-one-way-select).
 
-{{one-way-textarea value update=(action (mut value))}}
+You can find the README of the old version [here](https://github.com/DockYard/ember-one-way-controls/blob/1e57a70bba221999a8cf7439c1a34a46a86d67b2/README.md).
 
-{{one-way-checkbox checked update=(action (mut checked))}}
+## Migrating
 
-{{one-way-radio selected option=option update=(action (mut selected))}}
-
-{{one-way-select selected options=options update=(action (mut selected))}}
-```
-
-If you do not know the type of input before hand you could do the following:
-
-```hbs
-{{component (concat "one-way-" type) value update=(action (mut value))}}
-```
-
-Each of the controls are documented in more detail in their own readme's:
- - [`{{one-way-input}}`](https://github.com/DockYard/ember-one-way-controls/blob/master/docs/one-way-input.md)
- - [`{{one-way-textarea}}`](https://github.com/DockYard/ember-one-way-controls/blob/master/docs/one-way-textarea.md)
- - [`{{one-way-checkbox}}`](https://github.com/DockYard/ember-one-way-controls/blob/master/docs/one-way-checkbox.md)
- - [`{{one-way-radio}}`](https://github.com/DockYard/ember-one-way-controls/blob/master/docs/one-way-radio.md)
- - [`{{one-way-select}}`](https://github.com/DockYard/ember-one-way-controls/blob/master/docs/one-way-select.md)
-
-## Why?
-
-With Glimmer landing in 1.13.x, native `<input>` elements can now be used in your apps, without the two way binding semantics of the `{{input}}` helper. Shifting to one way bindings ("data down, actions up") makes your app easier to reason about and debug, and is generally the idiomatic way of building Ember apps going forward.
-
-Unfortunately, there is a small gotcha with using a native input like so:
+### one-way-input
 
 ```hbs
-<input
-  value={{currentValue}}
-  oninput={{action (mut currentValue) value="target.value"}}
->
+{{! old }}
+{{one-way-input myValue update=(action (mut myValue))}}
+
+{{! new }}
+<input value={{myValue}} oninput={{action (mut myValue) value="target.value"}}>
 ```
 
-In the following [demo](http://jsbin.com/juxedi/edit?output), move your cursor to a character in the middle of the value, and attempt to input new text. You will notice that your cursor immediately jumps to the end of the string, which is entirely unintuitive and annoying.
+### one-way-textarea
 
-![](https://i.imgur.com/D0pReSs.jpg)
+```hbs
+{{! old }}
+{{one-way-textarea myValue update=(action (mut myValue))}}
 
-This addon fixes the cursor jumping issue by using [`readDOMAttr`](http://emberjs.com/api/classes/Ember._MetamorphView.html#method_readDOMAttr), which provides a way to read an element's attribute and update the last value Ember knows about at the same time. This makes setting an attribute idempotent.
-
-__Note:__ The cursor jumping issue has been fixed in Ember since 2.3.1.
-
-## Compatibility
-
-- Version `2.x.x` of this addon will work on Ember versions `1.13.x` and up.
-- Version `3.x.x` of This addon will work on Ember versions `2.x` and up.
-
-## Installing the addon
-
-```
-ember install ember-one-way-controls
+{{! new }}
+<textarea value={{myValue}} oninput={{action (mut myValue) value="target.value"}}></textarea>
 ```
 
-## Contributing
+### one-way-checkbox
 
-### Installation
+```hbs
+{{! old }}
+{{one-way-checkbox myValue update=(action (mut myValue))}}
 
-* `git clone` this repository
-* `npm install`
-* `bower install`
+{{! new }}
+<input type="checkbox" checked={{myValue}} onclick={{action (mut myValue) value="target.checked"}}>
+```
 
-### Running
+### one-way-radio
 
-* `ember server`
-* Visit your app at http://localhost:4200.
+```hbs
+{{! old }}
+{{one-way-radio myValue option=myOption update=(action (mut myValue))}}
 
-### Running Tests
-
-* `ember test`
-* `ember test --server`
-
-### Building
-
-* `ember build`
-
-For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
+{{! new }}
+<input type="radio" checked={{eq myValue myOption}} onclick={{action (mut myValue) myOption}}>
+```
 
 ## Legal
 
