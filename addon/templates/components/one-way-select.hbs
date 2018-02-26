@@ -32,7 +32,7 @@
     </optgroup>
   {{/each}}
 {{else}}
-  {{#each options as |option index|}}
+  {{#each _options as |option index|}}
     {{#if hasBlock}}
       {{#one-way-select/option
           selected=selectedValue
