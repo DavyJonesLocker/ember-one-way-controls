@@ -29,6 +29,9 @@ You can find the README of the old version [here](https://github.com/DockYard/em
 
 {{! new }}
 <input value={{myValue}} oninput={{action (mut myValue) value="target.value"}}>
+
+{{! alternate syntax }}
+{{input value=(readonly myValue) input=(action (mut myValue) value="target.value")}}
 ```
 
 ### one-way-textarea
@@ -39,6 +42,9 @@ You can find the README of the old version [here](https://github.com/DockYard/em
 
 {{! new }}
 <textarea value={{myValue}} oninput={{action (mut myValue) value="target.value"}}></textarea>
+
+{{! alternate syntax }}
+{{textarea value=(readonly myValue) input=(action (mut myValue) value="target.value")}}
 ```
 
 ### one-way-checkbox
@@ -49,6 +55,9 @@ You can find the README of the old version [here](https://github.com/DockYard/em
 
 {{! new }}
 <input type="checkbox" checked={{myValue}} onclick={{action (mut myValue) value="target.checked"}}>
+
+{{! alternate syntax }}
+{{input type="checkbox" checked=(readonly myValue) click=(action (mut myValue) value="target.checked")}}
 ```
 
 ### one-way-radio
